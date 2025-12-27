@@ -1,0 +1,5 @@
+{
+  "name": "Cogito OS Portfolio",
+  "description": "A WebOS-style portfolio interface featuring a window manager, draggable icons, and a retro aesthetic.",
+  "requestFramePermissions": []
+}
