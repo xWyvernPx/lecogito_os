@@ -23,6 +23,7 @@ export const WidgetSelector: React.FC = () => {
                     <button 
                         onClick={() => toggleWidget(widget.id)}
                         className={`transition-colors ${widget.isOpen ? 'text-os-accent' : 'text-os-muted'}`}
+                        aria-label={`Toggle ${widget.type} widget ${widget.isOpen ? 'off' : 'on'}`}
                     >
                         {widget.isOpen ? <ToggleRight size={40} strokeWidth={1.5} /> : <ToggleLeft size={40} strokeWidth={1.5} />}
                     </button>

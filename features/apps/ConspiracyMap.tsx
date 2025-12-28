@@ -497,6 +497,8 @@ export const ConspiracyMap: React.FC = () => {
                                     ? 'bg-[#ff7e33] text-white shadow-sm' 
                                     : 'text-stone-400 hover:bg-stone-700 hover:text-white'}
                             `}
+                            aria-label={`Filter events by year ${year}`}
+                            aria-pressed={selectedYear === year}
                         >
                             {year}
                         </button>

@@ -266,6 +266,8 @@ export const TopBar: React.FC = () => {
                      ? 'bg-os-accent border-2 border-os-border shadow-retro-sm translate-y-[-2px] text-white' 
                      : 'text-os-muted hover:bg-os-bg'}
                `}
+               aria-label={`Switch to workspace ${num}`}
+               aria-pressed={currentWorkspace === num}
              >
                {num}
              </button>
@@ -302,11 +304,19 @@ export const TopBar: React.FC = () => {
                      
                      {/* Toggles */}
                      <div className="grid grid-cols-2 gap-2 mb-4">
-                         <button className="flex flex-col items-center justify-center p-3 bg-os-accent text-white border-2 border-os-border shadow-retro-sm">
+                         <button 
+                             className="flex flex-col items-center justify-center p-3 bg-os-accent text-white border-2 border-os-border shadow-retro-sm"
+                             aria-label="WiFi enabled"
+                             aria-pressed="true"
+                         >
                              <Wifi size={16} />
                              <span className="text-[10px] font-bold mt-1">{t('system.wifi')}</span>
                          </button>
-                         <button className="flex flex-col items-center justify-center p-3 bg-os-bg text-os-muted border-2 border-os-border">
+                         <button 
+                             className="flex flex-col items-center justify-center p-3 bg-os-bg text-os-muted border-2 border-os-border"
+                             aria-label="Bluetooth disabled"
+                             aria-pressed="false"
+                         >
                              <Bluetooth size={16} /> 
                              <span className="text-[10px] font-bold mt-1">{t('system.bluetooth')}</span>
                          </button>

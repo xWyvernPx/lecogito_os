@@ -514,10 +514,10 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ onCancel, onPublish }) =
             </div>
 
             <div className="px-4 py-2 border-b border-stone-200 bg-stone-50 flex flex-wrap items-center gap-1 z-20 relative">
-                <button onClick={() => insertText('**', '**')} className="p-1.5 hover:bg-stone-200 rounded text-stone-700" title="Empower (Bold)"><Bold size={16}/></button>
-                <button onClick={() => insertText('*', '*')} className="p-1.5 hover:bg-stone-200 rounded text-stone-700" title="Italicize"><Italic size={16}/></button>
-                <button onClick={() => insertText('`', '`')} className="p-1.5 hover:bg-stone-200 rounded text-stone-700" title="Rune (Inline Code)"><Code size={16}/></button>
-                <button onClick={() => insertText('\n```\n', '\n```\n')} className="p-1.5 hover:bg-stone-200 rounded text-stone-700" title="Chamber (Code Block)"><Terminal size={16}/></button>
+                <button onClick={() => insertText('**', '**')} className="p-1.5 hover:bg-stone-200 rounded text-stone-700" title="Empower (Bold)" aria-label="Bold"><Bold size={16}/></button>
+                <button onClick={() => insertText('*', '*')} className="p-1.5 hover:bg-stone-200 rounded text-stone-700" title="Italicize" aria-label="Italic"><Italic size={16}/></button>
+                <button onClick={() => insertText('`', '`')} className="p-1.5 hover:bg-stone-200 rounded text-stone-700" title="Rune (Inline Code)" aria-label="Inline code"><Code size={16}/></button>
+                <button onClick={() => insertText('\n```\n', '\n```\n')} className="p-1.5 hover:bg-stone-200 rounded text-stone-700" title="Chamber (Code Block)" aria-label="Code block"><Terminal size={16}/></button>
                 <div className="w-px h-5 bg-stone-300 mx-1" />
                 <button onClick={() => insertText('[', '](url)')} className="p-1.5 hover:bg-stone-200 rounded text-stone-700" title="Link Portal"><Link size={16}/></button>
                 <button onClick={() => insertText('![alt](', ')')} className="p-1.5 hover:bg-stone-200 rounded text-stone-700" title="Illusion (Image)"><ImageIcon size={16}/></button>

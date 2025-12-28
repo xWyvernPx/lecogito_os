@@ -1,0 +1,9 @@
+# Robots.txt for Cogito OS
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://lecogito-os.vercel.app/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1

@@ -113,6 +113,8 @@ export const CalendarWidget: React.FC = () => {
                                     ${isSelected ? 'bg-os-accent text-white font-bold shadow-sm' : 'hover:bg-os-bg text-os-text'}
                                     ${isToday && !isSelected ? 'border border-os-accent text-os-accent font-bold' : ''}
                                 `}
+                                aria-label={`${monthName} ${day}, ${year}`}
+                                aria-pressed={isSelected}
                             >
                                 {day}
                                 {/* Event Indicator Dot (Random for visual) */}

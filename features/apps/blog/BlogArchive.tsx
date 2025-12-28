@@ -73,15 +73,15 @@ export const BlogArchive: React.FC<BlogArchiveProps> = ({ onBack, onCompose, onS
                          <ChevronLeft size={18} />
                      </button>
                      <div className="h-6 w-px bg-stone-300 mx-2" />
-                     <button className="p-1.5 hover:bg-stone-200 rounded text-stone-500"><RotateCcw size={14} /></button>
-                     <button className="p-1.5 hover:bg-stone-200 rounded text-stone-500"><RotateCw size={14} /></button>
+                     <button className="p-1.5 hover:bg-stone-200 rounded text-stone-500" aria-label="Undo"><RotateCcw size={14} /></button>
+                     <button className="p-1.5 hover:bg-stone-200 rounded text-stone-500" aria-label="Redo"><RotateCw size={14} /></button>
                      <div className="h-6 w-px bg-stone-300 mx-2" />
-                     <button className="p-1.5 hover:bg-stone-200 rounded font-bold"><Bold size={14} /></button>
-                     <button className="p-1.5 hover:bg-stone-200 rounded italic"><Italic size={14} /></button>
-                     <button className="p-1.5 hover:bg-stone-200 rounded underline"><Underline size={14} /></button>
+                     <button className="p-1.5 hover:bg-stone-200 rounded font-bold" aria-label="Bold"><Bold size={14} /></button>
+                     <button className="p-1.5 hover:bg-stone-200 rounded italic" aria-label="Italic"><Italic size={14} /></button>
+                     <button className="p-1.5 hover:bg-stone-200 rounded underline" aria-label="Underline"><Underline size={14} /></button>
                      <div className="h-6 w-px bg-stone-300 mx-2" />
-                     <button className="p-1.5 hover:bg-stone-200 rounded text-stone-500"><Link size={14} /></button>
-                     <button className="p-1.5 hover:bg-stone-200 rounded text-stone-500"><MessageSquare size={14} /></button>
+                     <button className="p-1.5 hover:bg-stone-200 rounded text-stone-500" aria-label="Insert link"><Link size={14} /></button>
+                     <button className="p-1.5 hover:bg-stone-200 rounded text-stone-500" aria-label="Add comment"><MessageSquare size={14} /></button>
                 </div>
 
                 <div className="flex items-center gap-3">

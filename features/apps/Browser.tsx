@@ -37,15 +37,22 @@ export const Browser: React.FC<BrowserProps> = ({ win, contentItem }) => {
             {/* Browser Toolbar */}
             <div className="flex items-center gap-2 p-2 bg-stone-200 border-b border-stone-300 shrink-0">
                 <div className="flex gap-1">
-                    <button className="p-1.5 rounded hover:bg-stone-300 text-stone-600 disabled:opacity-30">
+                    <button 
+                        className="p-1.5 rounded hover:bg-stone-300 text-stone-600 disabled:opacity-30"
+                        aria-label="Go back"
+                    >
                         <ArrowLeft size={16} />
                     </button>
-                    <button className="p-1.5 rounded hover:bg-stone-300 text-stone-600 disabled:opacity-30">
+                    <button 
+                        className="p-1.5 rounded hover:bg-stone-300 text-stone-600 disabled:opacity-30"
+                        aria-label="Go forward"
+                    >
                         <ArrowRight size={16} />
                     </button>
                     <button 
                         onClick={handleRefresh}
                         className="p-1.5 rounded hover:bg-stone-300 text-stone-600"
+                        aria-label="Refresh page"
                     >
                         <RefreshCw size={16} className={isLoading ? 'animate-spin' : ''} />
                     </button>

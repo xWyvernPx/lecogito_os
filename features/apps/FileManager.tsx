@@ -298,6 +298,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ win, contentItem }) =>
                         disabled={currentPath.length === 0}
                         className={`w-8 h-8 flex items-center justify-center border-2 border-stone-800 bg-[#e8e4d9] hover:bg-white active:translate-y-0.5 transition-all shadow-[2px_2px_0_0_rgba(0,0,0,0.2)] ${currentPath.length === 0 ? 'opacity-50 cursor-not-allowed shadow-none translate-y-[2px]' : ''}`}
                         title="Eject Parent Directory"
+                        aria-label="Go up one level"
                     >
                         <ArrowUp size={16} />
                     </button>
@@ -305,6 +306,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ win, contentItem }) =>
                         onClick={() => handleNavigate([])}
                         className="w-8 h-8 flex items-center justify-center border-2 border-stone-800 bg-[#e8e4d9] hover:bg-white active:translate-y-0.5 transition-all shadow-[2px_2px_0_0_rgba(0,0,0,0.2)]"
                         title="Go to Mothership"
+                        aria-label="Go to home directory"
                     >
                         <Home size={16} />
                     </button>
