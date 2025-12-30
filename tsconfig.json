@@ -21,6 +21,18 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@lib/*": [
+        "./lib/*"
+      ],
+      "@components/*": [
+        "./components/*"
+      ],
+      "@services/*": [
+        "./services/*"
+      ],
+      "@types/*": [
+        "./types/*"
       ]
     },
     "allowImportingTsExtensions": true,

@@ -146,7 +146,7 @@ export const APP_PRESETS: Record<string, { title: string; content: ContentItem[]
       // Hero Section (Full Width)
       { 
           type: 'hero', 
-          src: 'https://file-service.s3.amazonaws.com/1740927827829.jpeg', 
+          src: 'assets/phong_21_9.png', 
           alt: 'Phong Character Level Up'
       },
       
@@ -189,7 +189,7 @@ export const APP_PRESETS: Record<string, { title: string; content: ContentItem[]
               status: 'active',
               description: 'Currently engaged in the "SCOT Project" campaign. Orchestrating supply chain movements for the Roche faction. Navigating complex distributed system dungeons and battling legacy code bosses using modern artifacts.',
               tags: ['Spring Boot', 'React', 'Oracle SQL', 'Azure'],
-              image: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1000&auto=format&fit=crop' // Code screen
+              image: '/assets/netcompany_journey.png' // Code screen
             },
             {
               title: 'Software Engineer',

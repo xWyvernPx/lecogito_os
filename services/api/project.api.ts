@@ -1,46 +1,43 @@
-import { PageResponseDto, PaginationParams } from "@/types";
-
-interface GetParams {
-	paging?: PaginationState;
-	sort?: SortingState;
-	keyword?: string;
-	group?: string;
-	provider?: string;
-	createdDate?: {
-		from?: Date;
-		to?: Date
-	};
-	filter : ProjectFilter
-}
+import { apiClient } from '@/lib/api-client';
+import type {
+  ApiResponse,
+  ApiListResponse,
+  ProjectDto,
+  SearchRequest,
+} from '@/types/api';
 
 export const ProjectApi = {
-	getAll: async (params: PaginationParams): Promise<PageResponseDto<any>> => {
-		const response = axiosClient.get<ListResponseObject<any>>(BlogApiEndpoints.Project, {
-			params: {
-				"pageIndex": params.paging.pageIndex ?? 0,
-				"pageSize": params.paging.pageSize ?? 10,
-				"key": params.keyword,
-				...(params?.sort ? {"sort": params?.sort?.map(s => s.id+":"+ (s.desc?"desc":"asc"))} : {}),
-				...(params?.filter?.type ? {"type": params?.filter?.type} : {})
-			},
-		});
-		return (await response).data;
-	},
-	getDetail: async (productId: number | string): Promise<any> => {
-		const response = axiosClient.get<ResponseObject<any>>(BlogApiEndpoints.Project + "/" + productId, {});
-		return (await response).data;
-	},
-	create: async (data): Promise<any> => {
-		// throw new Error("Implement")
-		const response = await axiosClient.post<ResponseObject<boolean>>(BlogApiEndpoints.Project, data);
-		return response.data;
-	},
-	update: async (dto: any): Promise<any> => {
-		try {
-			const response = await axiosClient.put<ResponseObject<boolean>>(BlogApiEndpoints.Project + "/" + dto.id, dto);
-			return response.data;
-		} catch {
-			return false;
-		}
-	},
-}
+  // GET /api/v1/project - Search projects
+  search: async (params: {
+    request: SearchRequest;
+    keyword?: string;
+    type?: ProjectDto['type'];
+  }): Promise<ApiListResponse<ProjectDto>> => {
+    const response = await apiClient.get<ApiListResponse<ProjectDto>>('/project', {
+      params: {
+        ...params.request,
+        keyword: params.keyword,
+        type: params.type,
+      },
+    });
+    return response.data;
+  },
+
+  // GET /api/v1/project/{id} - Get project by ID
+  getById: async (id: number): Promise<ApiResponse<ProjectDto>> => {
+    const response = await apiClient.get<ApiResponse<ProjectDto>>(`/project/${id}`);
+    return response.data;
+  },
+
+  // POST /api/v1/project - Create project
+  create: async (project: Partial<ProjectDto>): Promise<ApiResponse<boolean>> => {
+    const response = await apiClient.post<ApiResponse<boolean>>('/project', project);
+    return response.data;
+  },
+
+  // PUT /api/v1/project/{id} - Update project
+  update: async (id: number, project: Partial<ProjectDto>): Promise<ApiResponse<boolean>> => {
+    const response = await apiClient.put<ApiResponse<boolean>>(`/project/${id}`, project);
+    return response.data;
+  },
+};

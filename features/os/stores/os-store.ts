@@ -6,6 +6,7 @@ import { WindowDef, ContentItem, DesktopIconDef, SystemState, ContextMenuState, 
 import { APP_PRESETS } from '../../../config/apps';
 import { INITIAL_ICONS, INITIAL_WIDGETS, INITIAL_WINDOWS } from '../../../config/desktop';
 import { LOCAL_FS } from '../../../config/terminal';
+import { useAuthStore } from './auth-store';
 
 interface OSState {
   // System Lifecycle
@@ -15,6 +16,7 @@ interface OSState {
   
   // User Session
   currentUser: UserProfile | null;
+  knownUsers: UserProfile[]; // Persist users for quick login
 
   // Desktop State
   windows: WindowDef[];
@@ -51,6 +53,7 @@ interface OSState {
   // Auth Actions
   login: (user: UserProfile) => void;
   logout: () => void;
+  removeKnownUser: (id: string) => void;
 
   // Window Actions
   spawnWindow: (id: string, preset?: Partial<Omit<WindowDef, 'history' | 'historyIndex'>> & { content?: ContentItem[] }) => void;
@@ -132,6 +135,7 @@ export const useOSStore = create<OSState>()(
       lastBootTime: 0,
       _hasHydrated: false,
       currentUser: null,
+      knownUsers: [],
 
       windows: INITIAL_WINDOWS,
       icons: INITIAL_ICONS,
@@ -160,8 +164,37 @@ export const useOSStore = create<OSState>()(
       shutdownSystem: () => set({ systemState: 'shutdown' }),
       rebootSystem: () => set({ systemState: 'booting', caffeineLevel: 100 }),
 
-      login: (user) => set({ systemState: 'running', currentUser: user }),
-      logout: () => set({ systemState: 'login', currentUser: null, activeMenu: null }),
+      login: (user) => set(state => {
+          // Add to known users if not guest and not already in list
+          let newKnownUsers = state.knownUsers;
+          if (user.type !== 'guest') {
+              const exists = state.knownUsers.some(u => u.id === user.id);
+              if (!exists) {
+                  newKnownUsers = [...state.knownUsers, user];
+              } else {
+                  // Update existing user data (e.g. avatar change)
+                  newKnownUsers = state.knownUsers.map(u => u.id === user.id ? user : u);
+              }
+          }
+          
+          return { 
+              systemState: 'running', 
+              currentUser: user,
+              knownUsers: newKnownUsers
+          };
+      }),
+      
+      logout: () => {
+          // Also logout from auth store
+          const authLogout = useAuthStore.getState().logout;
+          authLogout();
+          
+          set({ systemState: 'login', currentUser: null, activeMenu: null });
+      },
+      
+      removeKnownUser: (id) => set(state => ({
+          knownUsers: state.knownUsers.filter(u => u.id !== id)
+      })),
 
       spawnWindow: (id, preset) => {
         const { windows, nextZIndex, currentWorkspace } = get();
@@ -491,6 +524,7 @@ export const useOSStore = create<OSState>()(
         widgets: state.widgets,
         caffeineLevel: state.caffeineLevel,
         currentUser: state.currentUser,
+        knownUsers: state.knownUsers, // Persist Known Users
         theme: state.theme,
         language: state.language,
         isCalendarConnected: state.isCalendarConnected,

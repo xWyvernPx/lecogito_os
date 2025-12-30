@@ -1,15 +1,16 @@
+
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RefreshCw, FolderPlus, Settings, Trash2, ExternalLink, Edit2, Copy, Monitor } from 'lucide-react';
+import { RefreshCw, FolderPlus, Settings, Trash2, ExternalLink, Edit2, Copy, Monitor, Clipboard, LayoutGrid, CheckSquare } from 'lucide-react';
 import { useOSStore } from '../stores/os-store';
 
 export const ContextMenu: React.FC = () => {
-  const { contextMenu, closeContextMenu, spawnWindow, removeIcon } = useOSStore();
+  const { contextMenu, closeContextMenu, spawnWindow, removeIcon, sortIcons, resetDesktop, selectIcon } = useOSStore();
   const { isOpen, x, y, type, targetId } = contextMenu;
 
   // Prevent menu from opening off-screen
   const adjustedX = Math.min(x, window.innerWidth - 220);
-  const adjustedY = Math.min(y, window.innerHeight - 300);
+  const adjustedY = Math.min(y, window.innerHeight - 400);
 
   if (!isOpen) return null;
 
@@ -27,10 +28,27 @@ export const ContextMenu: React.FC = () => {
         shortcut="Ctrl+N"
       />
       <MenuItem 
-        label="Refresh System" 
+        label="Paste" 
+        icon={<Clipboard size={14} />} 
+        onClick={() => handleAction(() => alert("Simulated: Item Pasted"))} 
+        shortcut="Ctrl+V"
+      />
+      <MenuItem 
+        label="Select All" 
+        icon={<CheckSquare size={14} />} 
+        onClick={() => handleAction(() => {})} 
+        shortcut="Ctrl+A"
+      />
+      <MenuDivider />
+      <MenuItem 
+        label="Sort Icons by Name" 
+        icon={<LayoutGrid size={14} />} 
+        onClick={() => handleAction(() => sortIcons())} 
+      />
+      <MenuItem 
+        label="Restore Desktop Icons" 
         icon={<RefreshCw size={14} />} 
-        onClick={() => handleAction(() => window.location.reload())} 
-        shortcut="F5"
+        onClick={() => handleAction(() => resetDesktop())} 
       />
       <MenuDivider />
       <MenuItem 
@@ -59,6 +77,7 @@ export const ContextMenu: React.FC = () => {
         label="Copy" 
         icon={<Copy size={14} />} 
         onClick={() => handleAction(() => {})} 
+        shortcut="Ctrl+C"
       />
       <MenuItem 
         label="Rename" 
@@ -85,7 +104,7 @@ export const ContextMenu: React.FC = () => {
           transition={{ duration: 0.1 }}
           style={{ top: adjustedY, left: adjustedX }}
           className="fixed z-[9999] w-56 bg-[#fdfdfd] border-2 border-black shadow-[6px_6px_0_0_rgba(0,0,0,1)] flex flex-col py-1 pointer-events-auto"
-          onClick={(e) => e.stopPropagation()} // Prevent click from closing immediately
+          onClick={(e) => e.stopPropagation()} 
           onContextMenu={(e) => e.preventDefault()}
         >
            {/* Retro Title Bar for Context Menu */}

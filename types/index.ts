@@ -1,3 +1,5 @@
+export * from "./api"
+
 
 import { ReactNode } from 'react';
 
@@ -7,11 +9,15 @@ export type Theme = 'bone' | 'night' | 'seraph' | 'gruvbox';
 export type Language = 'en' | 'vi'; // Added Language Type
 
 export interface UserProfile {
+    id: string;
     name: string;
     avatar: string; // URL
-    type: 'guest' | 'admin';
+    email?: string;
+    type: 'guest' | 'user' | 'admin';
+    provider?: 'github' | 'google' | 'email' | 'local';
     password?: string; // For mock auth
 }
+
 
 // --- Icons ---
 export type IconType = 'folder' | 'file' | 'mail' | 'trash' | 'news' | 'image' | 'music' | 'video' | 'code' | 'terminal' | 'archive' | 'browser';
@@ -57,7 +63,9 @@ export interface CalendarEvent {
 }
 
 // --- Window Content Types ---
-export type ContentType = 'h1' | 'h2' | 'p' | 'list' | 'table' | 'line' | 'button' | 'spacer' | 'terminal' | 'image' | 'collage' | 'stats' | 'image-generator' | 'hero' | 'quest-log' | 'widget-selector' | 'project-list' | 'project-detail' | 'blog-news' | 'conspiracy-map' | 'event-editor' | 'resume-viewer' | 'pixel-paint' | 'display-settings' | 'system-monitor' | 'file-manager' | 'chatbot' | 'video-player' | 'browser';
+// --- Window Content Types ---
+export type ContentType = 'h1' | 'h2' | 'p' | 'list' | 'table' | 'line' | 'button' | 'spacer' | 'terminal' | 'image' | 'collage' | 'stats' | 'image-generator' | 'hero' | 'quest-log' | 'widget-selector' | 'project-list' | 'project-detail' | 'blog-news' | 'conspiracy-map' | 'event-editor' | 'resume-viewer' | 'pixel-paint' | 'display-settings' | 'system-monitor' | 'file-manager' | 'chatbot' | 'video-player' | 'browser' | 'app-creator';
+
 
 export interface TableHeader {
   text: string;
