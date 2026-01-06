@@ -19,7 +19,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ children, align = 'left' })
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 10, scale: 0.98 }}
       transition={{ duration: 0.15 }}
-      className={`absolute top-full ${align === 'right' ? 'right-0' : 'left-0'} mt-2 w-64 bg-os-window border-2 border-os-border shadow-retro-md rounded-sm z-[200] flex flex-col py-1 overflow-visible max-h-[85vh] overflow-y-auto`}
+      className={`absolute top-full ${align === 'right' ? 'right-0' : 'left-0'} mt-2 w-64 bg-os-window border-2 border-os-border shadow-retro-md rounded-sm z-[200] flex flex-col py-1 overflow-visible `}
     >
       {children}
     </motion.div>

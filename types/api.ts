@@ -37,6 +37,7 @@ export interface UserDto {
   email: string;
   fullName: string;
   avatarUrl: string;
+  role: 'ADMIN' | 'USER' | 'CONTRIBUTOR';
 }
 
 export interface BlogDto {

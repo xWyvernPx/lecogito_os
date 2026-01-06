@@ -27,6 +27,12 @@ export const APP_PRESETS: Record<string, { title: string; content: ContentItem[]
           { type: 'app-creator' as any } 
       ]
   },
+  'kanban-board': {
+      title: 'FLOW_BOARD.EXE',
+      content: [
+          { type: 'kanban-board' }
+      ]
+  },
   'display-settings': {
     title: 'DISPLAY_CFG.SYS',
     content: [
@@ -146,7 +152,7 @@ export const APP_PRESETS: Record<string, { title: string; content: ContentItem[]
       // Hero Section (Full Width)
       { 
           type: 'hero', 
-          src: 'assets/phong_21_9.png', 
+          src: 'https://file-service.s3.amazonaws.com/1740927827829.jpeg', 
           alt: 'Phong Character Level Up'
       },
       
@@ -189,7 +195,7 @@ export const APP_PRESETS: Record<string, { title: string; content: ContentItem[]
               status: 'active',
               description: 'Currently engaged in the "SCOT Project" campaign. Orchestrating supply chain movements for the Roche faction. Navigating complex distributed system dungeons and battling legacy code bosses using modern artifacts.',
               tags: ['Spring Boot', 'React', 'Oracle SQL', 'Azure'],
-              image: '/assets/netcompany_journey.png' // Code screen
+              image: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1000&auto=format&fit=crop' // Code screen
             },
             {
               title: 'Software Engineer',

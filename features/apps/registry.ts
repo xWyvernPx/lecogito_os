@@ -98,6 +98,11 @@ export const APP_REGISTRY: Record<string, AppDefinition> = {
       component: loadApp(() => import('./AppCreator'), 'AppCreator'),
       hideToolbar: true,
       noPadding: true
+  },
+  'kanban-board': {
+      component: loadApp(() => import('./KanbanBoard'), 'KanbanBoard'),
+      hideToolbar: true,
+      noPadding: true
   }
 };
 

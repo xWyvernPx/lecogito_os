@@ -1,6 +1,5 @@
 export * from "./api"
 
-
 import { ReactNode } from 'react';
 
 // --- System State ---
@@ -18,9 +17,8 @@ export interface UserProfile {
     password?: string; // For mock auth
 }
 
-
 // --- Icons ---
-export type IconType = 'folder' | 'file' | 'mail' | 'trash' | 'news' | 'image' | 'music' | 'video' | 'code' | 'terminal' | 'archive' | 'browser';
+export type IconType = 'folder' | 'file' | 'mail' | 'trash' | 'news' | 'image' | 'music' | 'video' | 'code' | 'terminal' | 'archive' | 'browser' | 'kanban';
 
 export interface DesktopIconDef {
   id: string;
@@ -63,9 +61,7 @@ export interface CalendarEvent {
 }
 
 // --- Window Content Types ---
-// --- Window Content Types ---
-export type ContentType = 'h1' | 'h2' | 'p' | 'list' | 'table' | 'line' | 'button' | 'spacer' | 'terminal' | 'image' | 'collage' | 'stats' | 'image-generator' | 'hero' | 'quest-log' | 'widget-selector' | 'project-list' | 'project-detail' | 'blog-news' | 'conspiracy-map' | 'event-editor' | 'resume-viewer' | 'pixel-paint' | 'display-settings' | 'system-monitor' | 'file-manager' | 'chatbot' | 'video-player' | 'browser' | 'app-creator';
-
+export type ContentType = 'h1' | 'h2' | 'p' | 'list' | 'table' | 'line' | 'button' | 'spacer' | 'terminal' | 'image' | 'collage' | 'stats' | 'image-generator' | 'hero' | 'quest-log' | 'widget-selector' | 'project-list' | 'project-detail' | 'blog-news' | 'conspiracy-map' | 'event-editor' | 'resume-viewer' | 'pixel-paint' | 'display-settings' | 'system-monitor' | 'file-manager' | 'chatbot' | 'video-player' | 'browser' | 'app-creator' | 'kanban-board';
 
 export interface TableHeader {
   text: string;
@@ -124,6 +120,8 @@ export interface ContentItem {
   alt?: string;
   projectId?: number; // For Project Detail
   initialPath?: string; // For File Manager
+  postId?: string; // For Blog
+  view?: string; // For Blog
 }
 
 // --- Window Definition ---

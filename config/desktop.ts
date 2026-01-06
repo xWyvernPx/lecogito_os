@@ -40,12 +40,15 @@ export const INITIAL_ICONS: DesktopIconDef[] = [
     { id: 'blog', label: 'CHRONICLES', type: 'news', x: 120, y: 40 }, 
     { id: 'paint', label: 'PAINT.EXE', type: 'file', x: 120, y: 160 }, 
     { id: 'contact', label: 'CONTACT', type: 'mail', x: 120, y: 280 },
-    { id: 'projects', label: 'PROJECTS', type: 'folder', x: 120, y: 400 }, // Moved to 2nd column 4th row
+    { id: 'projects', label: 'PROJECTS', type: 'folder', x: 120, y: 400 }, 
 
     { id: 'timeline', label: 'TIMELINE', type: 'folder', x: 220, y: 40 }, 
     { id: 'monitor', label: 'MONITOR', type: 'folder', x: 220, y: 160 },
     
     { id: 'event-editor', label: 'EVIDENCE_LOCKER', type: 'folder', x: 320, y: 40 },
+    
+    // New Kanban App Icon
+    { id: 'kanban-board', label: 'FLOW', type: 'kanban', x: 320, y: 160 },
 ];
 
 // --- Initial Widgets ---
