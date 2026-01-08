@@ -14,6 +14,7 @@ export const useCategories = (requestParams: SearchRequest) => {
   return useQuery({
     queryKey: categoryKeys.list(requestParams),
     queryFn: () => CategoryApi.search(requestParams),
+    enabled: true,
   });
 };
 

@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, User as UserIcon, Lock, Power, RefreshCw, Moon, Github, Mail, Plus, X, ChevronLeft, KeyRound, AlertCircle, ShieldCheck } from 'lucide-react';
+import { ArrowRight, User as UserIcon, Power, RefreshCw, Moon, Github, Mail, Plus, X, ChevronLeft, KeyRound, AlertCircle, ShieldCheck } from 'lucide-react';
 import { useOSStore } from '../../os/stores/os-store';
+import { useAuthStore } from '../../os/stores/auth-store';
 import { UserProfile } from '../../../types';
 import { useTranslation } from '../../os/hooks/use-translation';
+import { useLogin, useVerifyToken } from '@/services';
 
 type LoginView = 'USER_SELECT' | 'AUTH_METHOD' | 'EMAIL_FLOW';
 
@@ -12,33 +14,88 @@ const GUEST_USER: UserProfile = {
     id: 'guest-001',
     name: 'Guest',
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Guest&backgroundColor=e6e6e6&clothing=blazerAndShirt',
-    type: 'admin'
+    type: 'guest'
 };
 
 export const LoginScreen: React.FC = () => {
     const { t } = useTranslation();
     const { login, shutdownSystem, rebootSystem, knownUsers, removeKnownUser } = useOSStore();
+    const { user: authUser, isAuthenticated } = useAuthStore();
+    const authLogin = useAuthStore(state => state.login);
     
+    // State
     const [view, setView] = useState<LoginView>('USER_SELECT');
     const [selectedUser, setSelectedUser] = useState<UserProfile | null>(null);
-    const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    // Email Flow State
     const [email, setEmail] = useState('');
     const [otp, setOtp] = useState('');
     const [emailStep, setEmailStep] = useState<'INPUT' | 'VERIFY'>('INPUT');
 
+    // Auto-login if authenticated
     useEffect(() => {
-        setPassword('');
+        if (isAuthenticated && authUser) {
+            const user: UserProfile = {
+                id: authUser.id.toString(),
+                name: authUser.fullName,
+                email: authUser.email,
+                avatar: authUser.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${authUser.email}&backgroundColor=ffdfbf`,
+                type: authUser.role === 'ADMIN' ? 'admin' : 'user',
+                role: authUser.role,
+                provider: 'email'
+            };
+            login(user);
+        }
+    }, [isAuthenticated, authUser, login]);
+
+    // Reset state when switching views
+    useEffect(() => {
         setError(null);
         setIsLoading(false);
     }, [view, selectedUser]);
 
+    // --- API Hooks ---
+    const { mutateAsync: loginMutateAsync } = useLogin();
+    const { mutateAsync: verifyMutateAsync } = useVerifyToken();
+
+    // --- Handlers ---
+
     const handleUserClick = (user: UserProfile) => {
         setSelectedUser(user);
         if (user.type === 'guest') {
+            // Guest logs in immediately
             handleLogin(user);
+        } else if (user.email) {
+            // Known user - trigger email verification flow
+            setEmail(user.email);
+            setView('EMAIL_FLOW');
+            setEmailStep('INPUT');
+            // Auto-submit to send verification code
+            setTimeout(() => {
+                handleEmailSubmitForKnownUser(user.email);
+            }, 300);
+        }
+    };
+
+    const handleEmailSubmitForKnownUser = async (userEmail: string) => {
+        setError(null);
+        setIsLoading(true);
+        
+        try {
+            const response = await loginMutateAsync({ email: userEmail });
+            
+            if (response.success) {
+                setIsLoading(false);
+                setEmailStep('VERIFY');
+            } else {
+                setError(response.message || 'Failed to send verification code');
+                setIsLoading(false);
+            }
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Failed to send verification code');
+            setIsLoading(false);
         }
     };
 
@@ -49,59 +106,87 @@ export const LoginScreen: React.FC = () => {
         }, 1200);
     };
 
-    const handlePasswordSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!selectedUser) return;
-        handleLogin(selectedUser);
-    };
-
     const handleSocialLogin = (provider: 'github' | 'google') => {
         setIsLoading(true);
+        // Simulate OAuth - in real app, this would redirect to OAuth flow
         setTimeout(() => {
             const user: UserProfile = {
                 id: `${provider}-${Date.now()}`,
-                name: provider === 'github' ? 'Admin Developer' : 'Normal User',
+                name: provider === 'github' ? 'Developer' : 'Google User',
                 email: `user@${provider}.com`,
                 avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${provider}&backgroundColor=b6e3f4`,
-                // type: provider === 'github' ? 'admin' : 'user', 
-                type: 'admin',
+                type: 'user',
+                role: 'USER',
                 provider: provider
             };
             login(user);
         }, 1500);
     };
 
-    const handleEmailSubmit = (e: React.FormEvent) => {
+    const handleEmailSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!email.includes('@')) {
             setError('Invalid email address');
             return;
         }
+        
+        setError(null);
         setIsLoading(true);
-        setTimeout(() => {
+        
+        try {
+            const response = await loginMutateAsync({ email });
+            
+            if (response.success) {
+                setIsLoading(false);
+                setEmailStep('VERIFY');
+            } else {
+                setError(response.message || 'Failed to send verification code');
+                setIsLoading(false);
+            }
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Failed to send verification code');
             setIsLoading(false);
-            setEmailStep('VERIFY');
-        }, 1000);
+        }
     };
 
-    const handleOtpSubmit = (e: React.FormEvent) => {
+    const handleOtpSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (otp.length < 6) {
             setError('Enter 6-digit code');
             return;
         }
+        
+        setError(null);
         setIsLoading(true);
-        setTimeout(() => {
-            const user: UserProfile = {
-                id: `email-${Date.now()}`,
-                name: email.split('@')[0],
-                email: email,
-                avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}&backgroundColor=ffdfbf`,
-                type: 'user',
-                provider: 'email'
-            };
-            login(user);
-        }, 1500);
+        
+        try {
+            const response = await verifyMutateAsync({ email, code: otp });
+
+            if (response.success) {
+                // Store in auth store
+                authLogin(response.data);
+                
+                // Create user profile for OS store
+                const user: UserProfile = {
+                    id: response.data.user.id.toString(),
+                    name: response.data.user.fullName,
+                    email: response.data.user.email,
+                    avatar: response.data.user.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${response.data.user.email}&backgroundColor=ffdfbf`,
+                    type: response.data.user.role === 'ADMIN' ? 'admin' : 'user',
+                    role: response.data.user.role,
+                    provider: 'email'
+                };
+                
+                // Login to OS
+                login(user);
+            } else {
+                setError(response.message || 'Invalid verification code');
+                setIsLoading(false);
+            }
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Invalid verification code');
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -153,10 +238,15 @@ export const LoginScreen: React.FC = () => {
                                                     <span className="font-bold text-lg text-white drop-shadow-md tracking-tight">
                                                         {user.name}
                                                     </span>
-                                                    {user.type === 'admin' && <span className="text-[9px] font-black uppercase text-[#ff7e33] drop-shadow-sm flex items-center gap-1 bg-black/20 px-1 rounded"><ShieldCheck size={10}/> Admin</span>}
+                                                    {user.type === 'admin' && (
+                                                        <span className="text-[9px] font-black uppercase text-[#ff7e33] drop-shadow-sm flex items-center gap-1 bg-black/20 px-1 rounded">
+                                                            <ShieldCheck size={10}/> Admin
+                                                        </span>
+                                                    )}
                                                 </div>
                                             </button>
 
+                                            {/* Remove Button (Only for known users, when not selecting) */}
                                             {!selectedUser && user.type !== 'guest' && (
                                                 <button 
                                                     onClick={(e) => { e.stopPropagation(); removeKnownUser(user.id); }}
@@ -165,43 +255,8 @@ export const LoginScreen: React.FC = () => {
                                                     <X size={12} />
                                                 </button>
                                             )}
-
-                                            <AnimatePresence>
-                                                {isSelected && user.type !== 'guest' && (
-                                                    <motion.form 
-                                                        initial={{ opacity: 0, y: -10 }}
-                                                        animate={{ opacity: 1, y: 0 }}
-                                                        exit={{ opacity: 0, y: -10 }}
-                                                        onSubmit={handlePasswordSubmit}
-                                                        className="absolute top-full mt-4 w-48 flex flex-col items-center"
-                                                    >
-                                                        <div className="relative w-full">
-                                                            <input 
-                                                                type="password" 
-                                                                autoFocus
-                                                                value={password}
-                                                                onChange={(e) => setPassword(e.target.value)}
-                                                                placeholder="Enter Password"
-                                                                className="w-full bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-4 py-1.5 text-sm text-white placeholder:text-white/50 outline-none focus:bg-white/30 text-center shadow-lg transition-all"
-                                                            />
-                                                            <button 
-                                                                type="submit"
-                                                                className="absolute right-1 top-1/2 -translate-y-1/2 p-1 text-white/70 hover:text-white transition-colors"
-                                                            >
-                                                                <ArrowRight size={14} />
-                                                            </button>
-                                                        </div>
-                                                        <button 
-                                                            type="button" 
-                                                            onClick={(e) => { e.stopPropagation(); setSelectedUser(null); }}
-                                                            className="mt-2 text-[10px] text-white/50 hover:text-white font-medium uppercase tracking-wider"
-                                                        >
-                                                            Cancel
-                                                        </button>
-                                                    </motion.form>
-                                                )}
-                                            </AnimatePresence>
                                             
+                                            {/* Guest Loading State */}
                                             {isSelected && user.type === 'guest' && isLoading && (
                                                 <motion.div 
                                                     initial={{ opacity: 0 }} 
@@ -248,14 +303,14 @@ export const LoginScreen: React.FC = () => {
                                     onClick={() => handleSocialLogin('github')}
                                     className="flex items-center gap-3 bg-[#24292e] hover:bg-[#2f363d] p-3 rounded-lg transition-all font-bold text-sm shadow-lg border border-white/5"
                                 >
-                                    <Github size={18} /> Continue as Admin (GitHub)
+                                    <Github size={18} /> Continue with GitHub
                                 </button>
                                 <button 
                                     onClick={() => handleSocialLogin('google')}
                                     className="flex items-center gap-3 bg-white hover:bg-gray-100 text-gray-900 p-3 rounded-lg transition-all font-bold text-sm shadow-lg"
                                 >
                                     <div className="w-4 h-4 rounded-full bg-blue-500" />
-                                    Continue as User (Google)
+                                    Continue with Google
                                 </button>
                                 <div className="flex items-center gap-2 py-2 opacity-50">
                                     <div className="h-px bg-white flex-1" />

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { IconType } from '../../types';
 import { DESIGN_TOKENS } from '../../theme/design-tokens';
 
@@ -9,7 +9,136 @@ interface HandDrawnIconProps {
   className?: string;
 }
 
+// Icon cache to prevent re-fetching
+const iconCache = new Map<string, string>();
+
+// Additional available icons for custom use
+export const AVAILABLE_ICONS = {
+  folder: '/assets/icons/folder.svg',
+  file: '/assets/icons/file.svg',
+  image: '/assets/icons/image-file.svg',
+  music: '/assets/icons/music.svg',
+  video: '/assets/icons/picture.svg',
+  code: '/assets/icons/document.svg',
+  terminal: '/assets/icons/toolbox.svg',
+  archive: '/assets/icons/box.svg',
+  mail: '/assets/icons/mailbox.svg',
+  news: '/assets/icons/news.svg',
+  trash: '/assets/icons/trash.svg',
+  about: '/assets/icons/about.svg',
+  binoculars: '/assets/icons/binoculars.svg',
+  bookmark: '/assets/icons/bookmark.svg',
+  bookmark2: '/assets/icons/bookmark-2.svg',
+  bookmark3: '/assets/icons/bookmark-3.svg',
+  bookmark4: '/assets/icons/bookmark-4.svg',
+  box: '/assets/icons/box.svg',
+  box2: '/assets/icons/box-2.svg',
+  briefcase: '/assets/icons/briefcase.svg',
+  checkMark: '/assets/icons/check-mark.svg',
+  clock: '/assets/icons/clock.svg',
+  clock2: '/assets/icons/clock-2.svg',
+  close: '/assets/icons/close.svg',
+  connect: '/assets/icons/connect.svg',
+  contacts: '/assets/icons/contacts.svg',
+  delete: '/assets/icons/delete.svg',
+  document: '/assets/icons/document.svg',
+  editPencil: '/assets/icons/edit-pencil.svg',
+  externalLink: '/assets/icons/external-link.svg',
+  home: '/assets/icons/home.svg',
+  idea: '/assets/icons/idea.svg',
+  imageFile: '/assets/icons/image-file.svg',
+  key: '/assets/icons/key.svg',
+  lock: '/assets/icons/lock.svg',
+  mailbox: '/assets/icons/mailbox.svg',
+  maleUser: '/assets/icons/male-user.svg',
+  menu: '/assets/icons/menu.svg',
+  openedFolder: '/assets/icons/opened-folder.svg',
+  picture: '/assets/icons/picture.svg',
+  plus: '/assets/icons/plus.svg',
+  puzzle: '/assets/icons/puzzle.svg',
+  refresh: '/assets/icons/refresh.svg',
+  reminders: '/assets/icons/reminders.png',
+  restart: '/assets/icons/restart.svg',
+  rickSanchez: '/assets/icons/rick-sanchez.svg',
+  round: '/assets/icons/round.svg',
+  search: '/assets/icons/search.svg',
+  share: '/assets/icons/share.svg',
+  speechBubble: '/assets/icons/speech-bubble.svg',
+  sun: '/assets/icons/sun.svg',
+  sun2: '/assets/icons/sun-2.svg',
+  synchronize: '/assets/icons/synchronize.svg',
+  toolbox: '/assets/icons/toolbox.svg',
+  trashCan: '/assets/icons/trash-can.svg',
+  userFemale: '/assets/icons/user-female.svg',
+} as const;
+
 export const HandDrawnIcon: React.FC<HandDrawnIconProps> = ({ type, size = 48, className = '' }) => {
+  const [svgContent, setSvgContent] = useState<string | null>(null);
+  const externalIconPath = AVAILABLE_ICONS[type];
+
+  // Load external SVG if available, with caching
+  useEffect(() => {
+    if (!externalIconPath) return;
+
+    // Check cache first
+    const cached = iconCache.get(externalIconPath);
+    if (cached) {
+      setSvgContent(cached);
+      return;
+    }
+
+    // Fetch and cache
+    fetch(externalIconPath)
+      .then(res => res.text())
+      .then(svg => {
+        iconCache.set(externalIconPath, svg);
+        setSvgContent(svg);
+      })
+      .catch(() => {
+        // Fallback to inline SVG on error
+        setSvgContent(null);
+      });
+  }, [externalIconPath]);
+
+  // Use external SVG if loaded
+  if (externalIconPath && svgContent) {
+    return (
+      <div 
+        className={className}
+        style={{ 
+          width: size, 
+          height: size,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+        dangerouslySetInnerHTML={{ 
+          __html: svgContent.replace(
+            /<svg/,
+            `<svg width="${size}" height="${size}" style="width: ${size}px; height: ${size}px;"`
+          )
+        }}
+      />
+    );
+  }
+
+  // Handle PNG files separately
+  if (externalIconPath && externalIconPath.endsWith('.png')) {
+    return (
+      <img
+        src={externalIconPath}
+        alt=""
+        className={className}
+        style={{
+          width: size,
+          height: size,
+          objectFit: 'contain'
+        }}
+      />
+    );
+  }
+
+  // Fallback to inline hand-drawn SVGs
   const strokeColor = DESIGN_TOKENS.colors.os.border; // #121212
   const strokeWidth = 2.5;
   const accentColor = DESIGN_TOKENS.colors.os.accent; // #ff7e33

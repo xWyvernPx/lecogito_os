@@ -14,6 +14,7 @@ import { RetroButton } from '../../../components/ui/retro-ui';
 import { BlogPost } from './data';
 import { useOSStore } from '../../os/stores/os-store';
 import { useBlogStore } from './store';
+import { BlogDto, useBlog, useBlogSearch, useCategories, useCreateBlog, useSeries, useUsers } from '@/services';
 
 interface BlogEditorProps {
     onCancel: () => void;
@@ -266,10 +267,15 @@ export const CalloutBlock: React.FC<{ children: React.ReactNode }> = ({ children
 
 export const BlogEditor: React.FC<BlogEditorProps> = ({ onCancel, onPublish }) => {
     const { currentUser } = useOSStore();
-    const { categories, authors, posts, series, addPost } = useBlogStore();
-
+    // const { categories, authors, posts, series, addPost } = useBlogStore();
+    const { data: categories } = useCategories({pageIndex: 0, pageSize: 100});
+    const { data: series } = useSeries({ pageIndex: 0, pageSize: 100 });
+    const { data: authors } = useUsers({ pageIndex: 0, pageSize: 100 });
+    const { data: posts } = useBlogSearch({}, { pageIndex: 0, pageSize: 100 });
+    const {mutateAsync: saveBlogPostAsync} = useCreateBlog();
+    const {} = useCategories
     const [title, setTitle] = useState('');
-    const [category, setCategory] = useState(categories[0]);
+    const [category, setCategory] = useState(() => categories?.[0]);
     const [serieId, setSerieId] = useState('');
     const [markdown, setMarkdown] = useState('');
     const [showPreview, setShowPreview] = useState(true);
@@ -370,7 +376,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ onCancel, onPublish }) =
             insertion = `**@${item}** `;
             cursorOffset = insertion.length;
         } else if (type === 'backlink') {
-            const post = posts.find(p => p.title === item);
+            const post = posts?.rows.find(p => p.title === item);
             insertion = `[${item}](/scroll/${post?.id || '404'}) `;
             cursorOffset = insertion.length;
         }
@@ -434,7 +440,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ onCancel, onPublish }) =
         }
 
         let bodyRows = '';
-        for (let r = 0; r < tableConfig.rows; r++) {
+        for (let r = 0; r < tableConfig?.rows; r++) {
             bodyRows += '\n|';
             for (let c = 0; c < tableConfig.cols; c++) {
                 bodyRows += ` Cell ${r + 1}-${c + 1} |`;
@@ -448,10 +454,10 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ onCancel, onPublish }) =
 
     const getFilteredItems = () => {
         if (suggestion.type === 'mention') {
-            return authors.filter(a => a.toLowerCase().includes(suggestion.query.toLowerCase()));
+            return authors?.rows.filter(a => a.fullName.toLowerCase().includes(suggestion.query.toLowerCase()));
         }
         if (suggestion.type === 'backlink') {
-            return posts.map(p => p.title).filter(t => t.toLowerCase().includes(suggestion.query.toLowerCase()));
+            return posts?.rows.map(p => p.title).filter(t => t.toLowerCase().includes(suggestion.query.toLowerCase()));
         }
         return [];
     };
@@ -464,19 +470,18 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ onCancel, onPublish }) =
             return;
         }
 
-        const newPost: BlogPost = {
-            id: Date.now().toString(),
+        const newPost: BlogDto = {
             title,
             excerpt: markdown.substring(0, 100) + "...",
             date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
             category: category as any,
-            author: currentUser?.name || 'Anonymous Scribe',
+            author: {id: currentUser.id},
             readTime: `${Math.ceil(markdown.split(' ').length / 200)} min`,
             content: markdown,
             serieId: serieId || undefined
         };
 
-        addPost(newPost);
+        saveBlogPostAsync(newPost);
         onPublish();
     };
 
@@ -491,7 +496,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ onCancel, onPublish }) =
                      <div className="flex items-center gap-2">
                         <span className="text-xs font-bold text-stone-500 uppercase">School:</span>
                         <select value={category} onChange={(e) => setCategory(e.target.value as any)} className="bg-white border border-stone-800 text-xs font-bold px-2 py-1 rounded-sm focus:outline-none focus:ring-1 focus:ring-[#ff7e33]">
-                            {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                            {categories?.rows.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                         </select>
                      </div>
 
@@ -499,7 +504,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ onCancel, onPublish }) =
                         <span className="text-xs font-bold text-stone-500 uppercase">Series:</span>
                         <select value={serieId} onChange={(e) => setSerieId(e.target.value)} className="bg-white border border-stone-800 text-xs font-bold px-2 py-1 rounded-sm focus:outline-none focus:ring-1 focus:ring-[#ff7e33] max-w-[150px]">
                             <option value="">(None)</option>
-                            {series.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
+                            {series?.rows.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                         </select>
                      </div>
                  </div>
@@ -539,9 +544,9 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ onCancel, onPublish }) =
                             <div className="flex items-center justify-between mb-3">
                                 <span className="text-xs font-mono">Rows:</span>
                                 <div className="flex items-center gap-2">
-                                    <button onClick={() => setTableConfig(p => ({...p, rows: Math.max(1, p.rows - 1)}))} className="p-1 hover:bg-stone-100"><Minus size={10}/></button>
-                                    <span className="text-xs font-bold w-4 text-center">{tableConfig.rows}</span>
-                                    <button onClick={() => setTableConfig(p => ({...p, rows: Math.min(20, p.rows + 1)}))} className="p-1 hover:bg-stone-100"><Plus size={10}/></button>
+                                    <button onClick={() => setTableConfig(p => ({...p, rows: Math.max(1, p?.rows - 1)}))} className="p-1 hover:bg-stone-100"><Minus size={10}/></button>
+                                    <span className="text-xs font-bold w-4 text-center">{tableConfig?.rows}</span>
+                                    <button onClick={() => setTableConfig(p => ({...p, rows: Math.min(20, p?.rows + 1)}))} className="p-1 hover:bg-stone-100"><Plus size={10}/></button>
                                 </div>
                             </div>
                             <button onClick={insertTable} className="w-full py-1 bg-[#ff7e33] text-white text-xs font-bold border border-black shadow-[1px_1px_0_0_#000] hover:translate-y-[1px] hover:shadow-none transition-all">INSERT</button>

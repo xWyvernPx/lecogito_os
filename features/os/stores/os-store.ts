@@ -53,7 +53,7 @@ interface OSState {
   // Auth Actions
   login: (user: UserProfile) => void;
   logout: () => void;
-  removeKnownUser: (id: string) => void;
+  removeKnownUser: (id: number) => void;
 
   // Window Actions
   spawnWindow: (id: string, preset?: Partial<Omit<WindowDef, 'history' | 'historyIndex'>> & { content?: ContentItem[] }) => void;
@@ -192,7 +192,7 @@ export const useOSStore = create<OSState>()(
           set({ systemState: 'login', currentUser: null, activeMenu: null });
       },
       
-      removeKnownUser: (id) => set(state => ({
+      removeKnownUser: (id: number) => set(state => ({
           knownUsers: state.knownUsers.filter(u => u.id !== id)
       })),
 
