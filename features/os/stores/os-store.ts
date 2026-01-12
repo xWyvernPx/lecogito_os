@@ -505,7 +505,7 @@ export const useOSStore = create<OSState>()(
 
       drinkCoffee: () => set({ caffeineLevel: 100 }),
       decreaseCaffeine: () => set(state => ({
-          caffeineLevel: Math.max(0, state.caffeineLevel - 1)
+          caffeineLevel: Math.max(0, state.caffeineLevel - 0.01)
       })),
 
       openContextMenu: (x, y, type, targetId) => set({ contextMenu: { isOpen: true, x, y, type, targetId } }),

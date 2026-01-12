@@ -28,3 +28,13 @@ export const useCreateCategory = () => {
     },
   });
 };
+
+export const  useDeleteCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => CategoryApi.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: categoryKeys.lists() });
+    },
+  });
+}

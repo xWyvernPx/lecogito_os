@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Coffee, Anchor, MessageSquare, Sparkles, ChevronRight, Info, HelpCircle, Layers } from 'lucide-react';
 import { RetroButton, RetroBadge } from '../../../components/ui/retro-ui';
-import { SLACK_FEED, LATEST_QUESTIONS, BlogPost } from './data';
-import { useBlogStore } from './store';
+import { SLACK_FEED, LATEST_QUESTIONS } from './data';
+import { useBlogSearch, useSeries } from '@/services';
+import { blogDtoToPost, serieDtoToLocal, DEFAULT_SEARCH_REQUEST, DEFAULT_BLOG_CRITERIA, type BlogPost } from './utils';
 
 interface BlogHomeProps {
     onNavigateToArchive: () => void;
@@ -11,16 +12,48 @@ interface BlogHomeProps {
 }
 
 export const BlogHome: React.FC<BlogHomeProps> = ({ onNavigateToArchive, onPostClick }) => {
-  const { posts, series } = useBlogStore();
   const currentDate = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
   
-  // Use posts from store
+  // Fetch data from API
+  const { data: blogsData, isLoading: blogsLoading } = useBlogSearch(DEFAULT_BLOG_CRITERIA, DEFAULT_SEARCH_REQUEST);
+  const { data: seriesData, isLoading: seriesLoading } = useSeries(DEFAULT_SEARCH_REQUEST);
+
+  // Convert API data to local format
+  const posts = useMemo(() => {
+    return blogsData?.rows?.map(blogDtoToPost) || [];
+  }, [blogsData]);
+
+  const series = useMemo(() => {
+    return seriesData?.rows?.map(serieDtoToLocal) || [];
+  }, [seriesData]);
+
   const featuredPost = posts[0];
 
   const getSeriesName = (id?: string) => {
       if (!id) return null;
       return series.find(s => s.id === id)?.title;
   };
+
+  // Loading state
+  if (blogsLoading || seriesLoading) {
+    return (
+      <div className="flex flex-col h-full bg-[#f4f1ea] overflow-auto text-stone-900">
+        <div className="border-b border-stone-300 bg-[#e8e4d9] px-6 py-3 flex items-center justify-between sticky top-0 z-30 shadow-sm shrink-0">
+          <div className="text-[11px] font-medium text-stone-600 w-1/4 hidden md:block">{currentDate}</div>
+          <div className="flex items-center gap-2 justify-center flex-1">
+            <h1 className="text-xl md:text-2xl font-black tracking-tight font-serif uppercase">Community News</h1>
+          </div>
+          <div className="flex items-center gap-2 justify-end w-1/4 text-stone-500">
+            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+            <span className="text-[10px] font-bold uppercase tracking-wider">Loading...</span>
+          </div>
+        </div>
+        <div className="flex items-center justify-center flex-1">
+          <div className="text-stone-400 font-mono text-sm">Loading posts...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-full bg-[#f4f1ea] overflow-auto text-stone-900">

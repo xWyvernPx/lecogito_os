@@ -1,3 +1,4 @@
+import { AUTH_STORAGE_KEYS } from "@/features/os/stores/auth-store";
 import axios from "axios";
 import type { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { toast } from "sonner";
@@ -33,9 +34,11 @@ const processQueue = (error: Error | null, token: string | null = null) => {
 // Request interceptor to add auth token
 apiClient.interceptors.request.use(
   (config) => {
+    
     // Get token from localStorage or your auth store
-    const token = localStorage.getItem('accessToken');
-
+    const token = localStorage.getItem(AUTH_STORAGE_KEYS.TOKEN);
+    console.log("[ApiClient] accessToken:", token);
+    
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -54,7 +57,8 @@ apiClient.interceptors.response.use(
 
     const isAuthEndpoint =
       originalRequest?.url?.includes("/auth/login") ||
-      originalRequest?.url?.includes("/auth/refresh");
+      originalRequest?.url?.includes("/auth/refresh-token") || 
+      originalRequest?.url?.includes("/auth/verify") ;
 
     // Handle 401 Unauthorized
     if (error.response?.status === 401 && !originalRequest?._retry && !isAuthEndpoint) {
@@ -72,12 +76,12 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshToken = localStorage.getItem(AUTH_STORAGE_KEYS.REFRESH_TOKEN);
 
       if (!refreshToken) {
         // Clear auth and redirect to login
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        localStorage.removeItem(AUTH_STORAGE_KEYS.TOKEN);
+        localStorage.removeItem(AUTH_STORAGE_KEYS.REFRESH_TOKEN);
         window.location.href = "/";
         return Promise.reject(error);
       }
@@ -86,7 +90,7 @@ apiClient.interceptors.response.use(
         const response = await axios.post(
           `${apiClient.defaults.baseURL}/auth/refresh-token`,
           {
-            accessToken: localStorage.getItem('accessToken'),
+            accessToken: localStorage.getItem(AUTH_STORAGE_KEYS.TOKEN),
             refreshToken,
           }
         );
@@ -95,9 +99,9 @@ apiClient.interceptors.response.use(
         const newRefreshToken = response.data?.data?.refreshToken;
 
         if (newToken) {
-          localStorage.setItem('accessToken', newToken);
+          localStorage.setItem(AUTH_STORAGE_KEYS.TOKEN, newToken);
           if (newRefreshToken) {
-            localStorage.setItem('refreshToken', newRefreshToken);
+            localStorage.setItem(AUTH_STORAGE_KEYS.REFRESH_TOKEN, newRefreshToken);
           }
 
           processQueue(null, newToken);
@@ -107,8 +111,8 @@ apiClient.interceptors.response.use(
         }
       } catch (refreshError) {
         processQueue(refreshError as Error, null);
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        localStorage.removeItem(AUTH_STORAGE_KEYS.TOKEN);
+        localStorage.removeItem(AUTH_STORAGE_KEYS.REFRESH_TOKEN);
         toast.error("Session expired. Please login again.");
         window.location.href = "/";
         return Promise.reject(refreshError);

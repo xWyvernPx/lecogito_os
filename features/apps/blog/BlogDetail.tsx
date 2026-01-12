@@ -7,11 +7,11 @@ import {
     ChevronLeft, ChevronRight, Home, Search, X, List, HelpCircle, Bookmark,
     Hash, Link as LinkIcon, PanelLeft, PanelRight, Share2, Layers
 } from 'lucide-react';
-import { BlogPost } from './data';
 import { CalloutBlock, CodeBlock } from './BlogEditor';
 import { ShareDialog } from '../../os/components/ShareDialog';
 import { CommentSection } from '../../comments/components/CommentSection';
-import { useBlogStore } from './store';
+import { BlogDto, useBlogSearch, useSeries } from '@/services';
+import { blogDtoToPost, serieDtoToLocal, DEFAULT_SEARCH_REQUEST, DEFAULT_BLOG_CRITERIA, type BlogPost } from './utils';
 
 interface BlogDetailProps {
     post: BlogPost;
@@ -40,8 +40,7 @@ const flattenChildren = (children: React.ReactNode): string => {
 };
 
 export const BlogDetail: React.FC<BlogDetailProps> = ({ post: initialPost, onBack }) => {
-    const { posts, series } = useBlogStore();
-    const [currentPost, setCurrentPost] = useState<BlogPost>(initialPost);
+    const [currentPost, setCurrentPost] = useState<BlogDto>(initialPost);
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [activeId, setActiveId] = useState<string>('');
@@ -58,6 +57,19 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({ post: initialPost, onBac
     useEffect(() => {
         setCurrentPost(initialPost);
     }, [initialPost]);
+
+    // Fetch data from API
+    const { data: blogsData } = useBlogSearch(DEFAULT_BLOG_CRITERIA, DEFAULT_SEARCH_REQUEST);
+    const { data: seriesData } = useSeries(DEFAULT_SEARCH_REQUEST);
+
+    // Convert API data to local format
+    const posts = useMemo(() => {
+        return blogsData?.rows?.map(blogDtoToPost) || [];
+    }, [blogsData]);
+
+    const series = useMemo(() => {
+        return seriesData?.rows?.map(serieDtoToLocal) || [];
+    }, [seriesData]);
 
     // Derived State for Series
     const currentSeries = useMemo(() => {
@@ -314,7 +326,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({ post: initialPost, onBac
                                     <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${currentPost.author}`} alt={currentPost.author} />
                                 </div>
                                 <div className="flex items-center gap-2 text-sm font-medium">
-                                    <span className="text-stone-900 font-bold">{currentPost.author}</span>
+                                    <span className="text-stone-900 font-bold">{currentPost?.author?.fullName}</span>
                                     <span className="text-stone-400">{currentPost.date}</span>
                                     <button className="text-stone-900 underline font-bold">
                                         {currentPost.category}
@@ -432,3 +444,4 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({ post: initialPost, onBac
         </div>
     );
 };
+2

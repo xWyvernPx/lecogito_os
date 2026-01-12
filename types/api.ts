@@ -55,21 +55,22 @@ export interface BlogDto {
   serie?: SerieDto;
   category?: CategoryDto;
   tags: TagDto[];
-  createdDate: string;
-  lastModifiedDate: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
 }
 
 export interface SerieDto {
-  id: number;
+  id?: number;
   name: string;
-  coverUrl: string;
-  uuid: string;
-  description: string;
-  postCount: number;
-  createdDate: string;
-  lastModifiedDate: string;
-  enabled: boolean;
-  deleted: boolean;
+  slug?: string;
+  coverUrl?: string;
+  uuid?: string;
+  description?: string;
+  postCount?: number;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  enabled?: boolean;
+  deleted?: boolean;
 }
 
 export interface CategoryDto {
@@ -77,17 +78,17 @@ export interface CategoryDto {
   name: string;
   slug: string;
   path: string;
-  createdDate: string;
-  lastModifiedDate: string;
-  enabled: boolean;
-  deleted: boolean;
+  createdDate?: string;
+  lastModifiedDate?: string;
+  enabled?: boolean;
+  deleted?: boolean;
 }
 
 export interface TagDto {
   id: number;
   name: string;
-  enabled: boolean;
-  deleted: boolean;
+  enabled?: boolean;
+  deleted?: boolean;
 }
 
 export interface CommentDto {
@@ -97,8 +98,8 @@ export interface CommentDto {
   email: string;
   path: string;
   hasReplies: boolean;
-  createdDate: string;
-  lastModifiedDate: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
   blogPostId: number;
   blogPost?: BlogDto;
 }
@@ -113,8 +114,8 @@ export interface ProjectDto {
   sourceUrl: string;
   demoUrl: string;
   type: 'OFFICIAL' | 'SIDE_PROJECT' | 'OPEN_SOURCE' | 'CLOSED_SOURCE' | 'INTERNAL' | 'EXTENSION';
-  createdDate: string;
-  lastModifiedDate: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
 }
 
 export interface StaticContentDto {

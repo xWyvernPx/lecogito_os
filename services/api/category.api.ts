@@ -20,4 +20,10 @@ export const CategoryApi = {
     const response = await apiClient.post<ApiResponse<boolean>>('/category', category);
     return response.data;
   },
+
+  // DELETE /api/v1/category/{id} - Delete category
+  delete: async (id: number): Promise<ApiResponse<boolean>> => {
+    const response = await apiClient.delete<ApiResponse<boolean>>(`/category/${id}`);
+    return response.data;
+  },
 };

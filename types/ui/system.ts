@@ -1,0 +1,1 @@
+export type SystemConfigurationTab = 'CATEGORIES' | 'USERS' | 'SERIES';
