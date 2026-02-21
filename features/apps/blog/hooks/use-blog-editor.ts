@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
+import { toast } from 'sonner';
 import {
     useBlogSearch,
     useCategories,
@@ -323,8 +324,7 @@ export function useBlogEditor(onPublish: () => void) {
 
     const handleSave = async (status: 'published' | 'draft') => {
         if (!title.trim() || !markdown.trim()) {
-            // TODO: Replace alert with retro dialog (Phase 5)
-            alert('The scroll is empty! The ravens refuse to carry it.');
+            toast.warning('The scroll is empty! The ravens refuse to carry it.');
             return;
         }
 
@@ -351,8 +351,7 @@ export function useBlogEditor(onPublish: () => void) {
             await createBlogAsync(newBlog);
             onPublish();
         } catch {
-            // TODO: Replace alert with retro dialog (Phase 5)
-            alert('Failed to save the scroll. Please try again.');
+            toast.error('Failed to save the scroll. Please try again.');
         }
     };
 

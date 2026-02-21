@@ -51,7 +51,7 @@ export const AppCreator: React.FC<AppCreatorProps> = ({ win }) => {
         <div className="flex flex-col h-full bg-[#f4f1ea] font-sans">
             <div className="p-4 border-b border-stone-300 bg-[#e8e4d9] flex items-center gap-3">
                 <div className="w-10 h-10 bg-white border-2 border-stone-800 flex items-center justify-center shadow-[2px_2px_0_0_rgba(0,0,0,0.2)]">
-                    <PackagePlus size={20} className="text-[#ff7e33]" />
+                    <PackagePlus size={20} className="text-os-accent" />
                 </div>
                 <div>
                     <h2 className="font-bold text-sm text-stone-900 uppercase tracking-wider">App Studio</h2>
@@ -81,7 +81,7 @@ export const AppCreator: React.FC<AppCreatorProps> = ({ win }) => {
                                         value={appName}
                                         onChange={(e) => setAppName(e.target.value)}
                                         placeholder="e.g. My Portfolio"
-                                        className="w-full p-3 bg-stone-50 border-2 border-stone-200 rounded focus:border-[#ff7e33] outline-none font-bold text-stone-800 transition-colors"
+                                        className="w-full p-3 bg-stone-50 border-2 border-stone-200 rounded focus:border-os-accent outline-none font-bold text-stone-800 transition-colors"
                                         autoFocus
                                     />
                                 </div>
@@ -95,7 +95,7 @@ export const AppCreator: React.FC<AppCreatorProps> = ({ win }) => {
                                         value={appUrl}
                                         onChange={(e) => setAppUrl(e.target.value)}
                                         placeholder="e.g. https://vercel.com"
-                                        className="w-full p-3 bg-stone-50 border-2 border-stone-200 rounded focus:border-[#ff7e33] outline-none font-mono text-xs text-stone-600 transition-colors"
+                                        className="w-full p-3 bg-stone-50 border-2 border-stone-200 rounded focus:border-os-accent outline-none font-mono text-xs text-stone-600 transition-colors"
                                     />
                                 </div>
 
@@ -107,14 +107,14 @@ export const AppCreator: React.FC<AppCreatorProps> = ({ win }) => {
                                         <button 
                                             type="button"
                                             onClick={() => setCategory('Remote Apps')}
-                                            className={`p-2 border-2 text-xs font-bold rounded transition-all ${category === 'Remote Apps' ? 'border-[#ff7e33] bg-[#ff7e33]/10 text-[#ff7e33]' : 'border-stone-200 text-stone-400 hover:border-stone-300'}`}
+                                            className={`p-2 border-2 text-xs font-bold rounded transition-all ${category === 'Remote Apps' ? 'border-os-accent bg-os-accent/10 text-os-accent' : 'border-stone-200 text-stone-400 hover:border-stone-300'}`}
                                         >
                                             /Remote Apps
                                         </button>
                                         <button 
                                             type="button"
                                             onClick={() => setCategory('Applications')}
-                                            className={`p-2 border-2 text-xs font-bold rounded transition-all ${category === 'Applications' ? 'border-[#ff7e33] bg-[#ff7e33]/10 text-[#ff7e33]' : 'border-stone-200 text-stone-400 hover:border-stone-300'}`}
+                                            className={`p-2 border-2 text-xs font-bold rounded transition-all ${category === 'Applications' ? 'border-os-accent bg-os-accent/10 text-os-accent' : 'border-stone-200 text-stone-400 hover:border-stone-300'}`}
                                         >
                                             /Applications
                                         </button>

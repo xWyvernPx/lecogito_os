@@ -159,7 +159,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ win, contentItem }) =>
                 {!isPlaying && !showSuggestions && (
                     <button 
                         onClick={togglePlay}
-                        className="absolute z-10 w-16 h-16 bg-black/50 hover:bg-[#ff7e33] rounded-full flex items-center justify-center transition-colors backdrop-blur-sm border-2 border-white/20"
+                        className="absolute z-10 w-16 h-16 bg-black/50 hover:bg-os-accent rounded-full flex items-center justify-center transition-colors backdrop-blur-sm border-2 border-white/20"
                     >
                         <Play size={32} fill="white" className="text-white ml-1" />
                     </button>
@@ -171,7 +171,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ win, contentItem }) =>
                 {/* Play/Pause */}
                 <button 
                     onClick={togglePlay}
-                    className="w-8 h-8 flex items-center justify-center bg-white border border-stone-300 rounded-full hover:border-[#ff7e33] hover:text-[#ff7e33] shadow-sm transition-all"
+                    className="w-8 h-8 flex items-center justify-center bg-white border border-stone-300 rounded-full hover:border-os-accent hover:text-os-accent shadow-sm transition-all"
                 >
                     {isPlaying ? <Pause size={14} fill="currentColor" /> : <Play size={14} fill="currentColor" className="ml-0.5" />}
                 </button>
@@ -191,7 +191,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ win, contentItem }) =>
                             if (videoRef.current) videoRef.current.volume = val;
                             if (val > 0) setIsMuted(false);
                         }}
-                        className="w-16 h-1 bg-stone-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-stone-600 [&::-webkit-slider-thumb]:rounded-full hover:[&::-webkit-slider-thumb]:bg-[#ff7e33]"
+                        className="w-16 h-1 bg-stone-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-stone-600 [&::-webkit-slider-thumb]:rounded-full hover:[&::-webkit-slider-thumb]:bg-os-accent"
                     />
                 </div>
 
@@ -207,7 +207,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ win, contentItem }) =>
                             className="w-full h-1.5 bg-stone-300 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-stone-800 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-sm hover:[&::-webkit-slider-thumb]:scale-125 transition-all"
                         />
                         <div 
-                            className="absolute top-0 left-0 h-1.5 bg-[#ff7e33] rounded-l-lg pointer-events-none" 
+                            className="absolute top-0 left-0 h-1.5 bg-os-accent rounded-l-lg pointer-events-none" 
                             style={{ width: `${progress}%` }}
                         />
                     </div>

@@ -54,7 +54,7 @@ export const UserSelectView: React.FC<UserSelectViewProps> = ({
                                         {user.name}
                                     </span>
                                     {user.type === 'admin' && (
-                                        <span className="text-[9px] font-black uppercase text-[#ff7e33] drop-shadow-sm flex items-center gap-1 bg-black/20 px-1 rounded">
+                                        <span className="text-[9px] font-black uppercase text-os-accent drop-shadow-sm flex items-center gap-1 bg-black/20 px-1 rounded">
                                             <ShieldCheck size={10}/> Admin
                                         </span>
                                     )}

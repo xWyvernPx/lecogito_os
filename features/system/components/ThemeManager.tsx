@@ -46,7 +46,11 @@ const THEMES: Record<Theme, Record<string, string>> = {
   }
 };
 
-export const ThemeManager = () => {
+/**
+ * Hook that applies the current theme's CSS variables to the document root.
+ * Call once at the top level (e.g. App component).
+ */
+export const useThemeManager = () => {
   const { theme } = useOSStore();
 
   useEffect(() => {
@@ -57,6 +61,4 @@ export const ThemeManager = () => {
       root.style.setProperty(key, value as string);
     });
   }, [theme]);
-
-  return null;
 };

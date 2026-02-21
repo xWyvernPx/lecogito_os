@@ -171,7 +171,7 @@ export const EditorToolbar: React.FC<EditorToolbarProps> = ({
                     </div>
                     <button
                         onClick={insertTable}
-                        className="w-full py-1 bg-[#ff7e33] text-white text-xs font-bold border border-black shadow-[1px_1px_0_0_#000] hover:translate-y-[1px] hover:shadow-none transition-all"
+                        className="w-full py-1 bg-os-accent text-white text-xs font-bold border border-black shadow-[1px_1px_0_0_#000] hover:translate-y-[1px] hover:shadow-none transition-all"
                     >
                         INSERT
                     </button>

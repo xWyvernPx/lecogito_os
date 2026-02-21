@@ -59,7 +59,7 @@ export const Browser: React.FC<BrowserProps> = ({ win, contentItem }) => {
                 </div>
 
                 <form onSubmit={handleNavigate} className="flex-1">
-                    <div className="flex items-center bg-white border border-stone-300 rounded-sm px-3 py-1.5 gap-2 focus-within:border-[#ff7e33] transition-colors shadow-inner">
+                    <div className="flex items-center bg-white border border-stone-300 rounded-sm px-3 py-1.5 gap-2 focus-within:border-os-accent transition-colors shadow-inner">
                         {url.startsWith('https') ? <Lock size={12} className="text-green-600" /> : <Globe size={12} className="text-stone-400" />}
                         <input 
                             type="text" 
@@ -75,7 +75,7 @@ export const Browser: React.FC<BrowserProps> = ({ win, contentItem }) => {
             <div className="flex-1 relative bg-white overflow-hidden">
                 {isLoading && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-stone-50 z-10">
-                        <div className="w-8 h-8 border-4 border-stone-200 border-t-[#ff7e33] rounded-full animate-spin mb-4" />
+                        <div className="w-8 h-8 border-4 border-stone-200 border-t-os-accent rounded-full animate-spin mb-4" />
                         <span className="text-xs font-bold text-stone-400 uppercase tracking-widest">Connecting...</span>
                     </div>
                 )}

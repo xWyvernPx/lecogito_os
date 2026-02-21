@@ -45,16 +45,16 @@ export const FileGrid: React.FC<FileGridProps> = ({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="absolute inset-2 z-50 border-4 border-dashed border-[#ff7e33] bg-[#ff7e33]/10 flex flex-col items-center justify-center pointer-events-none rounded-lg"
+                        className="absolute inset-2 z-50 border-4 border-dashed border-os-accent bg-os-accent/10 flex flex-col items-center justify-center pointer-events-none rounded-lg"
                     >
                         <motion.div
                             animate={{ y: [0, -10, 0] }}
                             transition={{ repeat: Infinity, duration: 1.5 }}
-                            className="bg-white p-4 rounded-full shadow-retro-md border-2 border-[#ff7e33] text-[#ff7e33] mb-4"
+                            className="bg-white p-4 rounded-full shadow-retro-md border-2 border-os-accent text-os-accent mb-4"
                         >
                             <DownloadCloud size={48} />
                         </motion.div>
-                        <h3 className="text-2xl font-black text-[#ff7e33] uppercase tracking-tighter bg-white px-4 py-1 border-2 border-[#ff7e33] shadow-sm">
+                        <h3 className="text-2xl font-black text-os-accent uppercase tracking-tighter bg-white px-4 py-1 border-2 border-os-accent shadow-sm">
                             {t('fm.upload_zone')}
                         </h3>
                     </motion.div>
@@ -76,7 +76,7 @@ export const FileGrid: React.FC<FileGridProps> = ({
                         <div className={`
                             w-full flex flex-col items-center p-2 border-2 transition-all
                             ${selectedItemName === name
-                                ? 'bg-[#ff7e33] border-stone-900 shadow-[4px_4px_0_0_#121212] text-white z-10 scale-105 rotate-1'
+                                ? 'bg-os-accent border-stone-900 shadow-[4px_4px_0_0_#121212] text-white z-10 scale-105 rotate-1'
                                 : 'bg-white border-transparent hover:border-stone-300 hover:bg-stone-50 hover:shadow-sm text-stone-800'}
                         `}>
                             <div className={`mb-3 transition-transform ${selectedItemName === name ? 'scale-110 drop-shadow-md' : 'group-hover:scale-105 group-hover:rotate-3'}`}>

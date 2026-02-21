@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import { SHORTCUT_SECTIONS } from '@/config/shortcuts';
 
 interface KeyProps {
     children: React.ReactNode;
@@ -16,7 +17,7 @@ const Key: React.FC<KeyProps> = ({ children }) => (
 const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
     <div className="flex flex-col gap-3">
         <h3 className="text-sm font-bold text-stone-900 border-b border-stone-200 pb-1 flex items-center gap-2">
-            <div className="w-1 h-3 bg-[#ff7e33]" />
+            <div className="w-1 h-3 bg-os-accent" />
             {title}
         </h3>
         <div className="flex flex-col gap-2">
@@ -97,37 +98,17 @@ export const ShortcutsView: React.FC<ShortcutsViewProps> = ({ isOpen, onClose, t
 
                         {/* Content Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 p-6 md:p-8">
-                            
-                            {/* Navigation */}
-                            <Section title={t('shortcuts.nav')}>
-                                <Row label={t('shortcuts.open_search')} keys={<><Key>CTRL</Key><Key>K</Key></>} />
-                                <Row label={t('shortcuts.open_ai')} keys={<><Key>Shift</Key><Key>?</Key></>} />
-                                <Row label={t('shortcuts.display')} keys={<Key>,</Key>} />
-                            </Section>
-
-                            {/* Appearance */}
-                            <Section title={t('shortcuts.app')}>
-                                <Row label={t('shortcuts.cycle_wall')} keys={<><Key>Shift</Key><Key>\</Key></>} />
-                                <Row label={t('shortcuts.saver')} keys={<><Key>Shift</Key><Key>Z</Key></>} />
-                                <Row label={t('shortcuts.cycle_theme')} keys={<Key>\</Key>} />
-                            </Section>
-
-                            {/* Window Management */}
-                            <Section title={t('shortcuts.win')}>
-                                <Row label={t('shortcuts.show_active')} keys={<><Key>Shift</Key><Key>&lt;</Key></>} />
-                                <Row label={t('shortcuts.focus_next')} keys={<><Key>Shift</Key><Key>&gt;</Key></>} />
-                                <Row label={t('shortcuts.close_all')} keys={<><Key>Shift</Key><Key>X</Key></>} />
-                            </Section>
-
-                            {/* Active Window */}
-                            <Section title={t('shortcuts.active')}>
-                                <Row label={t('shortcuts.close_win')} keys={<><Key>Shift</Key><Key>W</Key></>} />
-                                <Row label={t('shortcuts.max_win')} keys={<><Key>Shift</Key><Key>↑</Key></>} />
-                                <Row label={t('shortcuts.min_win')} keys={<><Key>Shift</Key><Key>↓</Key></>} />
-                                <Row label={t('shortcuts.snap_left')} keys={<><Key>Shift</Key><Key>←</Key></>} />
-                                <Row label={t('shortcuts.snap_right')} keys={<><Key>Shift</Key><Key>→</Key></>} />
-                            </Section>
-
+                            {SHORTCUT_SECTIONS.map((section) => (
+                                <Section key={section.titleKey} title={t(section.titleKey)}>
+                                    {section.shortcuts.map((shortcut) => (
+                                        <Row
+                                            key={shortcut.labelKey}
+                                            label={t(shortcut.labelKey)}
+                                            keys={<>{shortcut.keys.map((k, i) => <Key key={i}>{k}</Key>)}</>}
+                                        />
+                                    ))}
+                                </Section>
+                            ))}
                         </div>
                         
                         {/* Footer */}

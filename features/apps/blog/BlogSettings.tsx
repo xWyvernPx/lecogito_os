@@ -68,7 +68,7 @@ export const BlogSettings: React.FC<BlogSettingsProps> = ({ onBack }) => {
                         onClick={() => setActiveTab('CATEGORIES')}
                         className={`flex items-center gap-3 px-3 py-2 rounded text-sm font-bold transition-all ${activeTab === 'CATEGORIES' ? 'bg-white border border-stone-300 shadow-sm text-stone-900' : 'text-stone-500 hover:bg-stone-200'}`}
                     >
-                        <Tag size={16} className={activeTab === 'CATEGORIES' ? 'text-[#ff7e33]' : 'text-stone-400'} />
+                        <Tag size={16} className={activeTab === 'CATEGORIES' ? 'text-os-accent' : 'text-stone-400'} />
                         Categories
                     </button>
 
@@ -76,7 +76,7 @@ export const BlogSettings: React.FC<BlogSettingsProps> = ({ onBack }) => {
                         onClick={() => setActiveTab('USERS')}
                         className={`flex items-center gap-3 px-3 py-2 rounded text-sm font-bold transition-all ${activeTab === 'USERS' ? 'bg-white border border-stone-300 shadow-sm text-stone-900' : 'text-stone-500 hover:bg-stone-200'}`}
                     >
-                        <User size={16} className={activeTab === 'USERS' ? 'text-[#ff7e33]' : 'text-stone-400'} />
+                        <User size={16} className={activeTab === 'USERS' ? 'text-os-accent' : 'text-stone-400'} />
                         User Management
                     </button>
 
@@ -84,7 +84,7 @@ export const BlogSettings: React.FC<BlogSettingsProps> = ({ onBack }) => {
                         onClick={() => setActiveTab('SERIES')}
                         className={`flex items-center gap-3 px-3 py-2 rounded text-sm font-bold transition-all ${activeTab === 'SERIES' ? 'bg-white border border-stone-300 shadow-sm text-stone-900' : 'text-stone-500 hover:bg-stone-200'}`}
                     >
-                        <Layers size={16} className={activeTab === 'SERIES' ? 'text-[#ff7e33]' : 'text-stone-400'} />
+                        <Layers size={16} className={activeTab === 'SERIES' ? 'text-os-accent' : 'text-stone-400'} />
                         Series Manager
                     </button>
 

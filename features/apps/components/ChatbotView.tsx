@@ -42,7 +42,7 @@ export const ChatbotView: React.FC<ChatbotViewProps> = ({
             {/* Header / Info Strip */}
             <div className="bg-[#e8e4d9] border-b-2 border-stone-800 px-4 py-2 flex items-center justify-between shadow-sm shrink-0">
                 <div className="flex items-center gap-2">
-                    <Sparkles size={16} className="text-[#ff7e33]" />
+                    <Sparkles size={16} className="text-os-accent" />
                     <span className="text-xs font-bold uppercase tracking-wider text-stone-700">Neural Link v3.0</span>
                 </div>
                 <div className="text-[10px] font-mono text-stone-500">Latency: Low</div>
@@ -57,7 +57,7 @@ export const ChatbotView: React.FC<ChatbotViewProps> = ({
                     >
                         <div className={`
                             w-8 h-8 rounded-full border-2 border-stone-800 flex items-center justify-center shrink-0 shadow-sm
-                            ${msg.role === 'model' ? 'bg-[#ff7e33] text-white' : 'bg-white text-stone-700'}
+                            ${msg.role === 'model' ? 'bg-os-accent text-white' : 'bg-white text-stone-700'}
                         `}>
                             {msg.role === 'model' ? <Bot size={16} /> : <User size={16} />}
                         </div>
@@ -80,7 +80,7 @@ export const ChatbotView: React.FC<ChatbotViewProps> = ({
                 ))}
                 {isLoading && (
                     <div className="flex gap-3">
-                        <div className="w-8 h-8 rounded-full border-2 border-stone-800 flex items-center justify-center shrink-0 bg-[#ff7e33] text-white">
+                        <div className="w-8 h-8 rounded-full border-2 border-stone-800 flex items-center justify-center shrink-0 bg-os-accent text-white">
                             <Bot size={16} />
                         </div>
                         <div className="bg-[#e8e4d9] p-3 border-2 border-stone-300 rounded-r-lg rounded-bl-lg flex items-center gap-2">
@@ -95,7 +95,7 @@ export const ChatbotView: React.FC<ChatbotViewProps> = ({
             {/* Input Area */}
             <div className="p-4 bg-white border-t-2 border-stone-200 shrink-0">
                 <div className="flex gap-2 items-end">
-                    <div className="flex-1 relative border-2 border-stone-300 focus-within:border-[#ff7e33] transition-colors bg-stone-50 rounded-sm">
+                    <div className="flex-1 relative border-2 border-stone-300 focus-within:border-os-accent transition-colors bg-stone-50 rounded-sm">
                         <textarea 
                             value={input}
                             onChange={(e) => setInput(e.target.value)}

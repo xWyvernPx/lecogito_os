@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
+import { toast } from 'sonner';
 import { useOSStore } from '@/features/os/stores/os-store';
 import { ContentItem, FileSystemNode } from '@/types';
 import { generateMetadata } from '../utils';
@@ -107,7 +108,7 @@ export const useFileManager = (contentItem: ContentItem) => {
                     ]
                 });
             } else {
-                alert(`I refuse to open ${name}. It looks suspicious.`);
+                toast.warning(`I refuse to open ${name}. It looks suspicious.`);
             }
         }
     };

@@ -54,7 +54,7 @@ export const SuggestionPopup: React.FC<SuggestionPopupProps> = ({
                             onMouseEnter={() => setSelectedIndex(idx)}
                             className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 transition-colors ${
                                 idx === selectedIndex
-                                    ? 'bg-[#ff7e33] text-white'
+                                    ? 'bg-os-accent text-white'
                                     : 'text-stone-700 hover:bg-stone-100'
                             }`}
                         >

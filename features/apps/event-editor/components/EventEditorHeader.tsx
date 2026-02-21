@@ -12,7 +12,7 @@ export const EventEditorHeader: React.FC<EventEditorHeaderProps> = ({ isPending,
     return (
         <div className="h-14 border-b-2 border-stone-800 bg-[#d6cbb5] flex items-center justify-between px-4 shrink-0 shadow-sm z-10 relative">
             <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-stone-900 flex items-center justify-center text-[#ff7e33] border-2 border-black rotate-[-2deg] shadow-retro-sm">
+                <div className="w-10 h-10 bg-stone-900 flex items-center justify-center text-os-accent border-2 border-black rotate-[-2deg] shadow-retro-sm">
                     <AlertTriangle size={20} />
                 </div>
                 <div className="flex flex-col">

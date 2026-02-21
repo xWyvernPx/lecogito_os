@@ -259,7 +259,7 @@ export const BlogArchive: React.FC<BlogArchiveProps> = ({
                     >
                       <span>{cat}</span>
                       {selectedCategory === cat && (
-                        <Check size={12} className="text-[#ff7e33]" />
+                        <Check size={12} className="text-os-accent" />
                       )}
                     </button>
                   ))}
@@ -310,7 +310,7 @@ export const BlogArchive: React.FC<BlogArchiveProps> = ({
                     >
                       <span>{auth}</span>
                       {selectedAuthor === auth && (
-                        <Check size={12} className="text-[#ff7e33]" />
+                        <Check size={12} className="text-os-accent" />
                       )}
                     </button>
                   ))}
@@ -365,7 +365,7 @@ export const BlogArchive: React.FC<BlogArchiveProps> = ({
                         {sId === "All" ? "All" : getSeriesName(sId)}
                       </span>
                       {selectedSeries === sId && (
-                        <Check size={12} className="text-[#ff7e33]" />
+                        <Check size={12} className="text-os-accent" />
                       )}
                     </button>
                   ))}
@@ -415,12 +415,12 @@ export const BlogArchive: React.FC<BlogArchiveProps> = ({
                       {post.date}
                     </span>
                     {post.serieId && (
-                      <span className="text-[10px] font-bold text-[#ff7e33] border border-[#ff7e33]/30 px-1.5 py-0.5 rounded-full flex items-center gap-1">
+                      <span className="text-[10px] font-bold text-os-accent border border-os-accent/30 px-1.5 py-0.5 rounded-full flex items-center gap-1">
                         <Layers size={8} /> {getSeriesName(post.serieId)}
                       </span>
                     )}
                   </div>
-                  <h3 className="text-xl font-bold text-stone-900 mb-2 group-hover:text-[#ff7e33] transition-colors">
+                  <h3 className="text-xl font-bold text-stone-900 mb-2 group-hover:text-os-accent transition-colors">
                     {post.title}
                   </h3>
                   <p className="text-sm text-stone-600 line-clamp-2">

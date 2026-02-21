@@ -62,7 +62,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ win, contentItem }) =>
                     <span className="hidden sm:inline">{t('fm.selected')}: {fm.selectedItemName ? 1 : 0}</span>
                 </div>
                 <div className="flex items-center gap-4">
-                    <span className="text-stone-500 hidden sm:inline">{t('fm.mood')}: <span className="text-[#ff7e33]">{fm.mood.toUpperCase()}</span></span>
+                    <span className="text-stone-500 hidden sm:inline">{t('fm.mood')}: <span className="text-os-accent">{fm.mood.toUpperCase()}</span></span>
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                         <span>{t('common.online')}</span>

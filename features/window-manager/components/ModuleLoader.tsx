@@ -46,7 +46,7 @@ export const ModuleLoader: React.FC = () => {
                 className="w-full max-w-sm bg-[#fdfdfd] border-2 border-[#121212] shadow-[6px_6px_0_0_#121212] overflow-hidden"
             >
                 {/* Title Bar */}
-                <div className="bg-[#ff7e33] px-2 py-1.5 flex items-center justify-between border-b-2 border-[#121212] select-none">
+                <div className="bg-os-accent px-2 py-1.5 flex items-center justify-between border-b-2 border-[#121212] select-none">
                     <div className="flex items-center gap-2 text-[#121212]">
                         <Cpu size={16} strokeWidth={2.5} />
                         <span className="font-bold font-mono text-xs tracking-wider uppercase">System_Loader.exe</span>
@@ -71,7 +71,7 @@ export const ModuleLoader: React.FC = () => {
                             <p className="text-xs font-bold font-sans text-[#121212] mb-1 uppercase tracking-tight">
                                 Launching Application Module...
                             </p>
-                            <p className="text-[10px] font-mono text-stone-500 uppercase leading-relaxed border-l-2 border-[#ff7e33] pl-2">
+                            <p className="text-[10px] font-mono text-stone-500 uppercase leading-relaxed border-l-2 border-os-accent pl-2">
                                 {LOAD_MESSAGES[msgIndex]}
                             </p>
                         </div>

@@ -38,7 +38,7 @@ export const ConspiracyMap: React.FC = () => {
     const activeNode = safeNodes.find(n => n.id === activeNodeId);
     const isBoard = viewMode === 'BOARD';
 
-    if (isLoading) return <div className="w-full h-full bg-[#121212] flex items-center justify-center text-[#ff7e33] font-mono animate-pulse">ESTABLISHING SECURE UPLINK...</div>;
+    if (isLoading) return <div className="w-full h-full bg-[#121212] flex items-center justify-center text-os-accent font-mono animate-pulse">ESTABLISHING SECURE UPLINK...</div>;
 
     return (
         <div className="relative w-full h-full bg-[#121212] overflow-hidden select-none font-sans cursor-crosshair">
@@ -55,7 +55,7 @@ export const ConspiracyMap: React.FC = () => {
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 w-full max-w-[90%] flex justify-center">
                 <div className="bg-stone-800/90 backdrop-blur-sm border-2 border-stone-600 shadow-[4px_4px_0_0_rgba(0,0,0,0.5)] p-1 flex gap-1 rounded-sm overflow-x-auto max-w-full">
                     {YEARS.map(year => (
-                        <button key={year} onClick={() => setSelectedYear(year)} className={`px-3 py-1 text-xs font-bold font-mono transition-all whitespace-nowrap ${selectedYear === year ? 'bg-[#ff7e33] text-white shadow-sm' : 'text-stone-400 hover:bg-stone-700 hover:text-white'}`} aria-label={`Filter events by year ${year}`} aria-pressed={selectedYear === year}>{year}</button>
+                        <button key={year} onClick={() => setSelectedYear(year)} className={`px-3 py-1 text-xs font-bold font-mono transition-all whitespace-nowrap ${selectedYear === year ? 'bg-os-accent text-white shadow-sm' : 'text-stone-400 hover:bg-stone-700 hover:text-white'}`} aria-label={`Filter events by year ${year}`} aria-pressed={selectedYear === year}>{year}</button>
                     ))}
                 </div>
             </div>

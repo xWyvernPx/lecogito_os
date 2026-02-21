@@ -79,14 +79,14 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ win, contentItem }
                      <button 
                         disabled={!canGoBack}
                         onClick={goBack}
-                        className={`w-7 h-7 flex items-center justify-center rounded transition-all ${canGoBack ? 'bg-white border border-stone-300 hover:border-[#ff7e33] text-stone-600' : 'opacity-30 cursor-not-allowed'}`}
+                        className={`w-7 h-7 flex items-center justify-center rounded transition-all ${canGoBack ? 'bg-white border border-stone-300 hover:border-os-accent text-stone-600' : 'opacity-30 cursor-not-allowed'}`}
                      >
                         <ChevronLeft size={16} />
                      </button>
                      <button 
                         disabled={!canGoForward}
                         onClick={goForward}
-                        className={`w-7 h-7 flex items-center justify-center rounded transition-all ${canGoForward ? 'bg-white border border-stone-300 hover:border-[#ff7e33] text-stone-600' : 'opacity-30 cursor-not-allowed'}`}
+                        className={`w-7 h-7 flex items-center justify-center rounded transition-all ${canGoForward ? 'bg-white border border-stone-300 hover:border-os-accent text-stone-600' : 'opacity-30 cursor-not-allowed'}`}
                      >
                         <ChevronRight size={16} />
                      </button>
@@ -97,13 +97,13 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ win, contentItem }
                  <div className="flex items-center gap-4">
                      <button 
                          onClick={() => setIsShareOpen(true)}
-                         className="text-xs font-bold text-stone-500 hover:text-[#ff7e33] flex items-center gap-1.5 transition-colors"
+                         className="text-xs font-bold text-stone-500 hover:text-os-accent flex items-center gap-1.5 transition-colors"
                      >
                         <Share2 size={12} /> Share
                      </button>
                      <button 
                          onClick={handleBackToGallery}
-                         className="text-xs font-bold text-stone-600 hover:text-[#ff7e33] hover:underline"
+                         className="text-xs font-bold text-stone-600 hover:text-os-accent hover:underline"
                      >
                         Back to Gallery
                      </button>
@@ -153,7 +153,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ win, contentItem }
                             
                             <div className="flex items-center gap-6 text-sm border-y border-stone-100 py-4">
                                     <div className="flex items-center gap-2">
-                                        <div className="w-8 h-8 rounded-full bg-[#ff7e33] flex items-center justify-center text-white border border-black">
+                                        <div className="w-8 h-8 rounded-full bg-os-accent flex items-center justify-center text-white border border-black">
                                             <User size={16} />
                                         </div>
                                         <span className="font-bold text-stone-700">Design Team</span>
@@ -206,7 +206,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ win, contentItem }
                 <div className="w-72 hidden xl:block flex-shrink-0 pt-10 pr-8">
                     <div className="sticky top-10">
                         <h4 className="text-sm font-bold text-stone-900 mb-6 flex items-center gap-2">
-                            <List size={16} className="text-[#ff7e33]" />
+                            <List size={16} className="text-os-accent" />
                             On this page
                         </h4>
                         <ul className="space-y-4 border-l-2 border-stone-200 pl-5">
@@ -214,7 +214,7 @@ export const ProjectDetail: React.FC<ProjectDetailProps> = ({ win, contentItem }
                                 <li key={i}>
                                     <button 
                                         onClick={() => scrollToSection(h.id)}
-                                        className="text-base text-stone-600 hover:text-[#ff7e33] hover:font-medium block leading-snug transition-all text-left"
+                                        className="text-base text-stone-600 hover:text-os-accent hover:font-medium block leading-snug transition-all text-left"
                                     >
                                         {h.content?.[0]?.text || 'Untitled Section'}
                                     </button>

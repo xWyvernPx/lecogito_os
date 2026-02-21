@@ -106,7 +106,7 @@ export const BoardView: React.FC<BoardViewProps> = ({
                             </div>
                             {/* Card */}
                             <div className="bg-[#fdfdfd] p-2 pb-8 shadow-[4px_4px_15px_rgba(0,0,0,0.3)] border border-stone-300 rotate-1 group-hover:rotate-0 transition-transform duration-200">
-                                <div className="w-full h-24 bg-stone-100 mb-2 relative overflow-hidden border border-stone-200 group-hover:border-[#ff7e33] transition-colors">
+                                <div className="w-full h-24 bg-stone-100 mb-2 relative overflow-hidden border border-stone-200 group-hover:border-os-accent transition-colors">
                                     <div className="absolute inset-0 opacity-40 mix-blend-multiply" style={{ backgroundColor: node.color }} />
                                     <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/diagonal-stripes.png')]" />
                                     <div className="absolute bottom-1 right-1 font-mono text-[9px] text-stone-500 bg-white/90 px-1 border border-stone-300">

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 import { DropResult } from '@hello-pangea/dnd';
 import { useOSStore } from '@/features/os/stores/os-store';
 import { BLOG_POSTS } from '@/features/apps/blog/data';
@@ -119,9 +120,8 @@ export const useKanbanBoard = () => {
 
     const resetBoard = () => {
         if (isReadOnly) return;
-        if (confirm("Reset board to default? This will wipe your local changes.")) {
-            setData(INITIAL_DATA);
-        }
+        setData(INITIAL_DATA);
+        toast.info('Board reset to default.');
     };
 
     const openBlog = (blogId: string) => {

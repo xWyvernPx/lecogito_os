@@ -19,7 +19,7 @@ export const StatsRenderer: React.FC<ContentItemProps> = ({ item }) => {
                             animate={{ width: `${stat.value}%` }}
                             transition={{ duration: 1, delay: 0.2 + (sIdx * 0.1), ease: "circOut" }}
                             className={`h-full border-r border-os-border relative overflow-hidden`}
-                            style={{ backgroundColor: stat.color || '#ff7e33' }}
+                            style={{ backgroundColor: stat.color || 'var(--os-accent)' }}
                         >
                             <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%, transparent 50%, #000 50%, #000 75%, transparent 75%, transparent)', backgroundSize: '4px 4px' }} />
                         </motion.div>

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RefreshCw, FolderPlus, Settings, Trash2, ExternalLink, Edit2, Copy, Monitor, Clipboard, LayoutGrid, CheckSquare } from 'lucide-react';
 import { useOSStore } from '../stores/os-store';
@@ -24,13 +25,13 @@ export const ContextMenu: React.FC = () => {
       <MenuItem 
         label="New Folder" 
         icon={<FolderPlus size={14} />} 
-        onClick={() => handleAction(() => alert("Simulated: New Folder Created"))} 
+        onClick={() => handleAction(() => toast.info("Simulated: New Folder Created"))} 
         shortcut="Ctrl+N"
       />
       <MenuItem 
         label="Paste" 
         icon={<Clipboard size={14} />} 
-        onClick={() => handleAction(() => alert("Simulated: Item Pasted"))} 
+        onClick={() => handleAction(() => toast.info("Simulated: Item Pasted"))} 
         shortcut="Ctrl+V"
       />
       <MenuItem 
@@ -82,7 +83,7 @@ export const ContextMenu: React.FC = () => {
       <MenuItem 
         label="Rename" 
         icon={<Edit2 size={14} />} 
-        onClick={() => handleAction(() => alert(`Rename ${targetId}`))} 
+        onClick={() => handleAction(() => toast.info(`Rename ${targetId}`))} 
       />
       <MenuDivider />
       <MenuItem 
@@ -149,7 +150,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, icon, onClick, shortcut, dan
       }}
       className={`
         group relative flex items-center justify-between px-4 py-2 mx-1 rounded-sm
-        hover:bg-[#ff7e33] hover:text-white transition-colors outline-none
+        hover:bg-os-accent hover:text-white transition-colors outline-none
         ${danger ? 'text-red-600 hover:bg-red-500' : 'text-stone-800'}
       `}
     >

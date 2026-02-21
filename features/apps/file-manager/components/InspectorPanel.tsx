@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Info, Trash2 } from 'lucide-react';
 import { FileSystemNode } from '@/types';
@@ -89,7 +90,7 @@ export const InspectorPanel: React.FC<InspectorPanelProps> = ({
                                 size="sm"
                                 className="w-full text-red-600 hover:text-white hover:bg-red-600 border-red-200"
                                 icon={<Trash2 size={12} />}
-                                onClick={() => alert("Nice try. This is a read-only reality.")}
+                                onClick={() => toast.info("Nice try. This is a read-only reality.")}
                             >
                                 {t('fm.action.vaporize')}
                             </RetroButton>

@@ -75,7 +75,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ blogId, path, parentId, onCan
             {/* Identity Section - Only if not fully authenticated or just always allow override */}
             <div className="flex gap-4 mb-4">
                 <div className="flex-1">
-                    <div className={`flex items-center gap-2 border border-stone-300 px-3 py-2 transition-colors ${currentUser ? 'bg-stone-100 cursor-not-allowed' : 'bg-white focus-within:border-[#ff7e33]'}`}>
+                    <div className={`flex items-center gap-2 border border-stone-300 px-3 py-2 transition-colors ${currentUser ? 'bg-stone-100 cursor-not-allowed' : 'bg-white focus-within:border-os-accent'}`}>
                         <User size={14} className="text-stone-400" />
                         <input 
                             value={author}
@@ -88,7 +88,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ blogId, path, parentId, onCan
                     </div>
                 </div>
                 <div className="flex-1">
-                    <div className="flex items-center gap-2 bg-white border border-stone-300 px-3 py-2 focus-within:border-[#ff7e33] transition-colors">
+                    <div className="flex items-center gap-2 bg-white border border-stone-300 px-3 py-2 focus-within:border-os-accent transition-colors">
                         <AtSign size={14} className="text-stone-400" />
                         <input 
                             value={email}
@@ -101,7 +101,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ blogId, path, parentId, onCan
             </div>
 
             {/* Editor Container */}
-            <div className={`border-2 border-stone-300 bg-white rounded-sm shadow-sm overflow-hidden group focus-within:border-[#ff7e33] transition-colors relative ${parentId ? 'border-l-4 border-l-[#ff7e33]' : ''}`}>
+            <div className={`border-2 border-stone-300 bg-white rounded-sm shadow-sm overflow-hidden group focus-within:border-os-accent transition-colors relative ${parentId ? 'border-l-4 border-l-os-accent' : ''}`}>
                 {/* Toolbar */}
                 <div className="flex items-center gap-1 p-1.5 border-b border-stone-200 bg-stone-50 select-none">
                     <button type="button" onClick={() => insertFormat('**', '**')} className="p-1.5 hover:bg-stone-200 rounded text-stone-600" title="Bold"><Bold size={14} strokeWidth={2.5} /></button>
@@ -115,7 +115,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ blogId, path, parentId, onCan
                     <button 
                         type="button" 
                         onClick={() => setIsPreview(!isPreview)} 
-                        className={`flex items-center gap-1.5 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide transition-colors ${isPreview ? 'bg-[#ff7e33] text-white' : 'text-stone-500 hover:bg-stone-200'}`}
+                        className={`flex items-center gap-1.5 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide transition-colors ${isPreview ? 'bg-os-accent text-white' : 'text-stone-500 hover:bg-stone-200'}`}
                     >
                         {isPreview ? <EyeOff size={12} /> : <Eye size={12} />}
                         {isPreview ? 'Edit' : 'Preview'}
@@ -125,7 +125,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ blogId, path, parentId, onCan
                 {/* Text Area */}
                 <div className="relative bg-white min-h-[140px]">
                     {isPreview ? (
-                        <div className="p-4 prose prose-sm max-w-none text-stone-800 prose-p:my-2 prose-a:text-[#ff7e33] prose-code:bg-stone-100 prose-code:px-1 prose-code:rounded prose-code:text-[#c2410c] prose-img:rounded-md border-b-4 border-transparent h-full">
+                        <div className="p-4 prose prose-sm max-w-none text-stone-800 prose-p:my-2 prose-a:text-os-accent prose-code:bg-stone-100 prose-code:px-1 prose-code:rounded prose-code:text-[#c2410c] prose-img:rounded-md border-b-4 border-transparent h-full">
                             {content ? (
                                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
                             ) : (
@@ -232,7 +232,7 @@ const CommentItem: React.FC<{ comment: CommentNode; blogId: number; path: string
                     </div>
                     
                     {/* Comment Body */}
-                    <div className="p-4 prose prose-sm max-w-none text-stone-700 leading-relaxed prose-p:my-1 prose-a:text-[#ff7e33] prose-a:no-underline hover:prose-a:underline prose-code:bg-stone-100 prose-code:px-1 prose-code:rounded prose-code:text-[#c2410c] prose-code:text-xs prose-pre:bg-stone-900 prose-pre:text-stone-100 prose-img:rounded-md">
+                    <div className="p-4 prose prose-sm max-w-none text-stone-700 leading-relaxed prose-p:my-1 prose-a:text-os-accent prose-a:no-underline hover:prose-a:underline prose-code:bg-stone-100 prose-code:px-1 prose-code:rounded prose-code:text-[#c2410c] prose-code:text-xs prose-pre:bg-stone-900 prose-pre:text-stone-100 prose-img:rounded-md">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                             {comment.content}
                         </ReactMarkdown>
@@ -242,7 +242,7 @@ const CommentItem: React.FC<{ comment: CommentNode; blogId: number; path: string
                     <div className="px-4 py-2 border-t border-stone-100 bg-stone-50/50 flex justify-end">
                         <button 
                             onClick={() => setIsReplying(!isReplying)}
-                            className={`flex items-center gap-1 text-[10px] font-bold uppercase transition-colors ${isReplying ? 'text-[#ff7e33]' : 'text-stone-400 hover:text-stone-600'}`}
+                            className={`flex items-center gap-1 text-[10px] font-bold uppercase transition-colors ${isReplying ? 'text-os-accent' : 'text-stone-400 hover:text-stone-600'}`}
                         >
                             <Reply size={10} /> {isReplying ? 'Cancel Reply' : 'Reply'}
                         </button>
@@ -323,7 +323,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ blogId, path }) 
     return (
         <div className="mt-16 max-w-3xl mx-auto border-t-2 border-dashed border-stone-300 pt-10">
             <div className="flex items-center gap-3 mb-8">
-                <MessageSquare size={20} className="text-[#ff7e33]" />
+                <MessageSquare size={20} className="text-os-accent" />
                 <h3 className="text-xl font-black uppercase tracking-tight text-stone-900">Comms Log ({data?.pagination.totalRows || 0})</h3>
             </div>
 

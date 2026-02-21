@@ -55,7 +55,7 @@ export const EvidencePanel: React.FC<EvidencePanelProps> = ({
 
             {/* Evidence Album Drop Zone */}
             <div 
-                className={`relative border-2 border-stone-800 bg-[#fdfaf5] p-6 shadow-retro-md transition-all flex flex-col min-h-[400px] ${isDragging ? 'bg-[#ff7e33]/10 border-[#ff7e33] border-dashed scale-[1.02]' : ''}`}
+                className={`relative border-2 border-stone-800 bg-[#fdfaf5] p-6 shadow-retro-md transition-all flex flex-col min-h-[400px] ${isDragging ? 'bg-os-accent/10 border-os-accent border-dashed scale-[1.02]' : ''}`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
@@ -67,7 +67,7 @@ export const EvidencePanel: React.FC<EvidencePanelProps> = ({
                     </div>
                     <button 
                         onClick={() => fileInputRef.current?.click()} 
-                        className="flex items-center gap-1 text-[10px] font-black text-[#ff7e33] hover:text-stone-900 transition-colors uppercase"
+                        className="flex items-center gap-1 text-[10px] font-black text-os-accent hover:text-stone-900 transition-colors uppercase"
                     >
                         <Plus size={14} strokeWidth={3} /> Upload
                     </button>
@@ -90,7 +90,7 @@ export const EvidencePanel: React.FC<EvidencePanelProps> = ({
                     )}
 
                     {!processingImages && images.length === 0 && (
-                        <div className={`border-2 border-dashed rounded h-48 flex flex-col items-center justify-center text-stone-400 transition-colors ${isDragging ? 'border-[#ff7e33] text-[#ff7e33]' : 'border-stone-300'}`}>
+                        <div className={`border-2 border-dashed rounded h-48 flex flex-col items-center justify-center text-stone-400 transition-colors ${isDragging ? 'border-os-accent text-os-accent' : 'border-stone-300'}`}>
                             {isDragging ? <Upload size={40} className="animate-bounce" /> : <ImageIcon size={40} className="opacity-20 mb-3" />}
                             <span className="text-[10px] font-black uppercase text-center px-4">
                                 {isDragging ? 'Release to attach evidence' : 'Drag & Drop photos or click Upload'}

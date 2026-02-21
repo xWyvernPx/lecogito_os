@@ -66,7 +66,7 @@ export const CommandPalette: React.FC = () => {
 
     const getIcon = (type: SearchResult['type']) => {
         switch (type) {
-            case 'blog': return <FileText size={16} className="text-[#ff7e33]" />;
+            case 'blog': return <FileText size={16} className="text-os-accent" />;
             case 'app': return <AppWindow size={16} className="text-blue-500" />;
             case 'project': return <Folder size={16} className="text-green-500" />;
             case 'file': return <Terminal size={16} className="text-stone-500" />;
@@ -108,7 +108,7 @@ export const CommandPalette: React.FC = () => {
                             />
                             <button 
                                 onClick={handleAskAI}
-                                className="flex items-center gap-1.5 px-2 py-1 rounded bg-stone-100 border border-stone-200 text-xs font-bold text-stone-600 hover:bg-stone-200 hover:text-[#ff7e33] transition-colors"
+                                className="flex items-center gap-1.5 px-2 py-1 rounded bg-stone-100 border border-stone-200 text-xs font-bold text-stone-600 hover:bg-stone-200 hover:text-os-accent transition-colors"
                             >
                                 <Sparkles size={12} /> Ask AI
                             </button>
@@ -141,12 +141,12 @@ export const CommandPalette: React.FC = () => {
                                             : 'border border-transparent hover:bg-stone-50'
                                         }`}
                                     >
-                                        <div className={`mt-1 p-1.5 rounded-md bg-white border border-stone-200 shadow-sm shrink-0 ${idx === selectedIndex ? 'text-[#ff7e33]' : 'text-stone-400'}`}>
+                                        <div className={`mt-1 p-1.5 rounded-md bg-white border border-stone-200 shadow-sm shrink-0 ${idx === selectedIndex ? 'text-os-accent' : 'text-stone-400'}`}>
                                             {getIcon(result.type)}
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center gap-2 mb-0.5">
-                                                <span className="text-[10px] font-mono text-[#ff7e33] bg-[#ff7e33]/10 px-1.5 rounded truncate max-w-[200px]">
+                                                <span className="text-[10px] font-mono text-os-accent bg-os-accent/10 px-1.5 rounded truncate max-w-[200px]">
                                                     {result.path}
                                                 </span>
                                             </div>

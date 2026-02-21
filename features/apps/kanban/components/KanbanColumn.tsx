@@ -43,7 +43,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         className={`flex-1 bg-stone-200/40 border-2 border-stone-300 rounded-sm p-3 overflow-y-auto transition-colors ${
-                            snapshot.isDraggingOver ? 'bg-[#ff7e33]/10 border-[#ff7e33]' : ''
+                            snapshot.isDraggingOver ? 'bg-os-accent/10 border-os-accent' : ''
                         }`}
                     >
                         {tasks.map((task, index) => (
@@ -64,7 +64,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
                                                 <GripHorizontal size={14} />
                                             </div>
                                             {task.linkedBlogId && (
-                                                <div className="text-[#ff7e33]" title="Linked to Archive">
+                                                <div className="text-os-accent" title="Linked to Archive">
                                                     <FileText size={12} />
                                                 </div>
                                             )}
@@ -94,7 +94,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
                         {/* Inline Add Task (Admins Only) */}
                         {!isReadOnly && (
                             activeColInput === column.id ? (
-                                <div className="mt-2 bg-white p-3 border-2 border-[#ff7e33] shadow-md animate-in fade-in zoom-in duration-200">
+                                <div className="mt-2 bg-white p-3 border-2 border-os-accent shadow-md animate-in fade-in zoom-in duration-200">
                                     <textarea 
                                         autoFocus
                                         placeholder="Type task..."
@@ -116,7 +116,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
                             ) : (
                                 <button 
                                     onClick={() => onSetActiveColInput(column.id)}
-                                    className="w-full py-2.5 mt-1 border-2 border-dashed border-stone-400 text-stone-400 font-bold text-[10px] uppercase hover:border-[#ff7e33] hover:text-[#ff7e33] hover:bg-white transition-all flex items-center justify-center gap-1"
+                                    className="w-full py-2.5 mt-1 border-2 border-dashed border-stone-400 text-stone-400 font-bold text-[10px] uppercase hover:border-os-accent hover:text-os-accent hover:bg-white transition-all flex items-center justify-center gap-1"
                                 >
                                     <Plus size={12} strokeWidth={3} /> Add Task
                                 </button>

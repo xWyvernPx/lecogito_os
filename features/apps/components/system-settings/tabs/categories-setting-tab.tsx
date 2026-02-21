@@ -39,7 +39,7 @@ export const CategoriesSettingTab = () => {
             <input
               type="text"
               placeholder="New Category Name..."
-              className="flex-1 bg-white border border-stone-300 px-4 py-2 outline-none focus:border-[#ff7e33] font-mono text-sm"
+              className="flex-1 bg-white border border-stone-300 px-4 py-2 outline-none focus:border-os-accent font-mono text-sm"
               value={newCat}
               onChange={(e) => setNewCat(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAddCategory()}

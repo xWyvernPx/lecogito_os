@@ -181,7 +181,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({ post: initialPost, onBac
                 <div className="flex-1 flex justify-center min-w-0 px-4">
                     <div className="hidden md:flex items-center gap-2 text-xs font-medium text-stone-400 truncate">
                         {currentSeries && (
-                            <span className="font-bold text-[#ff7e33] flex items-center gap-1">
+                            <span className="font-bold text-os-accent flex items-center gap-1">
                                 <Layers size={12} /> {currentSeries.title}
                             </span>
                         )}
@@ -230,7 +230,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({ post: initialPost, onBac
                         {currentSeries ? (
                             <div className="space-y-4">
                                 <div className="bg-white border-2 border-stone-200 p-3 rounded-sm shadow-sm">
-                                    <div className="text-[10px] font-bold text-[#ff7e33] uppercase tracking-widest mb-1 flex items-center gap-1">
+                                    <div className="text-[10px] font-bold text-os-accent uppercase tracking-widest mb-1 flex items-center gap-1">
                                         <Layers size={10} /> Series
                                     </div>
                                     <h4 className="text-sm font-black text-stone-900 leading-tight mb-1">{currentSeries.title}</h4>
@@ -244,7 +244,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({ post: initialPost, onBac
                                             onClick={() => setCurrentPost(seriesPost)}
                                             className={`w-full text-left px-3 py-2 rounded text-[13px] leading-tight transition-all border-l-2 ${
                                                 seriesPost.id === currentPost.id
-                                                ? 'bg-white border-[#ff7e33] text-stone-900 font-bold shadow-sm'
+                                                ? 'bg-white border-os-accent text-stone-900 font-bold shadow-sm'
                                                 : 'border-transparent text-stone-600 hover:bg-stone-200 hover:border-stone-300'
                                             }`}
                                         >
@@ -266,7 +266,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({ post: initialPost, onBac
                                             onClick={() => setCurrentPost(otherPost)}
                                             className="w-full text-left px-3 py-2 rounded text-[13px] leading-tight text-stone-600 hover:bg-stone-200 transition-colors group"
                                         >
-                                            <span className="block group-hover:text-[#ff7e33] transition-colors">{otherPost.title}</span>
+                                            <span className="block group-hover:text-os-accent transition-colors">{otherPost.title}</span>
                                             <span className="text-[10px] text-stone-400">{otherPost.readTime} read</span>
                                         </button>
                                     ))}
@@ -304,7 +304,7 @@ export const BlogDetail: React.FC<BlogDetailProps> = ({ post: initialPost, onBac
                     <div className="max-w-4xl mx-auto px-8 md:px-12 py-12 transition-all duration-300">
                         {/* Series Header (Mobile/Inline) */}
                         {currentSeries && (
-                            <div className="mb-8 flex items-center gap-2 text-xs font-bold text-[#ff7e33] uppercase tracking-widest border-b border-[#ff7e33]/20 pb-2">
+                            <div className="mb-8 flex items-center gap-2 text-xs font-bold text-os-accent uppercase tracking-widest border-b border-os-accent/20 pb-2">
                                 <Layers size={14} /> Part of series: <span className="text-stone-900">{currentSeries.title}</span>
                             </div>
                         )}

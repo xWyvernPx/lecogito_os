@@ -38,7 +38,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
             {/* Header bar */}
             <div className="h-14 border-b-2 border-stone-800 bg-[#e8e4d9] flex items-center justify-between px-4 shrink-0 shadow-sm">
                 <div className="flex items-center gap-3">
-                    <Scroll size={20} className="text-[#ff7e33]" />
+                    <Scroll size={20} className="text-os-accent" />
                     <h2 className="font-bold text-lg font-serif tracking-tight text-stone-900">
                         The Scribe's Desk
                     </h2>
@@ -49,7 +49,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                         <select
                             value={editor.category}
                             onChange={e => editor.setCategory(e.target.value)}
-                            className="bg-white border border-stone-800 text-xs font-bold px-2 py-1 rounded-sm focus:outline-none focus:ring-1 focus:ring-[#ff7e33]"
+                            className="bg-white border border-stone-800 text-xs font-bold px-2 py-1 rounded-sm focus:outline-none focus:ring-1 focus:ring-os-accent"
                         >
                             <option value="">(Select Category)</option>
                             {editor.categories.map(c => (
@@ -63,7 +63,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
                         <select
                             value={editor.serieId}
                             onChange={e => editor.setSerieId(e.target.value)}
-                            className="bg-white border border-stone-800 text-xs font-bold px-2 py-1 rounded-sm focus:outline-none focus:ring-1 focus:ring-[#ff7e33] max-w-[150px]"
+                            className="bg-white border border-stone-800 text-xs font-bold px-2 py-1 rounded-sm focus:outline-none focus:ring-1 focus:ring-os-accent max-w-[150px]"
                         >
                             <option value="">(None)</option>
                             {editor.series.map(s => (

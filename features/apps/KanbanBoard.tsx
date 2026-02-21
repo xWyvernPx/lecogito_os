@@ -23,7 +23,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = () => {
             {/* Toolbar */}
             <div className="h-12 border-b-2 border-stone-800 bg-[#e8e4d9] flex items-center justify-between px-4 shrink-0 shadow-sm z-20">
                 <div className="flex items-center gap-2">
-                    <Layout size={18} className="text-[#ff7e33]" />
+                    <Layout size={18} className="text-os-accent" />
                     <span className="font-black text-sm uppercase tracking-wider text-stone-900">Flow_Board.exe</span>
                     <div className="ml-3 flex items-center gap-2">
                          {isReadOnly

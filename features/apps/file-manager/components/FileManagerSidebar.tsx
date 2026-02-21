@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HardDrive, Skull, X } from 'lucide-react';
 import { HandDrawnIcon } from '@/components/ui/hand-drawn-icons';
@@ -40,7 +41,7 @@ export const FileManagerSidebar: React.FC<FileManagerSidebarProps> = ({
                 <div className="flex-1 overflow-y-auto p-3 space-y-6">
                     {/* Section: Drives */}
                     <div>
-                        <div className="text-[9px] font-bold text-stone-500 uppercase mb-2 pl-2 border-l-2 border-[#ff7e33]">{t('fm.drives')}</div>
+                        <div className="text-[9px] font-bold text-stone-500 uppercase mb-2 pl-2 border-l-2 border-os-accent">{t('fm.drives')}</div>
                         <div className="space-y-1">
                             <button onClick={() => handleNavigate([])} className="w-full text-left px-3 py-2 bg-[#fdfdfd] border-2 border-stone-400 hover:border-stone-800 hover:shadow-[2px_2px_0_0_rgba(0,0,0,0.1)] transition-all flex items-center gap-2 group">
                                 <div className="w-3 h-3 rounded-full bg-green-500 border border-black group-hover:animate-ping" />
@@ -61,14 +62,14 @@ export const FileManagerSidebar: React.FC<FileManagerSidebarProps> = ({
                                 <button
                                     key={dir}
                                     onClick={() => handleNavigate([dir])}
-                                    className="w-full flex items-center gap-2 px-2 py-1.5 hover:bg-white hover:text-[#ff7e33] transition-colors rounded-sm"
+                                    className="w-full flex items-center gap-2 px-2 py-1.5 hover:bg-white hover:text-os-accent transition-colors rounded-sm"
                                 >
                                     <HandDrawnIcon type="folder" size={14} />
                                     <span className="font-bold text-xs">{dir}</span>
                                 </button>
                             ))}
                             <button
-                                onClick={() => alert("It's a trap!")}
+                                onClick={() => toast.info("It's a trap!")}
                                 className="w-full flex items-center gap-2 px-2 py-1.5 hover:bg-red-100 hover:text-red-600 transition-colors rounded-sm"
                             >
                                 <Skull size={14} className="text-stone-600" />

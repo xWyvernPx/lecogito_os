@@ -29,7 +29,7 @@ const InlineRenderer: React.FC<{ content: InlineContent[] }> = ({ content }) => 
                             href={item.href} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className={`text-[#ff7e33] underline hover:text-[#c2410c] transition-colors ${className}`}
+                            className={`text-os-accent underline hover:text-[#c2410c] transition-colors ${className}`}
                         >
                             <InlineRenderer content={item.content || []} />
                         </a>

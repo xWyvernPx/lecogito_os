@@ -32,8 +32,8 @@ export const CaseFileForm: React.FC<CaseFileFormProps> = ({
             
             {/* Title Section - Manila Tag Style */}
             <div className="relative group">
-                <div className="absolute -top-3 left-4 bg-[#ff7e33] px-2 py-0.5 text-[9px] font-black text-black uppercase tracking-widest border border-black z-20 shadow-retro-sm rotate-[-1deg]">Subject ID</div>
-                <div className="border-2 border-stone-800 bg-[#fdfaf5] p-6 shadow-retro-md transition-all group-focus-within:border-[#ff7e33] group-focus-within:-translate-y-0.5">
+                <div className="absolute -top-3 left-4 bg-os-accent px-2 py-0.5 text-[9px] font-black text-black uppercase tracking-widest border border-black z-20 shadow-retro-sm rotate-[-1deg]">Subject ID</div>
+                <div className="border-2 border-stone-800 bg-[#fdfaf5] p-6 shadow-retro-md transition-all group-focus-within:border-os-accent group-focus-within:-translate-y-0.5">
                     <input 
                         type="text" 
                         value={title}
@@ -48,7 +48,7 @@ export const CaseFileForm: React.FC<CaseFileFormProps> = ({
                 {/* Date Field */}
                 <div className="relative group">
                     <div className="absolute -top-3 left-4 bg-stone-800 px-2 py-0.5 text-[9px] font-black text-white uppercase tracking-widest border border-black z-20 rotate-[1deg]">Timestamp</div>
-                    <div className="border-2 border-stone-800 bg-[#fdfaf5] p-5 shadow-retro-sm group-focus-within:border-[#ff7e33] transition-colors">
+                    <div className="border-2 border-stone-800 bg-[#fdfaf5] p-5 shadow-retro-sm group-focus-within:border-os-accent transition-colors">
                         <div className="flex gap-4 items-center">
                             <Calendar size={18} className="text-stone-400" />
                             <input 
@@ -73,7 +73,7 @@ export const CaseFileForm: React.FC<CaseFileFormProps> = ({
                 {/* Location Field */}
                 <div className="relative group">
                     <div className="absolute -top-3 left-4 bg-stone-800 px-2 py-0.5 text-[9px] font-black text-white uppercase tracking-widest border border-black z-20 rotate-[-1deg]">Sector</div>
-                    <div className="border-2 border-stone-800 bg-[#fdfaf5] p-5 shadow-retro-sm group-focus-within:border-[#ff7e33] transition-colors">
+                    <div className="border-2 border-stone-800 bg-[#fdfaf5] p-5 shadow-retro-sm group-focus-within:border-os-accent transition-colors">
                         <div className="flex items-center gap-4">
                             <MapPin size={18} className="text-stone-400" />
                             <input 
@@ -91,7 +91,7 @@ export const CaseFileForm: React.FC<CaseFileFormProps> = ({
             {/* Geospatial Data Field */}
             <div className="relative group">
                 <div className="absolute -top-3 left-4 bg-stone-800 px-2 py-0.5 text-[9px] font-black text-white uppercase tracking-widest border border-black z-20">GPS Uplink</div>
-                <div className="border-2 border-stone-800 bg-[#fdfaf5] p-5 shadow-retro-sm group-focus-within:border-[#ff7e33] transition-colors">
+                <div className="border-2 border-stone-800 bg-[#fdfaf5] p-5 shadow-retro-sm group-focus-within:border-os-accent transition-colors">
                     <div className="flex gap-8">
                         <div className="flex items-center gap-3 flex-1">
                             <span className="text-[10px] font-black text-stone-400 uppercase font-mono">Latitude:</span>
@@ -99,7 +99,7 @@ export const CaseFileForm: React.FC<CaseFileFormProps> = ({
                                 type="number" 
                                 value={coordinates.lat}
                                 onChange={e => setCoordinates(p => ({...p, lat: parseFloat(e.target.value)}))}
-                                className="w-full outline-none font-mono text-sm font-bold bg-transparent border-b border-stone-200 focus:border-[#ff7e33]"
+                                className="w-full outline-none font-mono text-sm font-bold bg-transparent border-b border-stone-200 focus:border-os-accent"
                             />
                         </div>
                         <div className="flex items-center gap-3 flex-1">
@@ -108,7 +108,7 @@ export const CaseFileForm: React.FC<CaseFileFormProps> = ({
                                 type="number" 
                                 value={coordinates.lng}
                                 onChange={e => setCoordinates(p => ({...p, lng: parseFloat(e.target.value)}))}
-                                className="w-full outline-none font-mono text-sm font-bold bg-transparent border-b border-stone-200 focus:border-[#ff7e33]"
+                                className="w-full outline-none font-mono text-sm font-bold bg-transparent border-b border-stone-200 focus:border-os-accent"
                             />
                         </div>
                     </div>
@@ -118,7 +118,7 @@ export const CaseFileForm: React.FC<CaseFileFormProps> = ({
             {/* Briefing Report */}
             <div className="relative group">
                 <div className="absolute -top-3 left-4 bg-stone-800 px-2 py-0.5 text-[9px] font-black text-white uppercase tracking-widest border border-black z-20 rotate-[0.5deg]">Intelligence Summary</div>
-                <div className="border-2 border-stone-800 bg-white p-8 shadow-retro-md group-focus-within:border-[#ff7e33] min-h-[300px] transition-all">
+                <div className="border-2 border-stone-800 bg-white p-8 shadow-retro-md group-focus-within:border-os-accent min-h-[300px] transition-all">
                     <textarea 
                         value={description}
                         onChange={e => setDescription(e.target.value)}

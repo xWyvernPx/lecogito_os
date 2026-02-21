@@ -11,7 +11,7 @@ import { ShutdownScreen } from './features/system/components/ShutdownScreen';
 import { LoginScreen } from './features/system/components/LoginScreen';
 import { ContextMenu } from './features/os/components/ContextMenu';
 import { WidgetLayer } from './features/desktop/components/WidgetLayer';
-import { ThemeManager } from './features/system/components/ThemeManager';
+import { useThemeManager } from './features/system/components/ThemeManager';
 import { WindowDrawer } from './features/os/components/WindowDrawer';
 import { CommandPalette } from './features/os/components/CommandPalette';
 import { ShortcutsSheet } from './features/os/components/ShortcutsSheet';
@@ -40,6 +40,8 @@ export function App() {
     toggleCommandPalette,
     toggleShortcuts
   } = useOSStore();
+
+  useThemeManager();
 
   const handleBackgroundClick = (e: React.MouseEvent) => {
     setActiveMenu(null);
@@ -126,8 +128,6 @@ export function App() {
       onClick={handleBackgroundClick}
       onContextMenu={handleBackgroundContextMenu}
     >
-      <ThemeManager />
-      
       <div className="absolute inset-0 transition-all duration-700" style={bgStyle}>
           <Wallpaper />
           <WidgetLayer />

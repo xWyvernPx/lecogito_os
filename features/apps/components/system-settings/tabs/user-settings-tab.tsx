@@ -39,7 +39,7 @@ export const UserSettingTab = () => {
           <input
             type="text"
             placeholder="John Doe"
-            className="w-full bg-white border border-stone-300 px-4 py-2 outline-none focus:border-[#ff7e33] font-mono text-sm"
+            className="w-full bg-white border border-stone-300 px-4 py-2 outline-none focus:border-os-accent font-mono text-sm"
             value={newAuthor}
             onChange={(e) => setNewAuthor(e.target.value)}
           />
@@ -51,7 +51,7 @@ export const UserSettingTab = () => {
           <select
             value={role}
             onChange={(e) => setRole(e.target.value)}
-            className="w-full bg-white border border-stone-300 px-4 py-2 outline-none focus:border-[#ff7e33] text-sm h-[38px]"
+            className="w-full bg-white border border-stone-300 px-4 py-2 outline-none focus:border-os-accent text-sm h-[38px]"
           >
             <option>Contributor</option>
             <option>Editor</option>
@@ -80,7 +80,7 @@ export const UserSettingTab = () => {
               <div>
                 <div className="font-bold text-stone-900">{author.fullName}</div>
                 <div className="text-xs text-stone-500 flex items-center gap-1">
-                  <Shield size={10} className="text-[#ff7e33]" />
+                  <Shield size={10} className="text-os-accent" />
                   Contributor
                 </div>
               </div>

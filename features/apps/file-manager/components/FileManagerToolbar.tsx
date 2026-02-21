@@ -30,7 +30,7 @@ export const FileManagerToolbar: React.FC<FileManagerToolbarProps> = ({
             <div className="flex gap-1">
                 <button
                     onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    className={`w-8 h-8 flex md:hidden items-center justify-center border-2 border-stone-800 bg-[#e8e4d9] hover:bg-white active:translate-y-0.5 transition-all shadow-[2px_2px_0_0_rgba(0,0,0,0.2)] ${isSidebarOpen ? 'bg-white text-[#ff7e33]' : ''}`}
+                    className={`w-8 h-8 flex md:hidden items-center justify-center border-2 border-stone-800 bg-[#e8e4d9] hover:bg-white active:translate-y-0.5 transition-all shadow-[2px_2px_0_0_rgba(0,0,0,0.2)] ${isSidebarOpen ? 'bg-white text-os-accent' : ''}`}
                 >
                     <Menu size={16} />
                 </button>
@@ -69,12 +69,12 @@ export const FileManagerToolbar: React.FC<FileManagerToolbarProps> = ({
 
             {/* Address Input */}
             <div className="flex-1 border-2 border-stone-800 bg-white h-8 flex items-center px-3 shadow-inner relative group min-w-0">
-                <span className="text-[#ff7e33] font-bold mr-1 shrink-0 hidden sm:inline">dude@keyboard:</span>
-                <span className="text-[#ff7e33] font-bold mr-1 shrink-0 sm:hidden">~/:</span>
+                <span className="text-os-accent font-bold mr-1 shrink-0 hidden sm:inline">dude@keyboard:</span>
+                <span className="text-os-accent font-bold mr-1 shrink-0 sm:hidden">~/:</span>
                 <div className="flex-1 overflow-hidden text-stone-600 font-bold whitespace-nowrap mask-linear-fade">
                     ~/{currentPath.join('/')}
                 </div>
-                <div className="w-2 h-4 bg-[#ff7e33] animate-pulse ml-1" />
+                <div className="w-2 h-4 bg-os-accent animate-pulse ml-1" />
             </div>
 
             <div className="w-8 h-8 border-2 border-stone-800 bg-stone-800 flex items-center justify-center group cursor-help shrink-0">

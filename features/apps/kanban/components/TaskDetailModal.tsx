@@ -50,7 +50,7 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({ taskId, data, 
                                 value={task.priority}
                                 onChange={(e) => onUpdate(task.id, { priority: e.target.value as Priority })}
                                 disabled={isReadOnly}
-                                className="w-full bg-stone-50 border border-stone-300 px-3 py-2 text-xs font-bold rounded-sm outline-none focus:border-[#ff7e33] disabled:opacity-70"
+                                className="w-full bg-stone-50 border border-stone-300 px-3 py-2 text-xs font-bold rounded-sm outline-none focus:border-os-accent disabled:opacity-70"
                             >
                                 <option value="High">High</option>
                                 <option value="Medium">Medium</option>
@@ -63,7 +63,7 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({ taskId, data, 
                                 value={task.severity}
                                 onChange={(e) => onUpdate(task.id, { severity: e.target.value as Severity })}
                                 disabled={isReadOnly}
-                                className="w-full bg-stone-50 border border-stone-300 px-3 py-2 text-xs font-bold rounded-sm outline-none focus:border-[#ff7e33] disabled:opacity-70"
+                                className="w-full bg-stone-50 border border-stone-300 px-3 py-2 text-xs font-bold rounded-sm outline-none focus:border-os-accent disabled:opacity-70"
                             >
                                 <option value="Critical">Critical</option>
                                 <option value="Major">Major</option>
@@ -72,7 +72,7 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({ taskId, data, 
                         </div>
                         <div>
                             <label className="text-[10px] font-bold uppercase text-stone-400 block mb-1">Estimate</label>
-                            <div className="flex items-center border border-stone-300 bg-stone-50 px-3 py-2 rounded-sm focus-within:border-[#ff7e33]">
+                            <div className="flex items-center border border-stone-300 bg-stone-50 px-3 py-2 rounded-sm focus-within:border-os-accent">
                                 <Clock size={12} className="text-stone-400 mr-2" />
                                 <input 
                                     type="text" 
@@ -91,7 +91,7 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({ taskId, data, 
                                     value={task.linkedBlogId || ''}
                                     onChange={(e) => onUpdate(task.id, { linkedBlogId: e.target.value })}
                                     disabled={isReadOnly}
-                                    className="flex-1 bg-stone-50 border border-stone-300 px-2 py-2 text-[11px] rounded-sm outline-none focus:border-[#ff7e33] disabled:opacity-70 min-w-0"
+                                    className="flex-1 bg-stone-50 border border-stone-300 px-2 py-2 text-[11px] rounded-sm outline-none focus:border-os-accent disabled:opacity-70 min-w-0"
                                 >
                                     <option value="">(None)</option>
                                     {BLOG_POSTS.map(post => (
@@ -116,7 +116,7 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({ taskId, data, 
                             value={task.description || ''}
                             onChange={(e) => onUpdate(task.id, { description: e.target.value })}
                             disabled={isReadOnly}
-                            className="w-full min-h-[120px] p-3 bg-stone-50 border border-stone-300 rounded-sm outline-none text-sm text-stone-700 leading-relaxed resize-none focus:border-[#ff7e33] disabled:opacity-70"
+                            className="w-full min-h-[120px] p-3 bg-stone-50 border border-stone-300 rounded-sm outline-none text-sm text-stone-700 leading-relaxed resize-none focus:border-os-accent disabled:opacity-70"
                             placeholder="Add more details..."
                         />
                     </div>

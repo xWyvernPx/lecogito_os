@@ -123,7 +123,7 @@ export const BlogHome: React.FC<BlogHomeProps> = ({ onNavigateToArchive, onPostC
                                     <img src={serie.coverUrl} alt={serie.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-xs leading-tight text-stone-800 group-hover:text-[#ff7e33] transition-colors mb-1">{serie.title}</h4>
+                                    <h4 className="font-bold text-xs leading-tight text-stone-800 group-hover:text-os-accent transition-colors mb-1">{serie.title}</h4>
                                     <p className="text-[10px] text-stone-500 leading-tight line-clamp-2">{serie.description}</p>
                                 </div>
                             </div>
@@ -146,12 +146,12 @@ export const BlogHome: React.FC<BlogHomeProps> = ({ onNavigateToArchive, onPostC
                         <div className="flex items-center gap-2 mb-2">
                             <div className="text-[11px] font-bold text-stone-400 uppercase tracking-widest">Newsletter</div>
                             {featuredPost.serieId && (
-                                <span className="text-[10px] font-bold text-[#ff7e33] border border-[#ff7e33]/30 px-1.5 py-0.5 rounded-full flex items-center gap-1 uppercase tracking-wide">
+                                <span className="text-[10px] font-bold text-os-accent border border-os-accent/30 px-1.5 py-0.5 rounded-full flex items-center gap-1 uppercase tracking-wide">
                                     <Layers size={10} /> {getSeriesName(featuredPost.serieId)}
                                 </span>
                             )}
                         </div>
-                        <h2 className="text-3xl md:text-4xl font-black text-stone-900 leading-[1.1] mb-4 group-hover:text-[#ff7e33] transition-colors">{featuredPost.title}</h2>
+                        <h2 className="text-3xl md:text-4xl font-black text-stone-900 leading-[1.1] mb-4 group-hover:text-os-accent transition-colors">{featuredPost.title}</h2>
                         <p className="text-stone-700 leading-relaxed text-base mb-6 line-clamp-3">{featuredPost.excerpt}</p>
                     </article>
                 ) : (
@@ -168,12 +168,12 @@ export const BlogHome: React.FC<BlogHomeProps> = ({ onNavigateToArchive, onPostC
                                 <div className="flex items-center gap-2 mb-1">
                                     <div className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Blog</div>
                                     {post.serieId && (
-                                        <span className="text-[9px] font-bold text-[#ff7e33] flex items-center gap-1 uppercase">
+                                        <span className="text-[9px] font-bold text-os-accent flex items-center gap-1 uppercase">
                                             <Layers size={8} /> Series
                                         </span>
                                     )}
                                 </div>
-                                <h3 className="text-xl font-black text-stone-900 group-hover:text-[#ff7e33] leading-tight mb-2 uppercase">{post.title}</h3>
+                                <h3 className="text-xl font-black text-stone-900 group-hover:text-os-accent leading-tight mb-2 uppercase">{post.title}</h3>
                             </div>
                             <div className="md:col-span-4 aspect-[4/3] bg-stone-200 border-2 border-stone-900 rounded shadow-retro-sm overflow-hidden">
                                  <img src={post.thumbnail} className="w-full h-full object-cover transition-all" alt={post.title} />
@@ -193,9 +193,9 @@ export const BlogHome: React.FC<BlogHomeProps> = ({ onNavigateToArchive, onPostC
 
                 {/* Subscription CTA Section */}
                 <div className="bg-stone-50 border border-stone-200 p-8 flex flex-col md:flex-row items-center gap-8 mt-12 rounded-sm relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-24 h-24 bg-[#ff7e33]/5 rounded-full blur-2xl -translate-x-12 -translate-y-12" />
+                    <div className="absolute top-0 left-0 w-24 h-24 bg-os-accent/5 rounded-full blur-2xl -translate-x-12 -translate-y-12" />
                     <div className="flex-1 text-center md:text-left z-10">
-                        <div className="text-[10px] font-bold text-[#ff7e33] uppercase mb-1">Subscribe to our newsletter</div>
+                        <div className="text-[10px] font-bold text-os-accent uppercase mb-1">Subscribe to our newsletter</div>
                         <h4 className="text-2xl font-black text-stone-900 mb-2">Product for Engineers</h4>
                         <p className="text-xs text-stone-500 font-medium">Read by 100,000+ founders and builders</p>
                     </div>
@@ -229,7 +229,7 @@ export const BlogHome: React.FC<BlogHomeProps> = ({ onNavigateToArchive, onPostC
                         <tbody className="divide-y divide-stone-100">
                             {LATEST_QUESTIONS.map((q, i) => (
                                 <tr key={i} className="group cursor-pointer">
-                                    <td className="py-3 pr-4 font-bold text-stone-700 leading-tight group-hover:text-[#ff7e33] line-clamp-2">{q.topic}</td>
+                                    <td className="py-3 pr-4 font-bold text-stone-700 leading-tight group-hover:text-os-accent line-clamp-2">{q.topic}</td>
                                     <td className="py-3 text-right text-stone-400 whitespace-nowrap align-top">{q.time}</td>
                                 </tr>
                             ))}

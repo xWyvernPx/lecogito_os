@@ -50,7 +50,7 @@ export const CalloutBlock: React.FC<{ children: React.ReactNode }> = ({
     }
 
     return (
-        <blockquote className="border-l-4 border-[#ff7e33]/30 pl-6 py-2 my-6 italic text-stone-600 font-serif bg-stone-50/50 rounded-r-sm leading-relaxed">
+        <blockquote className="border-l-4 border-os-accent/30 pl-6 py-2 my-6 italic text-stone-600 font-serif bg-stone-50/50 rounded-r-sm leading-relaxed">
             {children}
         </blockquote>
     );

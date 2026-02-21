@@ -20,7 +20,7 @@ export const useProjectListLogic = (winId: string) => {
 
     const getProjectTypeColor = (type: string) => {
         switch (type) {
-            case 'OFFICIAL': return 'bg-[#ff7e33] text-white';
+            case 'OFFICIAL': return 'bg-os-accent text-white';
             case 'SIDE_PROJECT': return 'bg-[#a855f7] text-white';
             case 'OPEN_SOURCE': return 'bg-[#22c55e] text-black';
             case 'INTERNAL': return 'bg-[#3b82f6] text-white';
@@ -82,7 +82,7 @@ export const useProjectDetailLogic = (win: WindowDef, projectId?: number) => {
 
     const getProjectTypeColor = (type: string) => {
         switch (type) {
-            case 'OFFICIAL': return 'bg-[#ff7e33] text-white';
+            case 'OFFICIAL': return 'bg-os-accent text-white';
             case 'SIDE_PROJECT': return 'bg-[#a855f7] text-white';
             case 'OPEN_SOURCE': return 'bg-[#22c55e] text-black';
             case 'INTERNAL': return 'bg-[#3b82f6] text-white';

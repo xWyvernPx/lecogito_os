@@ -50,7 +50,7 @@ export const Terminal: React.FC = () => {
             theme: {
                 background: '#1e1e1e',
                 foreground: '#fdfdfd',
-                cursor: '#ff7e33',
+                cursor: 'var(--os-accent)',
                 selectionBackground: 'rgba(255, 126, 51, 0.3)',
                 black: '#1e1e1e',
                 red: '#ef4444',

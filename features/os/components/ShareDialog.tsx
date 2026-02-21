@@ -124,7 +124,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = ({ isOpen, onClose, meta 
                                 <input 
                                     readOnly 
                                     value={meta.url} 
-                                    className="w-full bg-stone-100 border-2 border-stone-300 px-3 py-2 text-xs font-mono text-stone-600 rounded-sm outline-none focus:border-[#ff7e33]"
+                                    className="w-full bg-stone-100 border-2 border-stone-300 px-3 py-2 text-xs font-mono text-stone-600 rounded-sm outline-none focus:border-os-accent"
                                 />
                                 <button 
                                     onClick={handleCopy}

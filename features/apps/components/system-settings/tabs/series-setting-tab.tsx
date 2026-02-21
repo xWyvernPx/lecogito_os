@@ -69,7 +69,7 @@ export const SeriesSettingTab = () => {
             <input
               type="text"
               placeholder="e.g. The Startup Chronicles"
-              className="w-full bg-white border border-stone-300 px-4 py-2 outline-none focus:border-[#ff7e33] font-bold text-stone-900"
+              className="w-full bg-white border border-stone-300 px-4 py-2 outline-none focus:border-os-accent font-bold text-stone-900"
               value={serieTitle}
               onChange={(e) => setSerieTitle(e.target.value)}
             />
@@ -81,7 +81,7 @@ export const SeriesSettingTab = () => {
             <input
               type="text"
               placeholder="Brief summary of this collection..."
-              className="w-full bg-white border border-stone-300 px-4 py-2 outline-none focus:border-[#ff7e33] text-sm"
+              className="w-full bg-white border border-stone-300 px-4 py-2 outline-none focus:border-os-accent text-sm"
               value={serieDesc}
               onChange={(e) => setSerieDesc(e.target.value)}
             />
@@ -91,7 +91,7 @@ export const SeriesSettingTab = () => {
               <label className="text-[10px] font-bold uppercase text-stone-400">
                 Cover Image URL
               </label>
-              <div className="flex items-center gap-2 bg-white border border-stone-300 px-3 py-2 focus-within:border-[#ff7e33]">
+              <div className="flex items-center gap-2 bg-white border border-stone-300 px-3 py-2 focus-within:border-os-accent">
                 <ImageIcon size={14} className="text-stone-400" />
                 <input
                   type="text"
@@ -116,7 +116,7 @@ export const SeriesSettingTab = () => {
         {series?.rows.map((serie) => (
           <div
             key={serie.id}
-            className="flex flex-col border-2 border-stone-200 bg-white rounded overflow-hidden hover:border-[#ff7e33] transition-colors group"
+            className="flex flex-col border-2 border-stone-200 bg-white rounded overflow-hidden hover:border-os-accent transition-colors group"
           >
             <div className="h-24 bg-stone-100 relative overflow-hidden">
               <img

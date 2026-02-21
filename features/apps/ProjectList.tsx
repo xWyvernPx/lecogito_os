@@ -65,7 +65,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ win }) => {
                             
                             {/* Card Content */}
                             <div className="p-4 flex flex-col flex-1">
-                                <h3 className="font-bold text-lg leading-tight mb-2 text-stone-900 group-hover:text-[#ff7e33] transition-colors">
+                                <h3 className="font-bold text-lg leading-tight mb-2 text-stone-900 group-hover:text-os-accent transition-colors">
                                     <HighlightText text={proj.name} query={searchQuery} />
                                 </h3>
                                 
