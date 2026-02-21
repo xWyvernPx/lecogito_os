@@ -6,7 +6,7 @@ import { MessageSquare, Send, User, AtSign, Loader2, Trash2, Terminal, Bold, Ita
 import { useComments, useCreateComment, useDeleteComment } from '../hooks/use-comments';
 import { RetroButton } from '../../../components/ui/retro-ui';
 import { useOSStore } from '../../os/stores/os-store';
-import { CommentDto } from '../types';
+import type { CommentDto } from '@/types/api';
 
 interface CommentSectionProps {
     blogId: number; // The API uses Int64 IDs

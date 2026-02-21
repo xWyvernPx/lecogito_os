@@ -9,7 +9,7 @@ export type Theme = 'bone' | 'night' | 'seraph' | 'gruvbox';
 export type Language = 'en' | 'vi'; // Added Language Type
 
 export interface UserProfile {
-    id: number;
+    id: string;
     name: string;
     avatar: string; // URL
     email?: string;

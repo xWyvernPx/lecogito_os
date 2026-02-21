@@ -1,18 +1,9 @@
-
-import { Pagination } from '../projects/types'; // Reusing existing pagination type
-
-export interface CommentDto {
-  id: number;
-  content: string;
-  author: string; // Name
-  email: string;
-  path?: string;
-  hasReplies?: boolean;
-  createdDate?: string;
-  lastModifiedDate?: string;
-  blogPostId?: number;
-  parentId?: number | null;
-}
+/**
+ * Feature-specific types for the Comments module.
+ * Canonical API types (CommentDto, Pagination, ApiListResponse, etc.)
+ * are imported from @/types/api.ts — never duplicate them here.
+ */
+import type { Pagination, CommentDto } from '@/types/api';
 
 export interface CreateCommentRequest {
   content: string;

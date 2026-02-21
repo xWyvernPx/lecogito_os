@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import React, { useState } from 'react';
 import { RetroButton } from '../../../components/ui/retro-ui';
-import SystemSettingTabs from '../components/system-settings/system-setting-tabs';
+import { SystemSettingTabs } from '../components/system-settings/system-setting-tabs';
 
 interface BlogSettingsProps {
     onBack: () => void;

@@ -1,51 +1,13 @@
-export type ProjectType = "OFFICIAL" | "SIDE_PROJECT" | "OPEN_SOURCE" | "CLOSED_SOURCE" | "INTERNAL" | "EXTENSION";
+/**
+ * Feature-specific types for the Projects module.
+ * Canonical API types (ProjectDto, Pagination, SearchRequest, etc.)
+ * are imported from @/types/api.ts — never duplicate them here.
+ */
 
-export interface ProjectDto {
-  id: number;
-  name: string;
-  description?: string;
-  detail?: string; // JSON string containing rich text blocks
-  thumbnailUrl?: string;
-  published?: boolean;
-  sourceUrl?: string;
-  demoUrl?: string;
-  type?: ProjectType;
-  createdDate?: string | null;
-  lastModifiedDate?: string | null;
-}
+// Re-export ProjectDto's type field as a convenience alias
+export type ProjectType = 'OFFICIAL' | 'SIDE_PROJECT' | 'OPEN_SOURCE' | 'CLOSED_SOURCE' | 'INTERNAL' | 'EXTENSION';
 
-export interface SearchRequest {
-  pageIndex: number;
-  pageSize: number;
-  keyword?: string;
-  sort?: string[];
-}
-
-export interface Pagination {
-  pageIndex: number;
-  pageSize: number;
-  sort?: string[] | null;
-  totalRows?: number | null;
-  keyword?: string;
-}
-
-// Flattened structure based on user response
-export interface ApiListResponseProjectDto {
-  pagination: Pagination;
-  rows: ProjectDto[];
-  message: string;
-  success: boolean;
-  status: number;
-}
-
-export interface ApiProjectDetailResponseDto {
-    status: number;
-    message: string;
-    success: boolean;
-    data: ProjectDto;
-}
-
-// --- Rich Text Types ---
+// --- Rich Text Types (feature-specific, not in canonical types) ---
 export interface StyleProps {
     bold?: boolean;
     italic?: boolean;

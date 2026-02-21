@@ -1,6 +1,7 @@
 
-import { ApiListResponseProjectDto, ApiProjectDetailResponseDto, SearchRequest, ProjectType } from './types';
-import { Language } from '../../types';
+import type { ApiListResponse, ApiResponse, ProjectDto, SearchRequest } from '@/types/api';
+import type { ProjectType } from './types';
+import type { Language } from '../../types';
 
 // In a real app, you would import axios and call the endpoint
 // import axios from 'axios'; 
@@ -11,7 +12,7 @@ interface SearchRequestWithLang extends SearchRequest {
     language?: Language;
 }
 
-export const fetchProjects = async (request: SearchRequestWithLang = { pageIndex: 0, pageSize: 10, language: 'en' }): Promise<ApiListResponseProjectDto> => {
+export const fetchProjects = async (request: SearchRequestWithLang = { pageIndex: 0, pageSize: 10, language: 'en' }): Promise<ApiListResponse<ProjectDto>> => {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 800));
 
@@ -64,12 +65,12 @@ export const fetchProjects = async (request: SearchRequestWithLang = { pageIndex
   };
 };
 
-export const fetchProjectById = async (id: number): Promise<ApiProjectDetailResponseDto> => {
+export const fetchProjectById = async (id: number): Promise<ApiResponse<ProjectDto>> => {
     // Note: In a real app, we would pass language here too to get the translated 'detail' JSON.
     // For brevity in this mock, returning the static JSON but assuming backend handles language context via headers.
     await new Promise(resolve => setTimeout(resolve, 600));
 
-    const MOCK_DETAIL_DATA: ApiProjectDetailResponseDto = {
+    const MOCK_DETAIL_DATA: ApiResponse<ProjectDto> = {
         "status": 200,
         "message": "Success",
         "success": true,

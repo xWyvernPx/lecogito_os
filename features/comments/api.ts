@@ -1,5 +1,5 @@
 
-import { ApiListResponseCommentDto, CommentDto, CommentSearchRequest, CreateCommentRequest } from './types';
+import type { CommentDto } from '@/types/api';\nimport type { ApiListResponseCommentDto, CommentSearchRequest, CreateCommentRequest } from './types';
 
 // Mock Data Store
 let MOCK_COMMENTS: CommentDto[] = [

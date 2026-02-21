@@ -1,5 +1,5 @@
 import { RetroButton } from "@/components/ui/retro-ui";
-import { Serie } from "@/features/apps/blog/data";
+import type { Serie } from "@/features/apps/blog/utils";
 import {
   SerieDto,
   useCreateSerie,
@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 import { ImageIcon, Layers, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
-const SeriesSettingTab = () => {
+export const SeriesSettingTab = () => {
   const [serieTitle, setSerieTitle] = useState("");
   const [serieDesc, setSerieDesc] = useState("");
   const [serieCover, setSerieCover] = useState("");
@@ -153,5 +153,3 @@ const SeriesSettingTab = () => {
     </motion.div>
   );
 };
-
-export default SeriesSettingTab;

@@ -13,7 +13,7 @@ export const PixelPaint: React.FC = () => {
     const [color, setColor] = useState('#000000');
     const [tool, setTool] = useState<'pencil' | 'eraser'>('pencil');
     const [brushSize, setBrushSize] = useState(2);
-    const [isDrawing, setIsDrawing] = useState(false);
+    const isDrawingRef = useRef(false);
 
     // Initialize Canvas
     useEffect(() => {
@@ -56,12 +56,12 @@ export const PixelPaint: React.FC = () => {
 
         ctx.beginPath();
         ctx.moveTo(x, y);
-        setIsDrawing(true);
+        isDrawingRef.current = true;
         draw(e);
     };
 
     const draw = (e: React.MouseEvent | React.TouchEvent) => {
-        if (!isDrawing) return;
+        if (!isDrawingRef.current) return;
         const { x, y } = getCoordinates(e);
         const ctx = canvasRef.current?.getContext('2d');
         if (!ctx) return;
@@ -76,7 +76,7 @@ export const PixelPaint: React.FC = () => {
     const stopDrawing = () => {
         const ctx = canvasRef.current?.getContext('2d');
         if (ctx) ctx.closePath();
-        setIsDrawing(false);
+        isDrawingRef.current = false;
     };
 
     const clearCanvas = () => {

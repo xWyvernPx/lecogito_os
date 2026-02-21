@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Plus, Shield } from 'lucide-react';
 import { useState } from 'react';
 
-const UserSettingTab = () => {
+export const UserSettingTab = () => {
         const [newAuthor, setNewAuthor] = useState('');
     const [role, setRole] = useState('Contributor');
 
@@ -102,5 +102,3 @@ const UserSettingTab = () => {
     </motion.div>
   );
 }
-
-export default UserSettingTab

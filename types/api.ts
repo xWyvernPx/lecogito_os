@@ -18,8 +18,9 @@ export interface ApiListResponse<T> {
 export interface Pagination {
   pageIndex: number;
   pageSize: number;
-  sort?: string[];
+  sort?: string[] | null;
   totalRows: number;
+  keyword?: string;
 }
 
 export interface SearchRequest {
@@ -102,6 +103,7 @@ export interface CommentDto {
   lastModifiedDate?: string;
   blogPostId: number;
   blogPost?: BlogDto;
+  parentId?: number | null;
 }
 
 export interface ProjectDto {
@@ -114,8 +116,8 @@ export interface ProjectDto {
   sourceUrl: string;
   demoUrl: string;
   type: 'OFFICIAL' | 'SIDE_PROJECT' | 'OPEN_SOURCE' | 'CLOSED_SOURCE' | 'INTERNAL' | 'EXTENSION';
-  createdDate?: string;
-  lastModifiedDate?: string;
+  createdDate?: string | null;
+  lastModifiedDate?: string | null;
 }
 
 export interface StaticContentDto {

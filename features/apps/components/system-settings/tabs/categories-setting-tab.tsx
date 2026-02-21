@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { Plus, Tag, Trash2 } from 'lucide-react'
 import {useState} from 'react'
 
-const CategoriesSettingTab = () => {
+export const CategoriesSettingTab = () => {
     const [newCat, setNewCat] = useState('');
     const {data: categories} = useCategories({pageIndex: 0, pageSize: 10});
     
@@ -79,5 +79,3 @@ const CategoriesSettingTab = () => {
         </motion.div>
   )
 }
-
-export default CategoriesSettingTab

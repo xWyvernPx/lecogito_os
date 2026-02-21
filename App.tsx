@@ -16,7 +16,7 @@ import { WindowDrawer } from './features/os/components/WindowDrawer';
 import { CommandPalette } from './features/os/components/CommandPalette';
 import { ShortcutsSheet } from './features/os/components/ShortcutsSheet';
 
-export default function App() {
+export function App() {
   const { 
     systemState,
     lastBootTime,

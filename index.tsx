@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import App from './App';
-import queryClient from './lib/query-client';
+import { App } from './App';
+import { queryClient } from './lib/query-client';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

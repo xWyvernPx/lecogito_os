@@ -1,25 +1,6 @@
+import type { BlogPost, Serie } from './utils';
 
 export type PostCategory = 'Scrolls' | 'Ravens' | 'Grimoires' | 'Founders' | 'Engineers';
-
-export interface Serie {
-    id: string;
-    title: string;
-    description: string;
-    coverUrl?: string;
-}
-
-export interface BlogPost {
-    id: string;
-    title: string;
-    excerpt: string;
-    date: string;
-    category: PostCategory;
-    author: string;
-    thumbnail?: string;
-    readTime: string;
-    content?: string; // Markdown content
-    serieId?: string; // Optional link to a series
-}
 
 export const SERIES: Serie[] = [
     {
@@ -45,6 +26,7 @@ export const SERIES: Serie[] = [
 export const BLOG_POSTS: BlogPost[] = [
     {
         id: '1',
+        uuid: 'mock-post-001',
         title: "Your product ideas probably suck (that's ok)",
         excerpt: "You have an idea for a new product and you think it's really, really good. You're tempted to dive straight into building it. This is a trap.",
         date: "Dec 16, 2025",
@@ -81,6 +63,7 @@ Once you have proof, then and only then, you start the "Grimoire" phase of engin
     },
     {
         id: '2',
+        uuid: 'mock-post-002',
         title: "Product engineer vs Software engineer: How are they different?",
         excerpt: "The lines are blurring, but there is a distinct mindset shift when you move from pure code to product ownership.",
         date: "Dec 10, 2025",
@@ -111,6 +94,7 @@ Both are necessary, but the best products are built by teams that bridge the gap
     },
     {
         id: '3',
+        uuid: 'mock-post-003',
         title: "How we built user behavior analysis with multi-modal LLMs",
         excerpt: "5 not-so-easy steps to integrating Gemini 2.5 Flash into your analytics pipeline.",
         date: "Nov 28, 2025",

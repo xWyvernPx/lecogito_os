@@ -85,11 +85,11 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ win }) => {
                                     <Mail size={12} />
                                 </div>
                                 <div className="flex items-center justify-end gap-2">
-                                    <a href="https://github.com/xWyvernPx" target="_blank" className="hover:text-os-accent transition-colors">github.com/xWyvernPx</a>
+                                    <a href="https://github.com/xWyvernPx" target="_blank" rel="noopener noreferrer" className="hover:text-os-accent transition-colors">github.com/xWyvernPx</a>
                                     <Github size={12} />
                                 </div>
                                 <div className="flex items-center justify-end gap-2">
-                                    <a href="https://linkedin.com/in/thanhphong2506" target="_blank" className="hover:text-os-accent transition-colors">linkedin.com/in/thanhphong2506</a>
+                                    <a href="https://linkedin.com/in/thanhphong2506" target="_blank" rel="noopener noreferrer" className="hover:text-os-accent transition-colors">linkedin.com/in/thanhphong2506</a>
                                     <Linkedin size={12} />
                                 </div>
                             </div>
