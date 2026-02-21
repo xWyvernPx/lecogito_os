@@ -5,7 +5,8 @@ import { BlogArchive } from './blog/BlogArchive';
 import { BlogEditor } from './blog/BlogEditor';
 import { BlogDetail } from './blog/BlogDetail';
 import { BlogSettings } from './blog/BlogSettings';
-import { BLOG_POSTS } from './blog/data';\nimport type { BlogPost } from './blog/utils';
+import { BLOG_POSTS } from './blog/data';
+import type { BlogPost } from './blog/utils';
 import { WindowDef, ContentItem } from '../../types';
 
 interface BlogNewsProps {

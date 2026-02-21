@@ -1,539 +1,177 @@
-
-import { create } from 'zustand';
-import { persist, createJSONStorage, StateStorage } from 'zustand/middleware';
-import { get, set, del } from 'idb-keyval';
-import { WindowDef, ContentItem, DesktopIconDef, SystemState, ContextMenuState, ContextMenuType, WidgetDef, WindowHistoryItem, UserProfile, Theme, Language, FileSystemNode } from '../../../types';
-import { APP_PRESETS } from '../../../config/apps';
-import { INITIAL_ICONS, INITIAL_WIDGETS, INITIAL_WINDOWS } from '../../../config/desktop';
-import { LOCAL_FS } from '../../../config/terminal';
+/**
+ * Facade hook — composes all split stores for backward compatibility.
+ *
+ * Consumers continue to `const { spawnWindow, theme } = useOSStore();`
+ * Coordinated actions (spawnWindow, login, logout, restoreWindow)
+ * are wrapped here to orchestrate cross-store side effects.
+ *
+ * Individual stores can also be imported directly for tighter subscriptions:
+ *   import { useWindowStore } from './window-store';
+ *   import { useSystemStore } from './system-store';
+ */
+import type { WindowDef, ContentItem, WindowHistoryItem, UserProfile } from '@/types';
+import { useWindowStore } from './window-store';
+import { useDesktopStore } from './desktop-store';
+import { useSystemStore } from './system-store';
+import { useUserStore } from './user-store';
+import { useUIStore } from './ui-store';
+import { useFileSystemStore } from './filesystem-store';
 import { useAuthStore } from './auth-store';
 
-interface OSState {
-  // System Lifecycle
-  systemState: SystemState;
-  lastBootTime: number;
-  _hasHydrated: boolean;
-  
-  // User Session
-  currentUser: UserProfile | null;
-  knownUsers: UserProfile[]; // Persist users for quick login
+export function useOSStore() {
+    // Subscribe to every split store (same re-render granularity as old monolith)
+    const windowStore = useWindowStore();
+    const desktopStore = useDesktopStore();
+    const systemStore = useSystemStore();
+    const userStore = useUserStore();
+    const uiStore = useUIStore();
+    const fsStore = useFileSystemStore();
 
-  // Desktop State
-  windows: WindowDef[];
-  icons: DesktopIconDef[];
-  widgets: WidgetDef[];
-  fileSystem: FileSystemNode; // Dynamic File System
-  nextZIndex: number;
-  currentWorkspace: number;
-  activeMenu: string | null;
-  selectedIconId: string | null;
-  theme: Theme;
-  language: Language;
-  isWindowDrawerOpen: boolean;
-  isCommandPaletteOpen: boolean;
-  isShortcutsOpen: boolean;
-  desktopSideImage: string | null;
-  
-  // Integrations
-  isCalendarConnected: boolean;
-  
-  // Easter Eggs
-  caffeineLevel: number; // 0 to 100
-
-  // Context Menu State
-  contextMenu: ContextMenuState;
-
-  // Lifecycle Actions
-  setHasHydrated: (val: boolean) => void;
-  bootSystem: () => void;
-  completeBoot: () => void;
-  shutdownSystem: () => void;
-  rebootSystem: () => void;
-  
-  // Auth Actions
-  login: (user: UserProfile) => void;
-  logout: () => void;
-  removeKnownUser: (id: string) => void;
-
-  // Window Actions
-  spawnWindow: (id: string, preset?: Partial<Omit<WindowDef, 'history' | 'historyIndex'>> & { content?: ContentItem[] }) => void;
-  closeWindow: (id: string) => void;
-  closeAllWindows: () => void; 
-  focusWindow: (id: string) => void;
-  minimizeWindow: (id: string) => void; 
-  restoreWindow: (id: string) => void; 
-  updateWindow: (id: string, updates: Partial<WindowDef>) => void;
-  recenterWindows: () => void;
-  repositionIcons: () => void;
-  
-  // Navigation & Sizing Actions
-  navigateWindow: (id: string, view: WindowHistoryItem) => void;
-  goBack: (id: string) => void;
-  goForward: (id: string) => void;
-  toggleMaximize: (id: string) => void;
-
-  // System Actions
-  setWorkspace: (id: number) => void;
-  setActiveMenu: (menu: string | null) => void;
-  toggleWindowDrawer: () => void;
-  toggleCommandPalette: () => void;
-  toggleShortcuts: () => void;
-  setCommandPalette: (isOpen: boolean) => void;
-  setTheme: (theme: Theme) => void;
-  setLanguage: (lang: Language) => void;
-  setCalendarConnected: (connected: boolean) => void;
-  setDesktopSideImage: (url: string | null) => void;
-  
-  // File System Actions
-  createFile: (parentPath: string[], fileName: string, node: FileSystemNode) => void;
-  
-  // Icon Actions
-  selectIcon: (id: string | null) => void;
-  moveIcon: (id: string, x: number, y: number) => void;
-  removeIcon: (id: string) => void;
-
-  // Widget Actions
-  toggleWidget: (id: string) => void;
-  moveWidget: (id: string, x: number, y: number) => void;
-
-  // Caffeine Actions
-  drinkCoffee: () => void;
-  decreaseCaffeine: () => void;
-
-  // Context Menu Actions
-  openContextMenu: (x: number, y: number, type: ContextMenuType, targetId?: string) => void;
-  closeContextMenu: () => void;
-}
-
-const idbStorage: StateStorage = {
-  getItem: async (name: string): Promise<string | null> => {
-    return (await get(name)) || null;
-  },
-  setItem: async (name: string, value: string): Promise<void> => {
-    await set(name, value);
-  },
-  removeItem: async (name: string): Promise<void> => {
-    await del(name);
-  },
-};
-
-// --- Helper: Clamp Window Position ---
-const clampPosition = (x: number, y: number, w: number, h: number) => {
-    const TOP_BAR_HEIGHT = 36;
-    const maxX = Math.max(0, window.innerWidth - w);
-    const maxY = Math.max(0, window.innerHeight - h - TOP_BAR_HEIGHT);
     return {
-        x: Math.max(0, Math.min(x, maxX)),
-        y: Math.max(0, Math.min(y, maxY))
-    };
-};
+        // ── State (flat merge) ──────────────────────────────────────────
+        // Window
+        windows: windowStore.windows,
+        nextZIndex: windowStore.nextZIndex,
+        // Desktop
+        icons: desktopStore.icons,
+        widgets: desktopStore.widgets,
+        selectedIconId: desktopStore.selectedIconId,
+        // System
+        systemState: systemStore.systemState,
+        lastBootTime: systemStore.lastBootTime,
+        _hasHydrated: systemStore._hasHydrated,
+        theme: systemStore.theme,
+        language: systemStore.language,
+        caffeineLevel: systemStore.caffeineLevel,
+        isCalendarConnected: systemStore.isCalendarConnected,
+        desktopSideImage: systemStore.desktopSideImage,
+        currentWorkspace: systemStore.currentWorkspace,
+        // User
+        currentUser: userStore.currentUser,
+        knownUsers: userStore.knownUsers,
+        // UI (transient)
+        activeMenu: uiStore.activeMenu,
+        isWindowDrawerOpen: uiStore.isWindowDrawerOpen,
+        isCommandPaletteOpen: uiStore.isCommandPaletteOpen,
+        isShortcutsOpen: uiStore.isShortcutsOpen,
+        contextMenu: uiStore.contextMenu,
+        // FileSystem
+        fileSystem: fsStore.fileSystem,
 
-export const useOSStore = create<OSState>()(
-  persist(
-    (set, get) => ({
-      systemState: 'booting',
-      lastBootTime: 0,
-      _hasHydrated: false,
-      currentUser: null,
-      knownUsers: [],
+        // ── Pass-through actions (no coordination needed) ───────────────
+        closeWindow: windowStore.closeWindow,
+        closeAllWindows: windowStore.closeAllWindows,
+        focusWindow: windowStore.focusWindow,
+        minimizeWindow: windowStore.minimizeWindow,
+        updateWindow: windowStore.updateWindow,
+        navigateWindow: windowStore.navigateWindow,
+        goBack: windowStore.goBack,
+        goForward: windowStore.goForward,
+        toggleMaximize: windowStore.toggleMaximize,
 
-      windows: INITIAL_WINDOWS,
-      icons: INITIAL_ICONS,
-      widgets: INITIAL_WIDGETS,
-      fileSystem: LOCAL_FS, // Initialize with default config
-      nextZIndex: 11,
-      currentWorkspace: 1,
-      activeMenu: null,
-      selectedIconId: null,
-      theme: 'bone',
-      language: 'en',
-      isWindowDrawerOpen: false,
-      isCommandPaletteOpen: false,
-      isShortcutsOpen: false,
-      isCalendarConnected: false,
-      desktopSideImage: null,
-      
-      caffeineLevel: 100,
+        selectIcon: desktopStore.selectIcon,
+        moveIcon: desktopStore.moveIcon,
+        removeIcon: desktopStore.removeIcon,
+        toggleWidget: desktopStore.toggleWidget,
+        moveWidget: desktopStore.moveWidget,
 
-      contextMenu: { isOpen: false, x: 0, y: 0, type: null },
+        setHasHydrated: systemStore.setHasHydrated,
+        bootSystem: systemStore.bootSystem,
+        completeBoot: systemStore.completeBoot,
+        shutdownSystem: systemStore.shutdownSystem,
+        rebootSystem: systemStore.rebootSystem,
+        setWorkspace: systemStore.setWorkspace,
+        setTheme: systemStore.setTheme,
+        setLanguage: systemStore.setLanguage,
+        setCalendarConnected: systemStore.setCalendarConnected,
+        setDesktopSideImage: systemStore.setDesktopSideImage,
+        drinkCoffee: systemStore.drinkCoffee,
+        decreaseCaffeine: systemStore.decreaseCaffeine,
 
-      setHasHydrated: (val) => set({ _hasHydrated: val }),
-      
-      bootSystem: () => set({ systemState: 'booting', lastBootTime: 0, caffeineLevel: 100 }),
-      completeBoot: () => set({ systemState: 'login', lastBootTime: Date.now() }),
-      shutdownSystem: () => set({ systemState: 'shutdown' }),
-      rebootSystem: () => set({ systemState: 'booting', caffeineLevel: 100 }),
+        removeKnownUser: userStore.removeKnownUser,
 
-      login: (user) => set(state => {
-          // Add to known users if not guest and not already in list
-          let newKnownUsers = state.knownUsers;
-          if (user.type !== 'guest') {
-              const exists = state.knownUsers.some(u => u.id === user.id);
-              if (!exists) {
-                  newKnownUsers = [...state.knownUsers, user];
-              } else {
-                  // Update existing user data (e.g. avatar change)
-                  newKnownUsers = state.knownUsers.map(u => u.id === user.id ? user : u);
-              }
-          }
-          
-          return { 
-              systemState: 'running', 
-              currentUser: user,
-              knownUsers: newKnownUsers
-          };
-      }),
-      
-      logout: () => {
-          // Also logout from auth store
-          const authLogout = useAuthStore.getState().logout;
-          authLogout();
-          
-          set({ systemState: 'login', currentUser: null, activeMenu: null });
-      },
-      
-      removeKnownUser: (id: string) => set(state => ({
-          knownUsers: state.knownUsers.filter(u => u.id !== id)
-      })),
+        setActiveMenu: uiStore.setActiveMenu,
+        toggleWindowDrawer: uiStore.toggleWindowDrawer,
+        toggleCommandPalette: uiStore.toggleCommandPalette,
+        toggleShortcuts: uiStore.toggleShortcuts,
+        setCommandPalette: uiStore.setCommandPalette,
+        openContextMenu: uiStore.openContextMenu,
+        closeContextMenu: uiStore.closeContextMenu,
 
-      spawnWindow: (id, preset) => {
-        const { windows, nextZIndex, currentWorkspace } = get();
-        const existing = windows.find(w => w.id === id);
+        createFile: fsStore.createFile,
 
-        if (existing) {
-          const updates: any = { 
-             zIndex: nextZIndex, 
-             isActive: true, 
-             isMinimized: false, 
-             workspace: currentWorkspace 
-          };
+        // ── Coordinated actions (cross-store orchestration) ─────────────
 
-          if (preset?.content) {
-             const newHistoryItem = { 
-                 title: preset.title || existing.title, 
-                 content: preset.content 
-             };
-             updates.history = [...existing.history, newHistoryItem];
-             updates.historyIndex = existing.historyIndex + 1;
-             updates.title = preset.title || existing.title;
-          }
-
-          set({
-            windows: windows.map(w => w.id === id ? { ...w, ...updates } : { ...w, isActive: false }),
-            nextZIndex: nextZIndex + 1,
-            activeMenu: null,
-            isWindowDrawerOpen: false,
-            isCommandPaletteOpen: false,
-            isShortcutsOpen: false
-          });
-          return;
-        }
-
-        const appData = APP_PRESETS[id] || { title: 'UNTITLED', content: [] };
-        const initialContent = preset?.content || appData.content;
-        const initialTitle = preset?.title || appData.title;
-
-        // Mobile / Landscape Logic
-        const isMobileWidth = window.innerWidth < 768;
-        const isShortScreen = window.innerHeight < 600;
-        const shouldMaximize = isMobileWidth || isShortScreen;
-
-        const isProject = id.startsWith('project-');
-        const isChatbot = id === 'chatbot';
-        
-        let defaultW = isProject ? 1100 : (isChatbot ? 400 : 800);
-        let defaultH = isProject ? 700 : (isChatbot ? 550 : 600);
-
-        // Clamp initial size to viewport
-        defaultW = Math.min(defaultW, window.innerWidth - 20);
-        defaultH = Math.min(defaultH, window.innerHeight - 50);
-
-        const maxX = Math.max(0, window.innerWidth - defaultW);
-        const maxY = Math.max(0, window.innerHeight - defaultH - 36);
-        
-        const randomX = Math.floor(Math.random() * Math.min(50, maxX));
-        const randomY = Math.floor(Math.random() * Math.min(50, maxY));
-
-        let spawnX = 50 + randomX;
-        let spawnY = 50 + randomY;
-
-        if (isChatbot && !isMobileWidth && !isShortScreen) {
-            spawnX = window.innerWidth - defaultW - 20;
-            spawnY = window.innerHeight - defaultH - 40; 
-        } else if (shouldMaximize) {
-            spawnX = 0;
-            spawnY = 0;
-        }
-
-        const { x, y } = clampPosition(spawnX, spawnY, defaultW, defaultH);
-
-        const newWin: WindowDef = {
-          id,
-          title: initialTitle,
-          x,
-          y,
-          w: defaultW,
-          h: defaultH,
-          zIndex: nextZIndex,
-          isActive: true,
-          isMinimized: false,
-          isMaximized: shouldMaximize, 
-          workspace: currentWorkspace,
-          history: [{ title: initialTitle, content: initialContent }],
-          historyIndex: 0,
-          ...preset
-        };
-
-        set({
-          windows: [...windows.map(w => ({ ...w, isActive: false })), newWin],
-          nextZIndex: nextZIndex + 1,
-          activeMenu: null,
-          isWindowDrawerOpen: false,
-          isCommandPaletteOpen: false,
-          isShortcutsOpen: false
-        });
-      },
-
-      closeWindow: (id) => {
-        set(state => ({
-          windows: state.windows.filter(w => w.id !== id)
-        }));
-      },
-
-      closeAllWindows: () => {
-          set({ windows: [] });
-      },
-
-      focusWindow: (id) => {
-        const { nextZIndex } = get();
-        set(state => ({
-          windows: state.windows.map(w => w.id === id 
-            ? { ...w, zIndex: nextZIndex, isActive: true, isMinimized: false } 
-            : { ...w, isActive: false }
-          ),
-          nextZIndex: nextZIndex + 1
-        }));
-      },
-
-      minimizeWindow: (id) => {
-          set(state => ({
-              windows: state.windows.map(w => w.id === id ? { ...w, isMinimized: true, isActive: false } : w)
-          }));
-      },
-
-      restoreWindow: (id) => {
-          const { nextZIndex } = get();
-          set(state => ({
-              windows: state.windows.map(w => w.id === id 
-                  ? { ...w, isMinimized: false, isActive: true, zIndex: nextZIndex } 
-                  : { ...w, isActive: false }
-              ),
-              nextZIndex: nextZIndex + 1,
-              isWindowDrawerOpen: false
-          }));
-      },
-
-      updateWindow: (id, updates) => {
-        set(state => ({
-          windows: state.windows.map(w => {
-              if (w.id !== id) return w;
-              
-              const newW = updates.w ?? w.w;
-              const newH = updates.h ?? w.h;
-              const newX = updates.x ?? w.x;
-              const newY = updates.y ?? w.y;
-
-              const clamped = clampPosition(newX, newY, newW, newH);
-
-              return { ...w, ...updates, ...clamped };
-          })
-        }));
-      },
-
-      recenterWindows: () => {
-          set(state => ({
-              windows: state.windows.map(w => {
-                  const safeW = Math.min(w.w, window.innerWidth);
-                  const safeH = Math.min(w.h, window.innerHeight - 36);
-                  
-                  const { x, y } = clampPosition(w.x, w.y, safeW, safeH);
-                  return { ...w, x, y, w: safeW, h: safeH };
-              })
-          }));
-      },
-
-      repositionIcons: () => {
-        set(state => {
-            const h = window.innerHeight;
-            const w = window.innerWidth;
-            const GRID_W = 100;
-            const GRID_H = 120;
-            const START_X = 20;
-            const START_Y = 40;
-            const BOTTOM_MARGIN = 100;
-            const maxX = w - GRID_W;
-            const maxY = h - BOTTOM_MARGIN;
-            const icons = [...state.icons];
-            const safeIcons = icons.filter(icon => icon.x <= maxX && icon.y <= maxY);
-            const unsafeIcons = icons.filter(icon => icon.x > maxX || icon.y > maxY);
-            if (unsafeIcons.length === 0) return { icons };
-            const isOccupied = (testX: number, testY: number, placed: DesktopIconDef[]) => {
-                const threshold = 60;
-                const all = [...safeIcons, ...placed];
-                return all.some(icon => Math.abs(icon.x - testX) < threshold && Math.abs(icon.y - testY) < threshold);
+        /**
+         * Spawn/reactivate a window, dismiss menus, inject workspace + viewport.
+         * Signature kept identical to the old monolithic store.
+         */
+        spawnWindow: (
+            id: string,
+            preset?: Partial<Omit<WindowDef, 'history' | 'historyIndex'>> & {
+                content?: ContentItem[];
+            }
+        ) => {
+            const viewport = {
+                width: window.innerWidth,
+                height: window.innerHeight,
             };
-            const fixedIcons: DesktopIconDef[] = [];
-            unsafeIcons.forEach(icon => {
-                let found = false;
-                const maxCols = Math.max(1, Math.floor((w - START_X) / GRID_W));
-                const maxRows = Math.max(1, Math.floor((h - START_Y - BOTTOM_MARGIN) / GRID_H));
-                for (let c = 0; c < maxCols; c++) {
-                    for (let r = 0; r < maxRows; r++) {
-                        const testX = START_X + c * GRID_W;
-                        const testY = START_Y + r * GRID_H;
-                        if (!isOccupied(testX, testY, fixedIcons)) {
-                            fixedIcons.push({ ...icon, x: testX, y: testY });
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (found) break;
-                }
-                if (!found) {
-                    fixedIcons.push({ ...icon, x: START_X, y: START_Y });
-                }
-            });
-            return { icons: [...safeIcons, ...fixedIcons] };
-        })
-      },
+            const workspace =
+                useSystemStore.getState().currentWorkspace;
+            useWindowStore
+                .getState()
+                .spawnWindow(id, preset, workspace, viewport);
+            useUIStore.getState().dismissAll();
+        },
 
-      navigateWindow: (id, view) => {
-          set(state => ({
-              windows: state.windows.map(w => {
-                  if (w.id !== id) return w;
-                  const newHistory = w.history.slice(0, w.historyIndex + 1);
-                  return {
-                      ...w,
-                      history: [...newHistory, view],
-                      historyIndex: newHistory.length,
-                      title: view.title
-                  };
-              })
-          }));
-      },
+        /**
+         * Restore minimized window AND close the window drawer.
+         */
+        restoreWindow: (id: string) => {
+            useWindowStore.getState().restoreWindow(id);
+            useUIStore.getState().dismissAll();
+        },
 
-      goBack: (id) => {
-        set(state => ({
-            windows: state.windows.map(w => {
-                if (w.id !== id || w.historyIndex <= 0) return w;
-                const newIndex = w.historyIndex - 1;
-                return {
-                    ...w,
-                    historyIndex: newIndex,
-                    title: w.history[newIndex].title
-                };
-            })
-        }));
-      },
+        /**
+         * Recenter all windows within current viewport.
+         */
+        recenterWindows: () => {
+            const viewport = {
+                width: window.innerWidth,
+                height: window.innerHeight,
+            };
+            useWindowStore.getState().recenterWindows(viewport);
+        },
 
-      goForward: (id) => {
-        set(state => ({
-            windows: state.windows.map(w => {
-                if (w.id !== id || w.historyIndex >= w.history.length - 1) return w;
-                const newIndex = w.historyIndex + 1;
-                return {
-                    ...w,
-                    historyIndex: newIndex,
-                    title: w.history[newIndex].title
-                };
-            })
-        }));
-      },
+        /**
+         * Reposition icons that fell outside the current viewport.
+         */
+        repositionIcons: () => {
+            const viewport = {
+                width: window.innerWidth,
+                height: window.innerHeight,
+            };
+            useDesktopStore.getState().repositionIcons(viewport);
+        },
 
-      toggleMaximize: (id) => {
-        set(state => ({
-            windows: state.windows.map(w => w.id === id ? { ...w, isMaximized: !w.isMaximized } : w)
-        }));
-      },
+        /**
+         * Login — set user session + transition system to 'running'.
+         */
+        login: (user: UserProfile) => {
+            useUserStore.getState().login(user);
+            useSystemStore.getState().setHasHydrated(true);
+            // Transition lifecycle to running
+            useSystemStore.setState({ systemState: 'running' });
+        },
 
-      setWorkspace: (id) => set({ currentWorkspace: id }),
-      setActiveMenu: (menu) => set({ activeMenu: menu }),
-      toggleWindowDrawer: () => set(state => ({ isWindowDrawerOpen: !state.isWindowDrawerOpen })),
-      toggleCommandPalette: () => set(state => ({ isCommandPaletteOpen: !state.isCommandPaletteOpen })),
-      toggleShortcuts: () => set(state => ({ isShortcutsOpen: !state.isShortcutsOpen })),
-      setCommandPalette: (isOpen) => set({ isCommandPaletteOpen: isOpen }),
-      setTheme: (theme) => set({ theme }),
-      setLanguage: (lang) => set({ language: lang }),
-      setCalendarConnected: (connected) => set({ isCalendarConnected: connected }),
-      setDesktopSideImage: (url) => set({ desktopSideImage: url }),
-
-      createFile: (parentPath, fileName, node) => set(state => {
-          const newFS = JSON.parse(JSON.stringify(state.fileSystem));
-          let current = newFS;
-          
-          // Traverse to parent
-          for (const segment of parentPath) {
-              if (current.children && current.children[segment]) {
-                  current = current.children[segment];
-              } else {
-                  // Path doesn't exist, abort or create? Abort for safety.
-                  return state; 
-              }
-          }
-
-          if (current.type === 'dir' && current.children) {
-              current.children[fileName] = node;
-          }
-
-          return { fileSystem: newFS };
-      }),
-
-      selectIcon: (id) => set({ selectedIconId: id }),
-      moveIcon: (id, x, y) => set(state => ({
-        icons: state.icons.map(icon => icon.id === id ? { ...icon, x, y } : icon)
-      })),
-      removeIcon: (id) => set(state => ({
-          icons: state.icons.filter(icon => icon.id !== id)
-      })),
-
-      toggleWidget: (id) => set(state => ({
-        widgets: state.widgets.map(w => w.id === id ? { ...w, isOpen: !w.isOpen } : w)
-      })),
-      moveWidget: (id, x, y) => set(state => ({
-        widgets: state.widgets.map(w => w.id === id ? { ...w, x, y } : w)
-      })),
-
-      drinkCoffee: () => set({ caffeineLevel: 100 }),
-      decreaseCaffeine: () => set(state => ({
-          caffeineLevel: Math.max(0, state.caffeineLevel - 0.01)
-      })),
-
-      openContextMenu: (x, y, type, targetId) => set({ contextMenu: { isOpen: true, x, y, type, targetId } }),
-      closeContextMenu: () => set(state => ({ contextMenu: { ...state.contextMenu, isOpen: false } })),
-    }),
-    {
-      name: 'designeros-storage',
-      storage: createJSONStorage(() => idbStorage),
-      partialize: (state) => ({
-        windows: state.windows,
-        icons: state.icons,
-        nextZIndex: state.nextZIndex,
-        currentWorkspace: state.currentWorkspace,
-        systemState: state.systemState,
-        lastBootTime: state.lastBootTime,
-        widgets: state.widgets,
-        caffeineLevel: state.caffeineLevel,
-        currentUser: state.currentUser,
-        knownUsers: state.knownUsers, // Persist Known Users
-        theme: state.theme,
-        language: state.language,
-        isCalendarConnected: state.isCalendarConnected,
-        desktopSideImage: state.desktopSideImage,
-        fileSystem: state.fileSystem // Persist File System changes
-      }),
-      onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true);
-      },
-    }
-  )
-);
+        /**
+         * Logout — clear user session, auth tokens, system → login, dismiss menus.
+         */
+        logout: () => {
+            useAuthStore.getState().logout();
+            useUserStore.getState().logout();
+            useSystemStore.setState({ systemState: 'login' });
+            useUIStore.getState().setActiveMenu(null);
+        },
+    };
+}
