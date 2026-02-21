@@ -7,7 +7,8 @@ import {
     ChevronLeft, ChevronRight, Home, Search, X, List, HelpCircle, Bookmark,
     Hash, Link as LinkIcon, PanelLeft, PanelRight, Share2, Layers
 } from 'lucide-react';
-import { CalloutBlock, CodeBlock } from './BlogEditor';
+import { CodeBlock } from '@/components/ui/CodeBlock';
+import { CalloutBlock } from '@/components/ui/CalloutBlock';
 import { ShareDialog } from '../../os/components/ShareDialog';
 import { CommentSection } from '../../comments/components/CommentSection';
 import { BlogDto, useBlogSearch, useSeries } from '@/services';
