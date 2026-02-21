@@ -1,35 +1,26 @@
+/**
+ * Comment data hooks — facade that selects mock or real API layer.
+ * Consumers import from this file and never know which backend is active.
+ */
+import { USE_MOCK_API } from '@/lib/env';
+import {
+    useComments as useCommentsMock,
+    useCreateComment as useCreateCommentMock,
+    useDeleteComment as useDeleteCommentMock,
+} from './use-comments-mock';
+import {
+    useCommentsByPath,
+    useCreateComment as useCreateCommentReal,
+    useDeleteComment as useDeleteCommentReal,
+} from '@/services/hooks/use-comment';
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchCommentsByBlog, createComment, deleteComment } from '../api';
-import { CreateCommentRequest } from '../types';
-
-export const useComments = (blogId: number) => {
-    return useQuery({
-        queryKey: ['comments', blogId],
-        queryFn: () => fetchCommentsByBlog({ pageIndex: 0, pageSize: 50, blogId }),
-        staleTime: 1000 * 60, // 1 min
-    });
+/**
+ * Adapter: wraps the real `useCommentsByPath` to match mock interface (blogId-based).
+ */
+const useCommentsAdapter = (blogId: number) => {
+    return useCommentsByPath(`/blog/${blogId}`, { pageIndex: 0, pageSize: 50 });
 };
 
-export const useCreateComment = () => {
-    const queryClient = useQueryClient();
-
-    return useMutation({
-        mutationFn: (data: CreateCommentRequest) => createComment(data),
-        onSuccess: (_, variables) => {
-            // Invalidate the comments list for the specific blog post
-            queryClient.invalidateQueries({ queryKey: ['comments', variables.blogPostId] });
-        }
-    });
-};
-
-export const useDeleteComment = () => {
-    const queryClient = useQueryClient();
-
-    return useMutation({
-        mutationFn: (commentId: number) => deleteComment(commentId),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['comments'] });
-        }
-    });
-};
+export const useComments = USE_MOCK_API ? useCommentsMock : useCommentsAdapter;
+export const useCreateComment = USE_MOCK_API ? useCreateCommentMock : useCreateCommentReal;
+export const useDeleteComment = USE_MOCK_API ? useDeleteCommentMock : useDeleteCommentReal;

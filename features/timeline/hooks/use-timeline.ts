@@ -1,30 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchNodes, fetchConnections, createNode } from '../api';
-import { NodeData } from '../types';
-
-export const useNodes = () => {
-  return useQuery({
-    queryKey: ['timeline-nodes'],
-    queryFn: fetchNodes,
-    staleTime: Infinity, // Keep data fresh in this session unless invalidated
-  });
-};
-
-export const useConnections = () => {
-    return useQuery({
-      queryKey: ['timeline-connections'],
-      queryFn: fetchConnections,
-      staleTime: Infinity,
-    });
-};
-
-export const useCreateNode = () => {
-    const queryClient = useQueryClient();
-    
-    return useMutation({
-        mutationFn: createNode,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['timeline-nodes'] });
-        }
-    });
-};
+/**
+ * Timeline data hooks — facade that selects mock or real API layer.
+ * Currently no real API exists for timeline, so mock is always used.
+ * When a real API is added, create services/hooks/use-timeline.ts and wire it here.
+ */
+export { useNodes, useConnections, useCreateNode } from './use-timeline-mock';
