@@ -1,13 +1,14 @@
 import React from 'react';
-import { Calendar, MapPin, FileText } from 'lucide-react';
+import { Calendar, MapPin, FileText, Map } from 'lucide-react';
 
 interface CaseFileFormProps {
     title: string;
     setTitle: (v: string) => void;
-    date: string;
-    setDate: (v: string) => void;
+    /** ISO date YYYY-MM-DD */
+    fullDate: string;
+    setFullDate: (v: string) => void;
+    /** Derived from fullDate — display only */
     year: string;
-    setYear: (v: string) => void;
     location: string;
     setLocation: (v: string) => void;
     coordinates: { lat: number; lng: number };
@@ -16,16 +17,18 @@ interface CaseFileFormProps {
     setDescription: (v: string) => void;
     note: string;
     setNote: (v: string) => void;
+    onOpenMapPicker: () => void;
 }
 
 export const CaseFileForm: React.FC<CaseFileFormProps> = ({
     title, setTitle,
-    date, setDate,
-    year, setYear,
+    fullDate, setFullDate,
+    year,
     location, setLocation,
     coordinates, setCoordinates,
     description, setDescription,
     note, setNote,
+    onOpenMapPicker,
 }) => {
     return (
         <div className="lg:col-span-8 space-y-8">
@@ -50,22 +53,16 @@ export const CaseFileForm: React.FC<CaseFileFormProps> = ({
                     <div className="absolute -top-3 left-4 bg-stone-800 px-2 py-0.5 text-[9px] font-black text-white uppercase tracking-widest border border-black z-20 rotate-[1deg]">Timestamp</div>
                     <div className="border-2 border-stone-800 bg-[#fdfaf5] p-5 shadow-retro-sm group-focus-within:border-os-accent transition-colors">
                         <div className="flex gap-4 items-center">
-                            <Calendar size={18} className="text-stone-400" />
-                            <input 
-                                type="text" 
-                                value={date}
-                                onChange={e => setDate(e.target.value)}
-                                className="flex-1 outline-none font-mono text-sm font-bold uppercase bg-transparent"
-                                placeholder="DAY MONTH"
+                            <Calendar size={18} className="text-stone-400 shrink-0" />
+                            <input
+                                type="date"
+                                value={fullDate}
+                                onChange={e => setFullDate(e.target.value)}
+                                className="flex-1 outline-none font-mono text-sm font-bold uppercase bg-transparent cursor-pointer"
                             />
-                            <div className="w-px h-6 bg-stone-300" />
-                            <input 
-                                type="text" 
-                                value={year}
-                                onChange={e => setYear(e.target.value)}
-                                className="w-16 outline-none font-mono text-sm font-bold text-stone-500 bg-transparent"
-                                placeholder="YEAR"
-                            />
+                            {year && (
+                                <span className="text-[10px] font-black text-stone-400 font-mono border-l border-stone-300 pl-3">{year}</span>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -92,26 +89,36 @@ export const CaseFileForm: React.FC<CaseFileFormProps> = ({
             <div className="relative group">
                 <div className="absolute -top-3 left-4 bg-stone-800 px-2 py-0.5 text-[9px] font-black text-white uppercase tracking-widest border border-black z-20">GPS Uplink</div>
                 <div className="border-2 border-stone-800 bg-[#fdfaf5] p-5 shadow-retro-sm group-focus-within:border-os-accent transition-colors">
-                    <div className="flex gap-8">
+                    <div className="flex gap-8 mb-3">
                         <div className="flex items-center gap-3 flex-1">
-                            <span className="text-[10px] font-black text-stone-400 uppercase font-mono">Latitude:</span>
-                            <input 
-                                type="number" 
-                                value={coordinates.lat}
-                                onChange={e => setCoordinates(p => ({...p, lat: parseFloat(e.target.value)}))}
+                            <span className="text-[10px] font-black text-stone-400 uppercase font-mono shrink-0">Latitude:</span>
+                            <input
+                                type="number"
+                                value={coordinates.lat || ''}
+                                onChange={e => setCoordinates(p => ({ ...p, lat: parseFloat(e.target.value) || 0 }))}
                                 className="w-full outline-none font-mono text-sm font-bold bg-transparent border-b border-stone-200 focus:border-os-accent"
+                                placeholder="0.000000"
                             />
                         </div>
                         <div className="flex items-center gap-3 flex-1">
-                            <span className="text-[10px] font-black text-stone-400 uppercase font-mono">Longitude:</span>
-                            <input 
-                                type="number" 
-                                value={coordinates.lng}
-                                onChange={e => setCoordinates(p => ({...p, lng: parseFloat(e.target.value)}))}
+                            <span className="text-[10px] font-black text-stone-400 uppercase font-mono shrink-0">Longitude:</span>
+                            <input
+                                type="number"
+                                value={coordinates.lng || ''}
+                                onChange={e => setCoordinates(p => ({ ...p, lng: parseFloat(e.target.value) || 0 }))}
                                 className="w-full outline-none font-mono text-sm font-bold bg-transparent border-b border-stone-200 focus:border-os-accent"
+                                placeholder="0.000000"
                             />
                         </div>
                     </div>
+                    <button
+                        type="button"
+                        onClick={onOpenMapPicker}
+                        className="flex items-center gap-2 text-[10px] font-black text-stone-500 hover:text-os-accent transition-colors uppercase tracking-wider border border-stone-300 hover:border-os-accent px-3 py-1.5"
+                    >
+                        <Map size={12} />
+                        Pick on Map
+                    </button>
                 </div>
             </div>
 

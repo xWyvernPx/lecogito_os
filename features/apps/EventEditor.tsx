@@ -4,6 +4,7 @@ import { useEventEditor } from './event-editor/hooks/use-event-editor';
 import { EventEditorHeader } from './event-editor/components/EventEditorHeader';
 import { CaseFileForm } from './event-editor/components/CaseFileForm';
 import { EvidencePanel } from './event-editor/components/EvidencePanel';
+import { CoordinatePicker } from './event-editor/components/CoordinatePicker';
 
 interface EventEditorProps {
     win: WindowDef;
@@ -31,18 +32,19 @@ export const EventEditor: React.FC<EventEditorProps> = ({ win, contentItem, onCa
                  <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
                      <CaseFileForm
                          title={editor.title} setTitle={editor.setTitle}
-                         date={editor.date} setDate={editor.setDate}
-                         year={editor.year} setYear={editor.setYear}
+                         fullDate={editor.fullDate} setFullDate={editor.setFullDate}
+                         year={editor.year}
                          location={editor.location} setLocation={editor.setLocation}
                          coordinates={editor.coordinates} setCoordinates={editor.setCoordinates}
                          description={editor.description} setDescription={editor.setDescription}
                          note={editor.note} setNote={editor.setNote}
+                         onOpenMapPicker={editor.handleOpenMapPicker}
                      />
                      <EvidencePanel
                          status={editor.status} setStatus={editor.setStatus}
                          images={editor.images}
                          isDragging={editor.isDragging}
-                         processingImages={editor.processingImages}
+                         isUploading={editor.isUploading}
                          fileInputRef={editor.fileInputRef}
                          handleFileSelect={editor.handleFileSelect}
                          handleDragOver={editor.handleDragOver}
@@ -55,6 +57,14 @@ export const EventEditor: React.FC<EventEditorProps> = ({ win, contentItem, onCa
                      />
                  </div>
              </div>
+
+             {editor.isMapPickerOpen && (
+                 <CoordinatePicker
+                     initial={editor.coordinates}
+                     onConfirm={editor.handleConfirmCoordinates}
+                     onClose={editor.handleCloseMapPicker}
+                 />
+             )}
         </div>
     );
 };

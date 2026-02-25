@@ -1,13 +1,14 @@
 import React from 'react';
-import { Camera, Plus, Trash2, Upload, Image as ImageIcon, Crosshair, RefreshCw } from 'lucide-react';
-import { EvidenceImage, NodeData } from '@/features/timeline/types';
+import { Camera, Plus, Trash2, Upload, Image as ImageIcon, Crosshair, RefreshCw, AlertCircle } from 'lucide-react';
+import { NodeData } from '@/features/timeline/types';
+import type { UploadableImage } from '../hooks/use-event-editor';
 
 interface EvidencePanelProps {
     status: NodeData['status'];
     setStatus: (s: NodeData['status']) => void;
-    images: EvidenceImage[];
+    images: UploadableImage[];
     isDragging: boolean;
-    processingImages: boolean;
+    isUploading: boolean;
     fileInputRef: React.RefObject<HTMLInputElement | null>;
     handleFileSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDragOver: (e: React.DragEvent) => void;
@@ -22,7 +23,7 @@ interface EvidencePanelProps {
 export const EvidencePanel: React.FC<EvidencePanelProps> = ({
     status, setStatus,
     images,
-    isDragging, processingImages,
+    isDragging, isUploading,
     fileInputRef,
     handleFileSelect,
     handleDragOver, handleDragLeave, handleDrop,
@@ -82,14 +83,14 @@ export const EvidencePanel: React.FC<EvidencePanelProps> = ({
                 </div>
 
                 <div className="flex-1 space-y-6">
-                    {processingImages && (
+                    {isUploading && images.every(img => img.uploadStatus !== 'uploading') && (
                         <div className="flex items-center justify-center gap-2 text-stone-500 py-4">
                             <RefreshCw size={16} className="animate-spin" />
-                            <span className="text-[10px] font-black uppercase">Analyzing EXIF Data...</span>
+                            <span className="text-[10px] font-black uppercase">Uploading to Storage...</span>
                         </div>
                     )}
 
-                    {!processingImages && images.length === 0 && (
+                    {!isUploading && images.length === 0 && (
                         <div className={`border-2 border-dashed rounded h-48 flex flex-col items-center justify-center text-stone-400 transition-colors ${isDragging ? 'border-os-accent text-os-accent' : 'border-stone-300'}`}>
                             {isDragging ? <Upload size={40} className="animate-bounce" /> : <ImageIcon size={40} className="opacity-20 mb-3" />}
                             <span className="text-[10px] font-black uppercase text-center px-4">
@@ -103,11 +104,33 @@ export const EvidencePanel: React.FC<EvidencePanelProps> = ({
                             {/* Polaroid Style */}
                             <div className="bg-white p-3 pb-10 border border-stone-300 shadow-md rotate-[1deg] hover:rotate-0 transition-transform group-hover:shadow-lg">
                                 <div className="aspect-square bg-stone-100 overflow-hidden border border-stone-200 relative">
-                                    <img src={img.url} className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-500" alt="evidence" />
-                                    {img.gps && (
+                                    <img
+                                        src={img.previewUrl || img.url}
+                                        className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-500"
+                                        alt="evidence"
+                                    />
+
+                                    {/* Upload status overlay */}
+                                    {img.uploadStatus === 'uploading' && (
+                                        <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-1">
+                                            <RefreshCw size={20} className="text-white animate-spin" />
+                                            <span className="text-[8px] font-black text-white uppercase">Uploading...</span>
+                                        </div>
+                                    )}
+                                    {img.uploadStatus === 'error' && (
+                                        <div className="absolute inset-0 bg-red-900/70 flex flex-col items-center justify-center gap-1">
+                                            <AlertCircle size={20} className="text-red-300" />
+                                            <span className="text-[8px] font-black text-red-300 uppercase">Upload Failed</span>
+                                        </div>
+                                    )}
+
+                                    {img.gps && img.uploadStatus === 'done' && (
                                         <div className="absolute top-1 right-1 bg-green-500 text-white text-[8px] font-black px-1 py-0.5 shadow-sm flex items-center gap-1" title="GPS Data Found">
                                             <Crosshair size={8} /> GPS FOUND
                                         </div>
+                                    )}
+                                    {img.uploadStatus === 'done' && (
+                                        <div className="absolute top-1 left-1 bg-stone-900/70 text-green-400 text-[7px] font-black px-1 py-0.5">✓ STORED</div>
                                     )}
                                 </div>
                                 

@@ -196,8 +196,47 @@ export interface PresignedFileInformation {
 export interface PresignedUrlDto {
   url: string;
   key: string;
+  tags: string;
 }
 
+
+// ==================== Life Event Types ====================
+
+export type EventStatus = 'CLASSIFIED' | 'DECLASSIFIED' | 'ONGOING' | 'SOLVED';
+
+export interface LifeEventCreateRequest {
+  title: string;
+  year: string;
+  /** ISO date string: YYYY-MM-DD */
+  fullDate: string;
+  longitude: number;
+  latitude: number;
+  color: string;
+  note: string;
+  description: string;
+  location: string;
+  status: EventStatus;
+  /** List of permanent media URLs (already uploaded to storage) */
+  mediaUrls: string[];
+  published: boolean;
+}
+
+export interface LifeEventDto {
+  id: number;
+  title: string;
+  year: string;
+  fullDate: string;
+  longitude: number;
+  latitude: number;
+  color: string;
+  note: string;
+  description: string;
+  location: string;
+  status: EventStatus;
+  published: boolean;
+  createdDate?: string;
+  lastModifiedDate?: string;
+}
 
 // ==================== API Error response ====================
 export interface ApiErrorResponse {
