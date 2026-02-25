@@ -23,6 +23,8 @@ export interface DesktopActions {
     moveIcon: (id: string, x: number, y: number) => void;
     removeIcon: (id: string) => void;
     repositionIcons: (viewport: ViewportDimensions) => void;
+    sortIcons: () => void;
+    resetDesktop: () => void;
     toggleWidget: (id: string) => void;
     moveWidget: (id: string, x: number, y: number) => void;
 }
@@ -61,6 +63,16 @@ export const useDesktopStore = create<DesktopStore>()(
                 set(state => ({
                     icons: repositionIconsInViewport(state.icons, viewport),
                 })),
+
+            sortIcons: () =>
+                set(state => ({
+                    icons: [...state.icons].sort((a, b) =>
+                        a.label.localeCompare(b.label)
+                    ),
+                })),
+
+            resetDesktop: () =>
+                set({ icons: INITIAL_ICONS }),
 
             toggleWidget: (id) =>
                 set(state => ({

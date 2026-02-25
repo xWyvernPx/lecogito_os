@@ -9,7 +9,7 @@
  *   import { useWindowStore } from './window-store';
  *   import { useSystemStore } from './system-store';
  */
-import type { WindowDef, ContentItem, WindowHistoryItem, UserProfile } from '@/types';
+import type { WindowDef, ContentItem, UserProfile } from '@/types';
 import { useWindowStore } from './window-store';
 import { useDesktopStore } from './desktop-store';
 import { useSystemStore } from './system-store';
@@ -17,6 +17,78 @@ import { useUserStore } from './user-store';
 import { useUIStore } from './ui-store';
 import { useFileSystemStore } from './filesystem-store';
 import { useAuthStore } from './auth-store';
+
+// ── Coordinated actions (module-level, stable references) ───────────
+// These only use getState() — no reactive closures — so defining them
+// at module level guarantees referential stability across renders.
+
+/**
+ * Spawn/reactivate a window, dismiss menus, inject workspace + viewport.
+ * Signature kept identical to the old monolithic store.
+ */
+function spawnWindow(
+    id: string,
+    preset?: Partial<Omit<WindowDef, 'history' | 'historyIndex'>> & {
+        content?: ContentItem[];
+    }
+) {
+    const viewport = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+    };
+    const workspace = useSystemStore.getState().currentWorkspace;
+    useWindowStore.getState().spawnWindow(id, preset, workspace, viewport);
+    useUIStore.getState().dismissAll();
+}
+
+/** Restore minimized window AND close the window drawer. */
+function restoreWindow(id: string) {
+    useWindowStore.getState().restoreWindow(id);
+    useUIStore.getState().dismissAll();
+}
+
+/** Recenter all windows within current viewport. */
+function recenterWindows() {
+    const viewport = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+    };
+    useWindowStore.getState().recenterWindows(viewport);
+}
+
+/** Reposition icons that fell outside the current viewport. */
+function repositionIcons() {
+    const viewport = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+    };
+    useDesktopStore.getState().repositionIcons(viewport);
+}
+
+/** Login — set user session + transition system to 'running'. */
+function login(user: UserProfile) {
+    useUserStore.getState().login(user);
+    useSystemStore.getState().setHasHydrated(true);
+    useSystemStore.setState({ systemState: 'running' });
+}
+
+/** Logout — clear user session, auth tokens, system → login, dismiss menus. */
+function logout() {
+    useAuthStore.getState().logout();
+    useUserStore.getState().logout();
+    useSystemStore.setState({ systemState: 'login' });
+    useUIStore.getState().setActiveMenu(null);
+}
+
+/** Sort desktop icons alphabetically. */
+function sortIcons() {
+    useDesktopStore.getState().sortIcons();
+}
+
+/** Reset desktop icons to default positions. */
+function resetDesktop() {
+    useDesktopStore.getState().resetDesktop();
+}
 
 export function useOSStore() {
     // Subscribe to every split store (same re-render granularity as old monolith)
@@ -100,78 +172,14 @@ export function useOSStore() {
 
         createFile: fsStore.createFile,
 
-        // ── Coordinated actions (cross-store orchestration) ─────────────
-
-        /**
-         * Spawn/reactivate a window, dismiss menus, inject workspace + viewport.
-         * Signature kept identical to the old monolithic store.
-         */
-        spawnWindow: (
-            id: string,
-            preset?: Partial<Omit<WindowDef, 'history' | 'historyIndex'>> & {
-                content?: ContentItem[];
-            }
-        ) => {
-            const viewport = {
-                width: window.innerWidth,
-                height: window.innerHeight,
-            };
-            const workspace =
-                useSystemStore.getState().currentWorkspace;
-            useWindowStore
-                .getState()
-                .spawnWindow(id, preset, workspace, viewport);
-            useUIStore.getState().dismissAll();
-        },
-
-        /**
-         * Restore minimized window AND close the window drawer.
-         */
-        restoreWindow: (id: string) => {
-            useWindowStore.getState().restoreWindow(id);
-            useUIStore.getState().dismissAll();
-        },
-
-        /**
-         * Recenter all windows within current viewport.
-         */
-        recenterWindows: () => {
-            const viewport = {
-                width: window.innerWidth,
-                height: window.innerHeight,
-            };
-            useWindowStore.getState().recenterWindows(viewport);
-        },
-
-        /**
-         * Reposition icons that fell outside the current viewport.
-         */
-        repositionIcons: () => {
-            const viewport = {
-                width: window.innerWidth,
-                height: window.innerHeight,
-            };
-            useDesktopStore.getState().repositionIcons(viewport);
-        },
-
-        /**
-         * Login — set user session + transition system to 'running'.
-         */
-        login: (user: UserProfile) => {
-            useUserStore.getState().login(user);
-            useSystemStore.getState().setHasHydrated(true);
-            // Transition lifecycle to running
-            useSystemStore.setState({ systemState: 'running' });
-        },
-
-        /**
-         * Logout — clear user session, auth tokens, system → login, dismiss menus.
-         */
-        logout: () => {
-            useAuthStore.getState().logout();
-            useUserStore.getState().logout();
-            useSystemStore.setState({ systemState: 'login' });
-            useUIStore.getState().setActiveMenu(null);
-        },
+        // ── Coordinated actions (stable module-level references) ────────
+        spawnWindow,
+        restoreWindow,
+        recenterWindows,
+        repositionIcons,
+        login,
+        logout,
+        sortIcons,
+        resetDesktop,
     };
 }

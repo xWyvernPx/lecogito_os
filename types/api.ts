@@ -185,6 +185,20 @@ export interface AuthState {
   isAuthenticated: boolean;
 }
 
+// ==================== Storage Response Types ====================
+export interface PresignedFileInformation { 
+  name: string;
+  extension: string;
+  contentType?: string;
+  size?: number;
+}
+
+export interface PresignedUrlDto {
+  url: string;
+  key: string;
+}
+
+
 // ==================== API Error response ====================
 export interface ApiErrorResponse {
   statusCode: number;
