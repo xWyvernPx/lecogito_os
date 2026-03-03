@@ -11,14 +11,15 @@ export const convertDMSToDD = (dms: number[], ref: string) => {
 };
 
 export const extractGPS = (file: File): Promise<{ lat: number, lng: number } | undefined> => {
-    return new Promise((resolve) => {
-        EXIF.getData(file as any, function(this: any) {
-            try {
-                const latData = EXIF.getTag(this, "GPSLatitude");
-                const latRef = EXIF.getTag(this, "GPSLatitudeRef");
-                const lngData = EXIF.getTag(this, "GPSLongitude");
-                const lngRef = EXIF.getTag(this, "GPSLongitudeRef");
-
+    return new Promise((resolve, reject) => {
+        try {
+            EXIF.getData(file as any, function(this: any) {
+                try {
+                    const latData = EXIF.getTag(this, "GPSLatitude");
+                    const latRef = EXIF.getTag(this, "GPSLatitudeRef");
+                    const lngData = EXIF.getTag(this, "GPSLongitude");
+                    const lngRef = EXIF.getTag(this, "GPSLongitudeRef");
+                
                 if (latData && latRef && lngData && lngRef) {
                     const lat = convertDMSToDD(latData, latRef);
                     const lng = convertDMSToDD(lngData, lngRef);
@@ -31,5 +32,8 @@ export const extractGPS = (file: File): Promise<{ lat: number, lng: number } | u
                 resolve(undefined);
             }
         });
-    });
+    } catch (e) {
+        console.error("File Reading Error", e);
+        reject(e);
+    }});
 };

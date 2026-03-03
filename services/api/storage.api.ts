@@ -7,13 +7,19 @@ import type {
 
 export const StorageApi = {
     // POST /storage/presign - Get a presigned URL for uploading a file to storage
-    getPresignedUrl: async (fileInformation: PresignedFileInformation): Promise<ApiResponse<PresignedUrlDto>> => {
-        const response = await apiClient.post<ApiResponse<PresignedUrlDto>>('/storage/presign', fileInformation);
+    getPresignedUrl: async (fileInformation: PresignedFileInformation, path: string): Promise<ApiResponse<PresignedUrlDto>> => {
+        const response = await apiClient.post<ApiResponse<PresignedUrlDto>>('/storage/presign', {
+            file: fileInformation,
+            path
+        });
         return response.data;
     },
     // POST /storage/presign/batch - Get a presigned URL for uploading a file to storage
-    getBatchPresignedUrl: async (filesInformation: PresignedFileInformation[]): Promise<ApiResponse<PresignedUrlDto[]>> => {
-        const response = await apiClient.post<ApiResponse<PresignedUrlDto[]>>('/storage/presign/batch', filesInformation);
+    getBatchPresignedUrl: async (filesInformation: PresignedFileInformation[], path: string): Promise<ApiResponse<PresignedUrlDto[]>> => {
+        const response = await apiClient.post<ApiResponse<PresignedUrlDto[]>>('/storage/presign/batch', {
+            files: filesInformation,
+            path
+        });
         return response.data;
     },
     uploadObjectToStorage: async (presignedUrl: string, file: File): Promise<void> => {

@@ -189,8 +189,8 @@ export interface AuthState {
 export interface PresignedFileInformation { 
   name: string;
   extension: string;
-  contentType?: string;
-  size?: number;
+  contentType: string;
+  size: number;
 }
 
 export interface PresignedUrlDto {
@@ -216,9 +216,23 @@ export interface LifeEventCreateRequest {
   description: string;
   location: string;
   status: EventStatus;
-  /** List of permanent media URLs (already uploaded to storage) */
-  mediaUrls: string[];
-  published: boolean;
+  mediaHighlights: MediaHighlightInformation[];
+}
+
+export interface MediaHighlightInformation {
+  url: string;
+  name: string;
+  objectKey: string;
+  contentType: string;
+  size: number;
+  extension: string;
+  highlight: boolean;
+  gps?: GeoCoordinates;
+}
+
+interface GeoCoordinates {
+  x: number;
+  y: number;
 }
 
 export interface LifeEventDto {
